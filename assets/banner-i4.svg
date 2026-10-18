@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="i4 Market Autopilot: One seed in. Ideas found, markets screened, a winner picked, ad targets built.">
+  <rect width="1200" height="300" fill="#4A1F3D"/>
+  <rect x="640" y="22" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="66" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="110" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="154" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="198" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="242" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="286" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <text x="1150" y="230" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="260" font-weight="700" fill="#ffffff" opacity="0.07">i4</text>
+  <rect x="0" y="292" width="1200" height="8" fill="#9C7A3C"/>
+  <text x="64" y="78" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="16" fill="#D8CBB8" letter-spacing="4">AMAZON TOOLKIT · i4</text>
+  <text x="62" y="148" font-family="Georgia, 'Times New Roman', serif" font-size="58" fill="#ffffff">Market Autopilot</text>
+  <rect x="64" y="168" width="72" height="3" fill="#DCC285"/>
+  <text x="64" y="206" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="20" fill="#f7f5f2" opacity="0.92">One seed in. Ideas found, markets screened, a winner picked, ad targets built.</text>
+  <rect x="64" y="232" width="66" height="30" rx="15" fill="none" stroke="#D8CBB8" stroke-opacity="0.6" stroke-width="1.5"/><text x="97" y="252" text-anchor="middle" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="14" fill="#f7f5f2" letter-spacing="0.3">No AI</text>
+  <rect x="140.0" y="232" width="180" height="30" rx="15" fill="none" stroke="#D8CBB8" stroke-opacity="0.6" stroke-width="1.5"/><text x="230" y="252" text-anchor="middle" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="14" fill="#f7f5f2" letter-spacing="0.3">hard cap 20 searches</text>
+  <rect x="330.0" y="232" width="134" height="30" rx="15" fill="none" stroke="#D8CBB8" stroke-opacity="0.6" stroke-width="1.5"/><text x="397" y="252" text-anchor="middle" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="14" fill="#f7f5f2" letter-spacing="0.3">emailed report</text>
+</svg>

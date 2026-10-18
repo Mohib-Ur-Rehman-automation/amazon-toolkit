@@ -1,0 +1,1750 @@
+{
+  "name": "i2. market-deep-dive",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Market Deep Dive",
+        "formDescription": "One keyword. Inspects the top sellers and the best low-review seller, and turns their customer complaints into ways to stand out. Reuses the screener's data if this keyword was run in the last 24 hours.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Keyword",
+              "placeholder": "e.g. resistance bands",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Marketplace",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "amazon.com"
+                  },
+                  {
+                    "option": "amazon.co.uk"
+                  },
+                  {
+                    "option": "amazon.ca"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "customCss": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n/* Amazon Toolkit · i2 Market Deep Dive. Same family as the sheet: #0F3D3E header colour, brass accent, paper background. */\n:root {\n\t--font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\t--font-size-body: 13px;\n\t--font-size-label: 14px;\n\t--font-size-test-notice: 12px;\n\t--font-size-input: 14px;\n\t--font-size-header: 24px;\n\t--font-size-paragraph: 14px;\n\t--font-size-link: 12px;\n\t--font-size-error: 12px;\n\t--font-size-html-h1: 26px;\n\t--font-size-html-h2: 20px;\n\t--font-size-html-h3: 16px;\n\t--font-size-html-h4: 14px;\n\t--font-size-html-h5: 12px;\n\t--font-size-html-h6: 11px;\n\t--font-size-subheader: 14px;\n\n\t/* Colors */\n\t--color-background: #edf4f3;\n\t--color-test-notice-text: #8a5a00;\n\t--color-test-notice-bg: #faf5ea;\n\t--color-test-notice-border: #e3d3ad;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #e2ddd5;\n\t--color-card-shadow: rgba(15,61,62, 0.10);\n\t--color-link: #0F3D3E;\n\t--color-header: #0F3D3E;\n\t--color-label: #2c3539;\n\t--color-input-border: #d6d0c6;\n\t--color-input-text: #1f2328;\n\t--color-focus-border: #0F3D3E;\n\t--color-submit-btn-bg: #0F3D3E;\n\t--color-submit-btn-text: #ffffff;\n\t--color-error: #DC143C;\n\t--color-required: #9C7A3C;\n\t--color-clear-button-bg: #8a8f98;\n\t--color-html-text: #2c3539;\n\t--color-html-link: #0F3D3E;\n\t--color-header-subtext: #5f6670;\n\n\t/* Border Radii */\n\t--border-radius-card: 4px;\n\t--border-radius-input: 3px;\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 4px;\n\n\t/* Spacing */\n\t--padding-container-top: 32px;\n\t--padding-card: 28px;\n\t--padding-test-notice-vertical: 12px;\n\t--padding-test-notice-horizontal: 24px;\n\t--margin-bottom-card: 16px;\n\t--padding-form-input: 12px;\n\t--card-padding: 28px;\n\t--card-margin-bottom: 16px;\n\n\t/* Dimensions */\n\t--container-width: 480px;\n\t--submit-btn-height: 46px;\n\t--checkbox-size: 18px;\n\n\t/* Others */\n\t--box-shadow-card: 0px 6px 20px 0px var(--color-card-shadow);\n\t--opacity-placeholder: 0.45;\n}\n\n/* Accents: a i2 colour bar on top of the card, brass rule under the title, serif title.\n   If your n8n version names these parts differently, these lines are simply ignored. */\n.card { border-top: 4px solid #0F3D3E; }\nh1 { font-family: 'Source Serif 4', Georgia, serif; letter-spacing: 0.2px; }\nh1::after { content: ''; display: block; width: 56px; height: 3px; background: #9C7A3C; margin: 12px auto 0; }\nbutton[type='submit'], .submit-btn { letter-spacing: 0.4px; text-transform: none; }\n"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        80,
+        464
+      ],
+      "id": "78a5842e-debe-4865-ae90-abf37e277f29",
+      "name": "Deep Dive form",
+      "webhookId": "f2a4039a-725a-400c-b9ce-29161904b019"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        464
+      ],
+      "id": "39c64e78-376a-4ce7-94bb-dfec6a9db1ac",
+      "name": "Read History",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Decide whether a new Amazon search is needed.\n// If the screener (or an earlier deep dive) saved this keyword + marketplace in the last 24 hours, reuse that run:\n// it saves a search, and the deep dive then describes exactly the same page 1 the screener scored.\nconst REUSE_HOURS = 24;\nconst form = $('Deep Dive form').first().json;\nconst keyword = String(form.Keyword || '').toLowerCase()\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '');\nif (!keyword) throw new Error('No keyword entered. Type a product keyword, e.g. \"resistance bands\".');\nconst marketplace = form.Marketplace || 'amazon.com';\n\n// \"2026-10-16 13:21:47 UTC\" -> milliseconds\nconst toMs = t => Date.parse(String(t).replace(' UTC', 'Z').replace(' ', 'T'));\nconst runs = {};\nfor (const r of $('Read History').all().map(i => i.json)) {\n  if (!r.run_id || r.keyword !== keyword || r.marketplace !== marketplace) continue;\n  runs[r.run_id] = r.checked_at;\n}\nconst latest = Object.entries(runs).sort((a, b) => toMs(b[1]) - toMs(a[1]))[0];\nconst ageHours = latest ? (Date.now() - toMs(latest[1])) / 3600000 : null;\nconst reuse = latest !== undefined && Number.isFinite(ageHours) && ageHours >= 0 && ageHours <= REUSE_HOURS;\n\nreturn [{\n  json: {\n    keyword,\n    marketplace,\n    reuse,\n    reuse_run_id: reuse ? latest[0] : null,\n    reuse_checked_at: reuse ? latest[1] : null,\n    age_hours: ageHours === null ? null : Math.round(ageHours * 10) / 10,\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        464
+      ],
+      "id": "368e57fd-3f0e-4f72-8c94-b81ca31324c5",
+      "name": "Decide Source"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c0a1b2c3-d4e5-4f60-8a7b-9c0d1e2f3a4b",
+              "leftValue": "={{ $json.reuse }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        464
+      ],
+      "id": "ee85a5d4-65f7-4804-8616-2eeb1afe5cd1",
+      "name": "New search needed?"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "amazon"
+            },
+            {
+              "name": "k",
+              "value": "={{ $json.keyword }}"
+            },
+            {
+              "name": "amazon_domain",
+              "value": "={{ $json.marketplace }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        976,
+        320
+      ],
+      "id": "c8a73cd9-8ecb-49d8-9d97-370af7053c00",
+      "name": "Search Amazon (SerpApi)",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "wI6oUYGsiJc7B5NH",
+          "name": "SerpAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Bundle what the core needs: either the fresh search or the saved run, plus the history for the stability check.\nconst src = $('Decide Source').first().json;\nlet fresh = null;\ntry {\n  if ($('Search Amazon (SerpApi)').isExecuted) fresh = $('Search Amazon (SerpApi)').first().json;\n} catch (e) {\n  fresh = null; // the search node did not run on this path\n}\nconst history = $('Read History').all().map(i => i.json).filter(r => r.run_id);\nconst search = { order: 1, keyword: src.keyword, marketplace: src.marketplace };\nif (fresh) search.response = fresh;\nelse search.listings = history.filter(r => r.run_id === src.reuse_run_id);\n\nreturn [{\n  json: {\n    tool: 'i2',\n    batch_id: $now.toFormat('yyyy-MM-dd HH:mm:ss') + ' PKT',\n    searches: [search],\n    history,\n    dropped: [],\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        480
+      ],
+      "id": "fa52d233-21bf-4d6f-baf1-83eca47bad5b",
+      "name": "Pack for Core"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "taddHmksX0OKD6TC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/taddHmksX0OKD6TC",
+          "cachedResultName": "c1. toolkit-core"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1424,
+        464
+      ],
+      "id": "4e335b9e-638a-4e34-86fc-433b45af005f",
+      "name": "Toolkit Core"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Listing rows from a new search (empty when the saved run was reused, so nothing is written twice)\nreturn $('Toolkit Core').first().json.listings.map(json => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        368
+      ],
+      "id": "23856ba3-bcfd-4bfa-886c-5d38ec8e54e8",
+      "name": "Listings Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "position",
+              "displayName": "position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "asin",
+              "displayName": "asin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "family_id",
+              "displayName": "family_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_guess",
+              "displayName": "brand_guess",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_source",
+              "displayName": "brand_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "in_stats",
+              "displayName": "in_stats",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "excluded_reason",
+              "displayName": "excluded_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "relevant",
+              "displayName": "relevant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "match_type",
+              "displayName": "match_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "old_price",
+              "displayName": "old_price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "discount_pct",
+              "displayName": "discount_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bought_last_month",
+              "displayName": "bought_last_month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "badges",
+              "displayName": "badges",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "small_business",
+              "displayName": "small_business",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1872,
+        368
+      ],
+      "id": "3231ae2c-cacf-400f-891e-7dbc0ec8ac51",
+      "name": "Save Listings",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Choose up to 4 products to look up: the 3 biggest sellers + the best-selling newcomer (if there is one).\n// Picked per product FAMILY (variations grouped), so two colours of one product never take two slots.\n// Fixed tie-break: sales, then reviews, then page position, so the same data always gives the same picks.\nconst core = $('Toolkit Core').first().json;\nconst d = (core.details || [])[0];\nif (!d) throw new Error('The core returned no analysis for this keyword.');\nconst order = (a, b) => (b.units - a.units) || (b.reviews - a.reviews) || (a.position - b.position);\nconst fams = [...(d.families || [])].sort(order);\nconst top = fams.slice(0, 3);\n// A newcomer means a low-review product from a brand that has NO established (1000+ review) product on the page.\n// A big brand's new listing is not a newcomer, so it is skipped (same rule the score uses).\nconst bkey = b => String(b || '').toLowerCase().replace(/[^a-z0-9]/g, '');\nconst established = new Set(fams.filter(f => f.reviews >= 1000 && bkey(f.brand)).map(f => bkey(f.brand)));\nconst low = fams.filter(f => f.reviews < 1000 && f.units > 0 && !top.includes(f) && !established.has(bkey(f.brand))).sort(order)[0];\nconst picks = [\n  ...top.map((f, i) => ({ role: `top seller #${i + 1}`, f })),\n  ...(low ? [{ role: 'best newcomer', f: low }] : []),\n];\nreturn picks.map(p => ({\n  json: {\n    role: p.role,\n    asin: p.f.best_asin,\n    family_id: p.f.family_id,\n    family_size: p.f.asins.length,\n    brand_guess: p.f.brand ?? '',\n    title: p.f.title,\n    price: p.f.price,\n    rating: p.f.rating,\n    reviews: p.f.reviews,\n    units_family: p.f.units,\n    keyword: d.keyword,\n    marketplace: d.marketplace,\n    run_id: d.run_id,\n  },\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        560
+      ],
+      "id": "b8c97ded-9fa8-4314-a08a-77919cecb938",
+      "name": "Pick Products"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "amazon_product"
+            },
+            {
+              "name": "asin",
+              "value": "={{ $json.asin }}"
+            },
+            {
+              "name": "amazon_domain",
+              "value": "={{ $json.marketplace }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1872,
+        560
+      ],
+      "id": "37ccde86-84d5-4071-ba61-c8ede2ab4c45",
+      "name": "Look Up Product (SerpApi)",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "wI6oUYGsiJc7B5NH",
+          "name": "SerpAPI"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Turn each product-page lookup into one row of facts. Anything the page does not show is \"not found\", never 0.\n// Lookups line up with Pick Products by position; a failed lookup keeps the pick and says why.\nconst picks = $('Pick Products').all().map(i => i.json);\nconst pages = $('Look Up Product (SerpApi)').all().map(i => i.json);\nconst NF = 'not found';\n\n// Find the first value stored under `key` anywhere inside an object (offer layouts differ between products)\nfunction findKey(obj, key, depth = 0) {\n  if (!obj || typeof obj !== 'object' || depth > 6) return undefined;\n  if (key in obj) return obj[key];\n  for (const v of Object.values(obj)) {\n    const hit = findKey(v, key, depth + 1);\n    if (hit !== undefined) return hit;\n  }\n  return undefined;\n}\nconst text = v => (v === undefined || v === null || v === '' ? null : typeof v === 'object' ? (v.text ?? v.content ?? null) : String(v));\nfunction errorText(res) {\n  const e = res?.error;\n  if (!e) return null;\n  let msg = typeof e === 'string' ? e : (e.message || e.description || JSON.stringify(e));\n  const m = String(msg).match(/\\\\?\"error\\\\?\"\\s*:\\s*\\\\?\"(.+?)\\\\?\"/);\n  return String(m ? m[1] : msg).replace(/\\s+/g, ' ').trim().slice(0, 200);\n}\n\nreturn picks.map((p, idx) => {\n  const page = pages[idx] || {};\n  const base = {\n    row_id: `${p.run_id}|${p.asin}`, run_id: p.run_id, keyword: p.keyword, marketplace: p.marketplace,\n    role: p.role, asin: p.asin, family_id: p.family_id, family_listings_on_page: p.family_size,\n    title: p.title, brand_guess: p.brand_guess, price: p.price, rating: p.rating, reviews: p.reviews,\n    units_family_on_page: p.units_family,\n  };\n  const err = errorText(page);\n  const pr = page.product_results;\n  if (err || !pr) {\n    return { json: { ...base, lookup_status: 'failed', lookup_note: err || 'no product data returned', real_brand: NF, brand_guess_correct: 'unknown', sold_by: NF, ships_from: NF, fulfilled_by_amazon: NF, bsr_category: NF, bsr_all: NF, variations: NF, bought_last_month_page: NF, review_summary: NF, one_two_star_pct: NF, themes: [] } };\n  }\n  const pd = page.product_details || {};\n  const spec = page.item_specifications || {};\n  const realBrand = text(pd.brand_name) || text(spec.brand)\n    || (pr.brand ? String(pr.brand).replace(/^Brand:\\s*/i, '').replace(/^Visit the (.+) Store$/i, '$1').trim() : null);\n  const soldBy = text(findKey(page.purchase_options, 'sold_by')) || text(findKey(page.product_results, 'sold_by'));\n  const shipsFrom = text(findKey(page.purchase_options, 'ships_from')) || text(findKey(page.product_results, 'ships_from'));\n  const bsr = (pd.best_sellers_rank || []).map(b => String(b.text || '').replace(/\\s*\\(See Top.*?\\)\\s*/i, '').trim()).filter(Boolean);\n  const variants = (pr.variants || []).map(g => `${g.title}: ${(g.items || []).length}`);\n  const insights = page.reviews_information?.summary?.insights || [];\n  const themes = insights.map(t => ({\n    theme: String(t.title || '').trim(),\n    sentiment: t.sentiment || '',\n    positive: t.mentions?.positive ?? null,\n    negative: t.mentions?.negative ?? null,\n    total: t.mentions?.total ?? null,\n    summary: String(t.summary || '').trim(), // Amazon's own one-line summary of what customers say about this theme\n  })).filter(t => t.theme && t.total !== null);\n  // Star breakdown (% of ratings per star), when the page shows it\n  const stars = page.reviews_information?.summary?.customer_reviews;\n  const lowStarPct = stars && typeof stars === 'object' && ('1 star' in stars || '2 star' in stars)\n    ? (Number(stars['1 star'] || 0) + Number(stars['2 star'] || 0)) : null;\n  const brandKey = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');\n  return {\n    json: {\n      ...base,\n      lookup_status: 'ok',\n      lookup_note: themes.length ? '' : 'no review summary on this product page',\n      real_brand: realBrand || NF,\n      brand_guess_correct: realBrand && p.brand_guess ? (brandKey(realBrand).startsWith(brandKey(p.brand_guess)) || brandKey(p.brand_guess).startsWith(brandKey(realBrand)) ? 'yes' : 'no') : 'unknown',\n      sold_by: soldBy || NF,\n      ships_from: shipsFrom || NF,\n      fulfilled_by_amazon: shipsFrom ? (/amazon/i.test(shipsFrom) ? 'yes' : 'no') : NF,\n      bsr_category: bsr.length ? bsr[bsr.length - 1] : NF,\n      bsr_all: bsr.length ? bsr.join(' | ') : NF,\n      variations: variants.length ? variants.join(', ') : 'none listed',\n      bought_last_month_page: pr.bought_last_month || NF,\n      review_summary: page.reviews_information?.summary?.text || NF,\n      one_two_star_pct: lowStarPct === null ? NF : lowStarPct,\n      themes,\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2096,
+        560
+      ],
+      "id": "3cd38066-8f68-4648-b772-72e5f78571f6",
+      "name": "Extract Products"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build the evidence table the AI is allowed to use. Each theme gets an ID (T1, T2, ...).\n// Counts are Amazon's own review-summary mention counts. Different products have very different review totals,\n// so each theme is judged by the SHARE of its mentions that are negative, and by how many products raise it,\n// never by raw counts.\nconst products = $('Extract Products').all().map(i => i.json);\nconst norm = s => s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\\s+/g, ' ').trim();\nconst label = p => (p.real_brand && p.real_brand !== 'not found' ? p.real_brand : p.brand_guess || p.asin);\n\nconst byTheme = {};\nfor (const p of products) {\n  for (const t of p.themes || []) {\n    const key = norm(t.theme);\n    const e = (byTheme[key] ??= { theme: t.theme, products: [] });\n    e.products.push({ product: label(p), role: p.role, positive: t.positive ?? 0, negative: t.negative ?? 0, total: t.total ?? 0, summary: t.summary || '' });\n  }\n}\nconst inspected = products.filter(p => p.lookup_status === 'ok').length;\nconst withThemes = products.filter(p => (p.themes || []).length).length;\nconst themes = Object.values(byTheme).map(e => {\n  const pos = e.products.reduce((s, x) => s + x.positive, 0);\n  const neg = e.products.reduce((s, x) => s + x.negative, 0);\n  const tot = e.products.reduce((s, x) => s + x.total, 0);\n  return { ...e, positive: pos, negative: neg, total: tot, negative_pct: tot ? Math.round(neg / tot * 100) : 0, product_count: e.products.length };\n})\n  // Most widespread first, then most mentioned\n  .sort((a, b) => (b.product_count - a.product_count) || (b.total - a.total))\n  .map((t, i) => ({ id: `T${i + 1}`, ...t }));\n\n// The AI sees IDs, names and shares. It writes ideas only; code writes every number afterwards.\nconst table = themes.map(t =>\n  `${t.id} | ${t.theme} | raised on ${t.product_count} of ${withThemes} products | ${t.negative_pct}% of its mentions negative`\n  + t.products.filter(x => x.summary).map(x => `\\n     Amazon's summary for ${x.product}: \"${x.summary}\"`).join('')\n).join('\\n');\nconst core = $('Toolkit Core').first().json.details[0];\nconst prompt = `You help an Amazon seller decide how a new product could stand out in the \"${core.keyword}\" market.\n\nBelow are review themes from the best-selling products, summarised by Amazon from customer reviews. Each has an ID.\nUse ONLY these themes and Amazon's summaries. Do not invent themes, products, brands or facts, and do not add product details\\n(materials, parts, causes) that the summaries do not mention.\n\n${table}\n\nReturn JSON with:\n- \"angles\": up to 3 ways a new product could stand out. Each angle must fix something customers complain about in the themes listed (a theme with a high negative share). Each has:\n    \"theme_ids\": the IDs it is based on (e.g. [\"T2\"]),\n    \"angle\": one short sentence describing the product idea,\n    \"why\": one short sentence linking the idea to the complaint, using only what Amazon's summary says.\n- \"must_match\": IDs of themes customers clearly like (low negative share, raised on several products). A new product must at least match these.\n\nRules:\n- Do not write any digits or numbers in \"angle\" or \"why\". The numbers are added from the data afterwards.\n- If no theme has a meaningful share of complaints, return an empty \"angles\" list.\n- Use only IDs from the list above.`;\n\nreturn [{\n  json: {\n    themes,\n    products_inspected: inspected,\n    products_with_themes: withThemes,\n    products_total: products.length,\n    prompt,\n    skip_ai: themes.length === 0,\n  },\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        560
+      ],
+      "id": "af30f497-b276-42e9-a9a6-a565fddeb922",
+      "name": "Build Evidence"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1e2f3a4-b5c6-4d7e-8f90-a1b2c3d4e5f6",
+              "leftValue": "={{ $json.skip_ai }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2544,
+        560
+      ],
+      "id": "3516720b-c4be-4a43-a08f-811265f70946",
+      "name": "Any review themes?"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        2848,
+        176
+      ],
+      "id": "8f8d31b5-377c-4e57-92d2-35ec4db51b6d",
+      "name": "Write Angles (AI)",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "options": {
+          "maxTokens": 6000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        416
+      ],
+      "id": "1ceab091-2361-49ec-9db6-4dd098b8974b",
+      "name": "Primary model (Nemotron, free)",
+      "credentials": {
+        "openRouterApi": {
+          "id": "WB7LXv2RHImYHkYR",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openrouter/free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        2928,
+        368
+      ],
+      "id": "866df0b9-a502-41cc-9999-080876fc91d4",
+      "name": "Fallback model (OpenRouter free)",
+      "credentials": {
+        "openRouterApi": {
+          "id": "WB7LXv2RHImYHkYR",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"angles\": [\n    {\n      \"theme_ids\": [\n        \"T2\"\n      ],\n      \"angle\": \"One short sentence describing the product idea.\",\n      \"why\": \"One short sentence linking it to the complaint.\"\n    }\n  ],\n  \"must_match\": [\n    \"T1\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        3072,
+        432
+      ],
+      "id": "13104e4b-254a-436c-b2df-4b062160484f",
+      "name": "Structured Output parser"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check the AI's answer against the evidence table, then write the final text with numbers taken from the data.\n// The AI only chooses themes and phrases ideas. Every number shown to the user is written here, by code.\nconst ev = $('Build Evidence').first().json;\nconst core = $('Toolkit Core').first().json;\nconst d = core.details[0];\nconst s = d.stats;\nconst products = $('Extract Products').all().map(i => i.json);\nconst byId = Object.fromEntries(ev.themes.map(t => [t.id, t]));\nconst warnings = [];\nconst MIN_COMPLAINT_PCT = 20; // an angle must rest on a theme with at least this share of negative mentions\nconst MAX_PRAISE_NEG_PCT = 25; // a \"must match\" theme must be mostly praised\nconst MATERIALS = /\\b(steel|stainless|aluminium|aluminum|metal|iron|titanium|carbon|plastic|silicone|rubber|latex|tpe|pvc|foam|memory foam|cotton|polyester|microfiber|microfibre|bamboo|wood|wooden|leather|nylon|glass|ceramic|copper|brass|reinforced)\\b/g;\n\nlet ai = null;\nlet aiStatus;\nif (ev.skip_ai) {\n  aiStatus = 'skipped: none of the inspected products has a review summary';\n} else {\n  let raw = null;\n  try {\n    if ($('Write Angles (AI)').isExecuted) raw = $('Write Angles (AI)').first().json;\n  } catch (e) { raw = null; }\n  if (!raw) aiStatus = 'failed: the AI step did not run';\n  else if (raw.error) aiStatus = `failed: ${String(raw.error.message || raw.error).slice(0, 150)}`;\n  else {\n    ai = raw.output ?? raw;\n    if (typeof ai === 'string') { try { ai = JSON.parse(ai); } catch (e) { ai = null; } }\n    aiStatus = ai && typeof ai === 'object' ? 'ok' : 'failed: the AI answer was not valid JSON';\n  }\n}\n\n// Evidence line for one theme, from the data only\nconst evidence = t => `${t.theme}: ${t.negative} of ${t.total} mentions negative (${t.negative_pct}%), raised on ${t.product_count} of ${ev.products_with_themes} products [`\n  + t.products.map(x => `${x.product} ${x.negative}/${x.total}`).join(', ') + ']'\n  + t.products.filter(x => x.summary).map(x => ` Amazon says (${x.product}): \"${x.summary}\"`).join('');\n// Amazon only shows its review summary on some product pages, so say how much of the evidence exists\nconst coverage = `Review themes found on ${ev.products_with_themes} of ${ev.products_total} inspected products`\n  + (ev.products_with_themes === 1 ? ' (single-product evidence: treat the angles as leads, not conclusions)' : '')\n  + (ev.products_with_themes === 0 ? ' (Amazon showed no review summary on these pages)' : '') + '.';\n\nconst angles = [];\nfor (const a of (ai?.angles || []).slice(0, 5)) {\n  const ids = (Array.isArray(a.theme_ids) ? a.theme_ids : []).map(String);\n  const known = ids.filter(id => byId[id]);\n  const unknown = ids.filter(id => !byId[id]);\n  if (unknown.length) warnings.push(`AI used unknown theme IDs ${unknown.join(', ')}; ignored`);\n  if (!known.length) { warnings.push(`Dropped an angle with no valid theme: \"${String(a.angle || '').slice(0, 60)}\"`); continue; }\n  if (/\\d/.test(`${a.angle} ${a.why}`)) { warnings.push(`Dropped an angle that contained numbers (numbers must come from the data): \"${String(a.angle).slice(0, 60)}\"`); continue; }\n  const complaints = known.filter(id => byId[id].negative_pct >= MIN_COMPLAINT_PCT);\n  if (!complaints.length) { warnings.push(`Dropped an angle based only on themes customers mostly like (${known.join(', ')})`); continue; }\n  // The AI sometimes adds a material or part that Amazon's summaries never mention. Flag it (the idea may still be fine).\n  const said = known.map(id => byId[id].products.map(x => x.summary).join(' ') + ' ' + byId[id].theme).join(' ').toLowerCase();\n  const added = (`${a.angle} ${a.why}`.toLowerCase().match(MATERIALS) || []).filter(w => !said.includes(w));\n  if (added.length) warnings.push(`Angle \"${String(a.angle).slice(0, 50)}\" mentions ${[...new Set(added)].join(', ')}, which Amazon's summaries do not; treat that detail as the AI's suggestion`);\n  if (angles.length >= 3) { warnings.push('AI returned more than 3 angles; kept the first 3'); break; }\n  angles.push({ angle: String(a.angle || '').trim(), why: String(a.why || '').trim(), ids: complaints });\n}\nconst mustMatch = [];\nfor (const id of (ai?.must_match || []).map(String)) {\n  const t = byId[id];\n  if (!t) { warnings.push(`AI listed unknown must-match ID ${id}; ignored`); continue; }\n  if (t.negative_pct > MAX_PRAISE_NEG_PCT) { warnings.push(`Removed ${id} (${t.theme}) from must-match: ${t.negative_pct}% of its mentions are negative`); continue; }\n  mustMatch.push(t);\n}\nif (aiStatus === 'ok' && warnings.length) aiStatus = 'ok, with fixes (see ai_warnings)';\n\n// How much evidence sits under an angle: products raising the theme and how many complaints\nconst strength = a => {\n  const ts = a.ids.map(id => byId[id]);\n  const prods = Math.max(...ts.map(t => t.product_count));\n  const neg = ts.reduce((n, t) => n + t.negative, 0);\n  return `${prods} of ${ev.products_with_themes} products, ${neg} complaints${prods === 1 || neg < 30 ? ', weak evidence' : ''}`;\n};\nconst anglesText = coverage + '\\n' + (angles.length\n  ? angles.map((a, i) => `${i + 1}. ${a.angle} [${strength(a)}] Why: ${a.why} Evidence: ${a.ids.map(id => evidence(byId[id])).join('; ')}`).join('\\n')\n  : (aiStatus.startsWith('ok') ? 'No angle: no theme drew a meaningful share of complaints on the inspected products.' : `No angles (${aiStatus}). The evidence table is still saved in themes_table.`));\nconst productsText = products.map(p => `${p.role}: ${p.real_brand && p.real_brand !== 'not found' ? p.real_brand : p.brand_guess || '?'} (${p.asin}, ${p.lookup_status === 'ok' ? `${p.bsr_category}, sold by ${p.sold_by}, Amazon ships: ${p.fulfilled_by_amazon}` : `lookup failed: ${p.lookup_note}`})`).join(' | ');\nconst CANNOT_TELL = 'how many shoppers search this keyword | profit, fees or margins | whether demand is rising or falling | how long products have been on sale | review themes come from Amazon\\'s summary of each product\\'s reviews, not from reading every review';\n\nconst row = {\n  row_id: `${d.run_id}|deep dive`,\n  tool: 'i2',\n  checked_at: d.checked_at,\n  keyword: d.keyword,\n  marketplace: d.marketplace,\n  data_source: d.reused ? `reused saved run from ${d.checked_at} (no new search)` : 'new search',\n  opportunity_score: s.opportunity_score,\n  confidence: d.confidence,\n  stability: d.stability,\n  price_p25: s.price_p25,\n  price_median: s.price_median,\n  price_p75: s.price_p75,\n  median_reviews: s.median_reviews,\n  units_last_month_floor: s.units_last_month_floor,\n  revenue_last_month_floor: s.revenue_last_month_floor,\n  top3_brands_sales_share_pct: s.top3_brands_sales_share_pct,\n  low_review_sales_share_pct: s.low_review_sales_share_pct,\n  products_inspected: productsText,\n  angles: anglesText,\n  must_match: mustMatch.length ? mustMatch.map(evidence).join('; ') : 'none identified',\n  themes_table: ev.themes.length ? ev.themes.map(t => `${t.id} ${evidence(t)}`).join('\\n') : 'no review summaries found',\n  ai_status: aiStatus,\n  ai_warnings: warnings.join(' | '),\n  score_breakdown: (s.score_breakdown || []).join(' | '),\n  confidence_notes: d.confidence_notes,\n  cannot_tell: CANNOT_TELL,\n  core_version: s.core_version,\n  run_id: d.run_id,\n};\nconst cur = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' }[d.marketplace] ?? '';\nconst lowWhy = d.confidence === 'low' && d.confidence_notes\n  ? `\\nWhy low: ${String(d.confidence_notes).split(' | ').filter(n => !/^reused/.test(n)).slice(0, 2).join('; ')}` : '';\nconst summary = `${d.keyword} (${d.marketplace}): ${s.opportunity_score}/100, confidence ${d.confidence}${lowWhy}`\n  + `\\nPrice band ${cur}${s.price_p25} – ${cur}${s.price_p75}, at least ${s.units_last_month_floor} units sold last month on page 1`\n  + `\\n\\n${coverage}\\nAngles:\\n${angles.length ? angles.map((a, i) => `${i + 1}. ${a.angle} [${strength(a)}]`).join('\\n') : (aiStatus.startsWith('ok') ? 'none: no theme drew a meaningful share of complaints' : `none (${aiStatus})`)}`;\nreturn [{ json: { ...row, summary_text: summary } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3312,
+        576
+      ],
+      "id": "ae90ec05-2c3a-4298-8e97-3604358e9a10",
+      "name": "Validate & Write"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Products-tab row per inspected product; review themes written out as text\nreturn $('Extract Products').all().map(i => {\n  const { themes, ...p } = i.json;\n  return {\n    json: {\n      ...p,\n      review_themes: (themes || []).map(t => `${t.theme}: ${t.positive} positive / ${t.negative} negative of ${t.total} mentions${t.summary ? ` (Amazon: \"${t.summary}\")` : ''}`).join(' | ') || 'none',\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3472,
+        576
+      ],
+      "id": "79b8b4cd-653b-47c1-af3b-001816cca633",
+      "name": "Product Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1828315465,
+          "mode": "list",
+          "cachedResultName": "Products",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1828315465"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "role",
+              "displayName": "role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "asin",
+              "displayName": "asin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "family_id",
+              "displayName": "family_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "family_listings_on_page",
+              "displayName": "family_listings_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "brand_guess",
+              "displayName": "brand_guess",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "real_brand",
+              "displayName": "real_brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "brand_guess_correct",
+              "displayName": "brand_guess_correct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sold_by",
+              "displayName": "sold_by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ships_from",
+              "displayName": "ships_from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fulfilled_by_amazon",
+              "displayName": "fulfilled_by_amazon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bsr_category",
+              "displayName": "bsr_category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bsr_all",
+              "displayName": "bsr_all",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "variations",
+              "displayName": "variations",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "units_family_on_page",
+              "displayName": "units_family_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bought_last_month_page",
+              "displayName": "bought_last_month_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "review_themes",
+              "displayName": "review_themes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "review_summary",
+              "displayName": "review_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lookup_status",
+              "displayName": "lookup_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lookup_note",
+              "displayName": "lookup_note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "one_two_star_pct",
+              "displayName": "one_two_star_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3648,
+        560
+      ],
+      "id": "ff5ec2ac-9853-4005-a095-7f56acfad5bf",
+      "name": "Save Products",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// The Deep Dive row without the form-only summary text\nconst { summary_text, ...row } = $('Validate & Write').first().json;\nreturn [{ json: row }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3872,
+        560
+      ],
+      "id": "b13f9e9c-5a08-471b-9084-8a3a3e9ccbeb",
+      "name": "Deep Dive Row"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1233917779,
+          "mode": "list",
+          "cachedResultName": "Deep Dive",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1233917779"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data_source",
+              "displayName": "data_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "opportunity_score",
+              "displayName": "opportunity_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stability",
+              "displayName": "stability",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_p25",
+              "displayName": "price_p25",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_median",
+              "displayName": "price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_p75",
+              "displayName": "price_p75",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "median_reviews",
+              "displayName": "median_reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "units_last_month_floor",
+              "displayName": "units_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "revenue_last_month_floor",
+              "displayName": "revenue_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top3_brands_sales_share_pct",
+              "displayName": "top3_brands_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_sales_share_pct",
+              "displayName": "low_review_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "products_inspected",
+              "displayName": "products_inspected",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "angles",
+              "displayName": "angles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "must_match",
+              "displayName": "must_match",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "themes_table",
+              "displayName": "themes_table",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_status",
+              "displayName": "ai_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_warnings",
+              "displayName": "ai_warnings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "score_breakdown",
+              "displayName": "score_breakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence_notes",
+              "displayName": "confidence_notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cannot_tell",
+              "displayName": "cannot_tell",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "core_version",
+              "displayName": "core_version",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4096,
+        560
+      ],
+      "id": "89c0e624-f621-486e-b8a5-0106b7e822da",
+      "name": "Save Deep Dive",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "showText",
+        "responseText": "={{ $json.html }}"
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        4544,
+        560
+      ],
+      "id": "c972345d-e027-4c78-ac44-f75220327952",
+      "name": "Done: Deep Dive",
+      "webhookId": "6f4d2c8a-1b3e-4a5f-9c7d-2e8b0a1c3d55"
+    },
+    {
+      "parameters": {
+        "content": "## i2 · Market Deep Dive\nOne keyword → the same core as the screener (i1) → the 3 biggest sellers + the best low-review seller are looked up one by one → Amazon's review themes become an evidence table → AI picks which complaints to build on, code writes every number. Reuses the screener's run if it is under 24 hours old.",
+        "height": 150,
+        "width": 2200,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "099bf711-6cf9-4ed3-baed-97e24cb96b96",
+      "name": "Note: title"
+    },
+    {
+      "parameters": {
+        "content": "## Search or reuse\nIf this keyword was saved in the last 24 h, its listings are reused: no SerpApi search, and the deep dive describes exactly the page the screener scored.",
+        "height": 190,
+        "width": 420,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        480,
+        752
+      ],
+      "id": "46586d98-e60e-4483-bbd9-bc8378da9c8b",
+      "name": "Note: source"
+    },
+    {
+      "parameters": {
+        "content": "## Who gets inspected\nPer product family (variations grouped), ordered by sales, then reviews, then position. Up to 4 lookups (1 SerpApi search each). A failed lookup becomes a row that says why.",
+        "height": 200,
+        "width": 460,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        864
+      ],
+      "id": "b603ae09-226f-4083-8267-8f24406ecd1d",
+      "name": "Note: picks"
+    },
+    {
+      "parameters": {
+        "content": "## AI writes ideas, not numbers\nThe AI only sees theme IDs (T1, T2…). It returns IDs + short ideas without digits. Validate drops anything with unknown IDs, numbers, or built on themes customers like, and writes the evidence from the data.",
+        "height": 200,
+        "width": 520,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2656,
+        -64
+      ],
+      "id": "8d686a5e-db21-41ba-84ab-4b3bda3f4d1f",
+      "name": "Note: AI"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ---- Result page: shared design (Amazon Toolkit). Presentation only: every value is copied from earlier nodes. ----\nconst esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nconst CURS = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' };\nconst num = v => (v === '' || v === null || v === undefined || Number.isNaN(Number(v)) ? null : Number(v));\nconst int = v => (num(v) === null ? '–' : Math.round(num(v)).toLocaleString('en-US'));\nconst money = (v, cur) => (num(v) === null ? '–' : `${cur}${num(v).toFixed(2)}`);\nconst big = (v, cur = '') => { const n = num(v); if (n === null) return '–'; if (n >= 1e6) return `${cur}${(n / 1e6).toFixed(2)}M`; if (n >= 1e4) return `${cur}${Math.round(n / 1e3)}K`; return `${cur}${int(n)}`; };\nconst rating = v => (num(v) === null ? '–' : num(v).toFixed(1));\nconst spots = t => esc(String(t ?? '').split(' | ').join(' · '));\nconst split = t => String(t ?? '').split(' | ').map(s => s.trim()).filter(Boolean);\nconst LEVEL = { high: 'yes', medium: 'mid', low: 'no' };\nconst pill = (text, kind) => `<span class=\"pill ${kind || ''}\">${esc(text)}</span>`;\nconst levelPill = t => pill(t, LEVEL[String(t || '').toLowerCase()] || 'muted');\nconst tiles = list => `<div class=\"tiles\">${list.map(([v, l]) => `<div class=\"tile\"><div class=\"tv\">${v}</div><div class=\"tl\">${esc(l)}</div></div>`).join('')}</div>`;\nconst section = (title, body) => (body ? `<section><h2>${esc(title)}</h2>${body}</section>` : '');\nconst table = (head, rows, right = []) => `<div class=\"tw\"><table><thead><tr>${head.map((h, i) => `<th${right.includes(i) ? ' class=\"r\"' : ''}>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => `<td${right.includes(i) ? ' class=\"r\"' : ''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;\nconst notesList = list => (list.length ? `<ul class=\"notes\">${list.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : '');\nconst chips = list => (list.length ? `<div class=\"chips\">${list.map(c => `<span class=\"chip\">${esc(c)}</span>`).join('')}</div>` : '');\n\nfunction page({ code, tool, colour, tint, title, meta, verdict, body, saved, cannotTell }) {\n  return `<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>${esc(tool)} · ${esc(title)}</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n*{box-sizing:border-box}\nbody{margin:0;background:${tint};color:#1f2328;font:14px/1.55 Inter,'Segoe UI',Helvetica,Arial,sans-serif}\n.wrap{max-width:760px;margin:0 auto;padding:28px 16px 48px}\n.card{background:#fff;border:1px solid #e2ddd5;border-radius:6px;overflow:hidden;box-shadow:0 8px 28px rgba(13,27,42,.08)}\nheader{background:${colour};color:#fff;padding:26px 28px 22px;border-bottom:5px solid #9C7A3C}\n.label{font:12px/1 ui-monospace,Consolas,monospace;letter-spacing:3px;color:#D8CBB8;text-transform:uppercase}\nh1{font:600 30px/1.2 'Source Serif 4',Georgia,serif;margin:10px 0 6px}\n.meta{color:#D8CBB8;font-size:13px}\n.verdict{padding:22px 28px;border-bottom:1px solid #eee7dc;background:#fbfaf7}\n.verdict .big{font:600 22px/1.3 'Source Serif 4',Georgia,serif;color:${colour}}\n.verdict p{margin:6px 0 0;color:#3d434a}\n.content{padding:6px 28px 26px}\nsection{margin-top:22px}\nh2{font:600 12px/1 Inter,sans-serif;letter-spacing:2px;text-transform:uppercase;color:${colour};margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid #9C7A3C;display:inline-block}\n.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:4px}\n.tile{border:1px solid #e2ddd5;border-top:3px solid ${colour};border-radius:4px;padding:12px 14px;background:#fff}\n.tv{font:600 20px/1.2 'Source Serif 4',Georgia,serif;color:#1f2328}\n.tl{font-size:12px;color:#5f6670;margin-top:4px}\n.tw{overflow-x:auto;border:1px solid #e2ddd5;border-radius:4px}\ntable{border-collapse:collapse;width:100%;font-size:13px}\nth{background:#f7f5f2;color:#3d434a;font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid #e2ddd5;white-space:nowrap}\ntd{padding:8px 10px;border-bottom:1px solid #f0ece5;vertical-align:top}\ntbody tr:nth-child(even) td{background:#fcfbf9}\ntbody tr:last-child td{border-bottom:0}\n.r{text-align:right;white-space:nowrap}\n.sub{color:#5f6670;font-size:12px}\n.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:#eceae6;color:#3d434a}\n.pill.yes{background:#014D4E;color:#fff}.pill.mid{background:#301934;color:#fff}.pill.no{background:#DC143C;color:#fff}.pill.muted{background:#eceae6;color:#5f6670}\n.notes{margin:0;padding-left:18px;color:#3d434a}.notes li{margin:4px 0}\n.chips{display:flex;flex-wrap:wrap;gap:6px}\n.chip{border:1px solid #d6d0c6;border-radius:999px;padding:3px 10px;font-size:12px;color:#5f6670;background:#fff}\n.item{border-left:3px solid ${colour};padding:10px 14px;margin:10px 0;background:#fbfaf7;border-radius:0 4px 4px 0}\n.item b{color:#1f2328}\n.paste{width:100%;min-height:236px;font:13px/1.6 ui-monospace,Consolas,monospace;border:1px solid #d6d0c6;border-radius:4px;padding:10px;background:#fff;color:#1f2328;resize:vertical}\n.btn{margin-top:8px;background:${colour};color:#fff;border:0;border-radius:4px;padding:9px 16px;font:600 13px Inter,sans-serif;cursor:pointer}\nfooter{padding:14px 28px;border-top:1px solid #eee7dc;color:#5f6670;font-size:12px;background:#fbfaf7}\n@media (max-width:560px){header,.verdict,.content,footer{padding-left:18px;padding-right:18px}h1{font-size:24px}}\n</style></head><body><div class=\"wrap\"><div class=\"card\">\n<header><div class=\"label\">Amazon Toolkit · ${esc(code)} ${esc(tool)}</div><h1>${esc(title)}</h1><div class=\"meta\">${meta.map(esc).join(' &nbsp;·&nbsp; ')}</div></header>\n${verdict ? `<div class=\"verdict\">${verdict}</div>` : ''}\n<div class=\"content\">${body}\n${section('Cannot tell from this data', chips(cannotTell || []))}\n</div>\n<footer>Saved to the sheet: ${esc(saved)}. Every number recomputes from the Listings tab.</footer>\n</div></div></body></html>`;\n}\n// i2 Market Deep Dive: result page\nconst v = $('Validate & Write').first().json;\nconst cur = CURS[v.marketplace] || '';\nconst lines = String(v.angles || '').split('\\n').map(s => s.trim()).filter(Boolean);\nconst coverage = lines.filter(l => !/^\\d+\\./.test(l)).join(' ');\nconst angles = lines.filter(l => /^\\d+\\./.test(l)).map(l => {\n  const m = l.match(/^(\\d+)\\.\\s+(.*?)(?:\\s+\\[([^\\]]*)\\])?\\s+Why:\\s+(.*?)\\s+Evidence:\\s+(.*)$/);\n  if (!m) return `<div class=\"item\">${esc(l)}</div>`;\n  const ev = m[5].split(' Amazon says')[0];\n  return `<div class=\"item\"><b>${esc(m[1])}. ${esc(m[2])}</b>${m[3] ? ` <span class=\"sub\">[${esc(m[3])}]</span>` : ''}<div style=\"margin-top:4px\">${esc(m[4])}</div><div class=\"sub\" style=\"margin-top:4px\">${esc(ev)}</div></div>`;\n}).join('');\nconst must = String(v.must_match || '').split('; ').filter(s => s && s !== 'none identified').map(s => s.split(' Amazon says')[0]);\nconst prods = split(v.products_inspected).map(p => {\n  const m = p.match(/^(.*?):\\s+(.*?)\\s+\\((\\w{10}),\\s*(.*?),\\s*sold by (.*?),\\s*Amazon ships: (.*?)\\)$/);\n  return m ? [esc(m[1]), `<b>${esc(m[2])}</b><div class=\"sub\">${esc(m[3])}</div>`, esc(m[4]), esc(m[5])] : [esc(p), '', '', ''];\n});\nconst conf = split(v.confidence_notes).filter(n => !/^reused/.test(n));\nconst html = page({\n  code: 'i2', tool: 'Market Deep Dive', colour: '#0F3D3E', tint: '#edf4f3',\n  title: v.keyword, meta: [v.marketplace, v.data_source, v.core_version],\n  verdict: `<div class=\"big\">${esc(v.opportunity_score)}/100 &nbsp;${levelPill(v.confidence)}</div>${conf.length ? `<p>${esc(conf.slice(0, 2).join(' · '))}</p>` : ''}`,\n  body: [\n    tiles([[`${money(v.price_p25, cur)}–${money(v.price_p75, cur)}`, `price band, median ${money(v.price_median, cur)}`], [`${int(v.units_last_month_floor)}+`, 'bought last month (floor)'], [big(v.revenue_last_month_floor, cur) + '+', 'revenue last month (floor)'], [`${esc(v.top3_brands_sales_share_pct)}%`, 'held by the top 3 brands'], [`${esc(v.low_review_sales_share_pct)}%`, 'of sales to newcomers']]),\n    section('Angles to build on', (coverage ? `<p class=\"sub\">${esc(coverage)}</p>` : '') + (angles || `<p>No angles. AI status: ${esc(v.ai_status)}</p>`)),\n    section('Must match', must.length ? notesList(must) : ''),\n    section('Products inspected', prods.length ? table(['Role', 'Brand', 'Best-seller rank', 'Sold by'], prods) : ''),\n    section('Checks on the AI', v.ai_warnings ? notesList(split(v.ai_warnings)) : ''),\n  ].join(''),\n  saved: 'Deep Dive, Products, Listings',\n  cannotTell: split(v.cannot_tell),\n});\nreturn [{ json: { html } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4320,
+        560
+      ],
+      "id": "ffc089f8-a21f-41a3-8ff7-d7c2038d261d",
+      "name": "Result Page"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Deep Dive form": {
+      "main": [
+        [
+          {
+            "node": "Read History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read History": {
+      "main": [
+        [
+          {
+            "node": "Decide Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decide Source": {
+      "main": [
+        [
+          {
+            "node": "New search needed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New search needed?": {
+      "main": [
+        [
+          {
+            "node": "Search Amazon (SerpApi)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pack for Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Amazon (SerpApi)": {
+      "main": [
+        [
+          {
+            "node": "Pack for Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pack for Core": {
+      "main": [
+        [
+          {
+            "node": "Toolkit Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Toolkit Core": {
+      "main": [
+        [
+          {
+            "node": "Listings Rows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Pick Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listings Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Listings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick Products": {
+      "main": [
+        [
+          {
+            "node": "Look Up Product (SerpApi)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Look Up Product (SerpApi)": {
+      "main": [
+        [
+          {
+            "node": "Extract Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Products": {
+      "main": [
+        [
+          {
+            "node": "Build Evidence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Evidence": {
+      "main": [
+        [
+          {
+            "node": "Any review themes?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any review themes?": {
+      "main": [
+        [
+          {
+            "node": "Write Angles (AI)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validate & Write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Angles (AI)": {
+      "main": [
+        [
+          {
+            "node": "Validate & Write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate & Write": {
+      "main": [
+        [
+          {
+            "node": "Product Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Products": {
+      "main": [
+        [
+          {
+            "node": "Deep Dive Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deep Dive Row": {
+      "main": [
+        [
+          {
+            "node": "Save Deep Dive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Deep Dive": {
+      "main": [
+        [
+          {
+            "node": "Result Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primary model (Nemotron, free)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Write Angles (AI)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fallback model (OpenRouter free)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Write Angles (AI)",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Structured Output parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Write Angles (AI)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Result Page": {
+      "main": [
+        [
+          {
+            "node": "Done: Deep Dive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "fhaWu5HguuXYZi3j",
+    "timezone": "Asia/Karachi",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "7e99a2c5-80cb-464f-bb80-8ea7af90e500",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "6zFu8Q7lQ6ODEybe",
+  "tags": []
+}

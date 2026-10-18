@@ -1,0 +1,1682 @@
+{
+  "name": "i1. market-screener",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// One item per keyword. One keyword per line (commas and semicolons also separate).\nconst MAX = 10; // SerpApi free tier: 50 searches/hour, 250/month\nconst form = $input.first().json;\nconst marketplace = form.Marketplace || 'amazon.com';\n\nconst seen = new Set();\nconst list = [];\nconst junk = [];\nfor (const part of String(form.Keywords || '').split(/[\\n,;]+/)) {\n  const k = part.toLowerCase()\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, ''); // strip punctuation at the ends: \"rubber bands!!!\" -> \"rubber bands\"\n  if (!k) {\n    if (part.trim()) junk.push(part.trim()); // something was typed, but no letters or digits\n    continue;\n  }\n  if (seen.has(k)) continue;\n  seen.add(k);\n  list.push(k);\n}\nif (list.length === 0) {\n  throw new Error(`No keywords entered.${junk.length ? ` Ignored ${junk.join(' ')} because it has no letters or digits.` : ''}`);\n}\n\nconst kept = list.slice(0, MAX);\nconst dropped = list.slice(MAX);\nconst batchId = $now.toFormat('yyyy-MM-dd HH:mm:ss') + ' PKT';\n\nreturn kept.map((keyword, i) => ({\n  json: {\n    batch_id: batchId,\n    order: i + 1,\n    keyword,\n    marketplace,\n    dropped: dropped.join(', '),\n  },\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        560
+      ],
+      "id": "2710af3a-e6d9-44d4-a2bc-479be65946b4",
+      "name": "Split Keywords"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "amazon"
+            },
+            {
+              "name": "k",
+              "value": "={{ $json.keyword }}"
+            },
+            {
+              "name": "amazon_domain",
+              "value": "={{ $json.marketplace }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        576,
+        560
+      ],
+      "id": "98a5efb9-fa26-4918-9d0d-511820ac35ab",
+      "name": "Search Amazon (SerpApi)",
+      "retryOnFail": false,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "wI6oUYGsiJc7B5NH",
+          "name": "SerpAPI"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        800,
+        560
+      ],
+      "id": "a29b028d-7069-415c-9b13-46b655bdcde7",
+      "name": "Read History",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Bundle everything the core needs into ONE item: each keyword with its raw search, plus the saved history.\n// Search results line up with Split Keywords by position (one search per keyword, failures included).\nconst requests = $('Split Keywords').all().map(i => i.json);\nconst responses = $('Search Amazon (SerpApi)').all().map(i => i.json);\nconst history = $('Read History').all().map(i => i.json).filter(r => r.run_id);\nreturn [{\n  json: {\n    tool: 'i1',\n    batch_id: requests[0].batch_id,\n    searches: requests.map((req, idx) => ({ order: req.order, keyword: req.keyword, marketplace: req.marketplace, response: responses[idx] ?? { error: 'no response' } })),\n    history,\n    dropped: (requests[0].dropped || '').split(', ').filter(Boolean),\n  },\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        560
+      ],
+      "id": "2b9841ad-31a0-4ca7-a7eb-b02e0e98a879",
+      "name": "Pack for Core"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "taddHmksX0OKD6TC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/taddHmksX0OKD6TC",
+          "cachedResultName": "c1. toolkit-core"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1248,
+        560
+      ],
+      "id": "b1947db9-25ee-4dc8-b53c-b280c7c5720d",
+      "name": "Toolkit Core"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "position",
+              "displayName": "position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "asin",
+              "displayName": "asin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "family_id",
+              "displayName": "family_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_guess",
+              "displayName": "brand_guess",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_source",
+              "displayName": "brand_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "in_stats",
+              "displayName": "in_stats",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "excluded_reason",
+              "displayName": "excluded_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "relevant",
+              "displayName": "relevant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "match_type",
+              "displayName": "match_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "old_price",
+              "displayName": "old_price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "discount_pct",
+              "displayName": "discount_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bought_last_month",
+              "displayName": "bought_last_month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "badges",
+              "displayName": "badges",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "small_business",
+              "displayName": "small_business",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1696,
+        560
+      ],
+      "id": "3dd489e4-e04a-4e5d-b21c-882b1d72ec95",
+      "name": "Save Listings",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item per row from the core's \"keywords\" list\nreturn $('Toolkit Core').first().json.keywords.map(json => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        560
+      ],
+      "id": "bc0a7cba-4b2c-4554-8007-20e75ddd7f71",
+      "name": "Keyword Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 231309972,
+          "mode": "list",
+          "cachedResultName": "Keywords",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=231309972"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "order",
+              "displayName": "order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market",
+              "displayName": "market",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market_keywords",
+              "displayName": "market_keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "opportunity_score",
+              "displayName": "opportunity_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stability",
+              "displayName": "stability",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "score_change_vs_prev",
+              "displayName": "score_change_vs_prev",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sales_on_shared_with_prev_pct",
+              "displayName": "sales_on_shared_with_prev_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_p25",
+              "displayName": "price_p25",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_median",
+              "displayName": "price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_p75",
+              "displayName": "price_p75",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "avg_rating",
+              "displayName": "avg_rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "median_reviews",
+              "displayName": "median_reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "units_last_month_floor",
+              "displayName": "units_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "revenue_last_month_floor",
+              "displayName": "revenue_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top3_products_sales_share_pct",
+              "displayName": "top3_products_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top_brand",
+              "displayName": "top_brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top_brand_sales_share_pct",
+              "displayName": "top_brand_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unknown_brand_sales_share_pct",
+              "displayName": "unknown_brand_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amazon_own_brand_products",
+              "displayName": "amazon_own_brand_products",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_sellers_count",
+              "displayName": "low_review_sellers_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_sales_share_pct",
+              "displayName": "low_review_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_price_median",
+              "displayName": "low_review_price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_avg_rating",
+              "displayName": "low_review_avg_rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top3_review_share_pct",
+              "displayName": "top3_review_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "listings_analyzed",
+              "displayName": "listings_analyzed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "products_analyzed",
+              "displayName": "products_analyzed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "variation_groups",
+              "displayName": "variation_groups",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "exact_match_pct",
+              "displayName": "exact_match_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "listings_missing_sales",
+              "displayName": "listings_missing_sales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bulk_listings",
+              "displayName": "bulk_listings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "outliers_removed",
+              "displayName": "outliers_removed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deal_event_share_pct",
+              "displayName": "deal_event_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "discounted_outside_event_pct",
+              "displayName": "discounted_outside_event_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sponsored_on_page",
+              "displayName": "sponsored_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "organic_on_page",
+              "displayName": "organic_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_results",
+              "displayName": "total_results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_products_vs_variants",
+              "displayName": "unique_products_vs_variants",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_sales_share_pct",
+              "displayName": "unique_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_price_median",
+              "displayName": "unique_price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_top_titles",
+              "displayName": "unique_top_titles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "related_searches",
+              "displayName": "related_searches",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "shopping_ideas",
+              "displayName": "shopping_ideas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "score_breakdown",
+              "displayName": "score_breakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence_notes",
+              "displayName": "confidence_notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stability_note",
+              "displayName": "stability_note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "core_version",
+              "displayName": "core_version",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2144,
+        560
+      ],
+      "id": "3dcefa4e-5f22-4794-94d7-a3a5bcf53f0d",
+      "name": "Save Keywords",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item per row from the core's \"markets\" list\nreturn $('Toolkit Core').first().json.markets.map(json => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        560
+      ],
+      "id": "0eb73ac7-a5d2-4091-9162-27bab0b75dfd",
+      "name": "Market Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Markets",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rank",
+              "displayName": "rank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "market",
+              "displayName": "market",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keywords",
+              "displayName": "keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "opportunity_score",
+              "displayName": "opportunity_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "vs_next",
+              "displayName": "vs_next",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "stability",
+              "displayName": "stability",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "price_p25",
+              "displayName": "price_p25",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "price_median",
+              "displayName": "price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "price_p75",
+              "displayName": "price_p75",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "median_reviews",
+              "displayName": "median_reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "units_last_month_floor",
+              "displayName": "units_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenue_last_month_floor",
+              "displayName": "revenue_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "top_brand",
+              "displayName": "top_brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "top_brand_sales_share_pct",
+              "displayName": "top_brand_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "unknown_brand_sales_share_pct",
+              "displayName": "unknown_brand_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "top3_products_sales_share_pct",
+              "displayName": "top3_products_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "low_review_sellers_count",
+              "displayName": "low_review_sellers_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "low_review_sales_share_pct",
+              "displayName": "low_review_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "low_review_price_median",
+              "displayName": "low_review_price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "amazon_own_brand_products",
+              "displayName": "amazon_own_brand_products",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "products_analyzed",
+              "displayName": "products_analyzed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "variant_note",
+              "displayName": "variant_note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "related_markets",
+              "displayName": "related_markets",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sub_segment_of",
+              "displayName": "sub_segment_of",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "score_breakdown",
+              "displayName": "score_breakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "confidence_notes",
+              "displayName": "confidence_notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cannot_tell",
+              "displayName": "cannot_tell",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2592,
+        560
+      ],
+      "id": "7f90b55a-7fbc-4941-b20a-b6f7ff5cdd75",
+      "name": "Save Markets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "showText",
+        "responseText": "={{ $json.html }}"
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        3040,
+        560
+      ],
+      "id": "36f9c95c-8824-4256-b931-1c6f20063a20",
+      "name": "Done: Screened",
+      "webhookId": "9b2d4f6e-1a3c-4e5f-8b7d-0c9e2a4f6b13"
+    },
+    {
+      "parameters": {
+        "content": "## i1 · Market Screener\nUp to 10 keywords → one Amazon search each → shared Toolkit Core → markets ranked by opportunity score, with variants merged and the differences between them shown. No AI. Free stack: self-hosted n8n, SerpApi free tier, Google Sheets. Failures email an alert (e0).",
+        "height": 150,
+        "width": 1980,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        576,
+        304
+      ],
+      "id": "5f3af17b-f26d-4171-944b-4c0b34ea1e26",
+      "name": "Note: title"
+    },
+    {
+      "parameters": {
+        "content": "## History\nReads the shared Listings tab once, so each keyword is compared with its previous run (stability). Empty tab is fine.",
+        "height": 200,
+        "width": 260,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        768,
+        752
+      ],
+      "id": "679271bb-1f5f-4e39-9d20-fbc4e6b9ce92",
+      "name": "Note: history"
+    },
+    {
+      "parameters": {
+        "content": "## Evidence first\nListings are saved before keyword and market rows, so no summary exists without the listings behind it.",
+        "height": 180,
+        "width": 460,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        752
+      ],
+      "id": "df495c04-77ea-4d29-93c9-6036504b3f46",
+      "name": "Note: evidence"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item per row from the core's \"listings\" list\nreturn $('Toolkit Core').first().json.listings.map(json => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        560
+      ],
+      "id": "be93300b-6dcd-4530-80d1-857bedb83dd5",
+      "name": "Listings Rows"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ---- Result page: shared design (Amazon Toolkit). Presentation only: every value is copied from earlier nodes. ----\nconst esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nconst CURS = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' };\nconst num = v => (v === '' || v === null || v === undefined || Number.isNaN(Number(v)) ? null : Number(v));\nconst int = v => (num(v) === null ? '–' : Math.round(num(v)).toLocaleString('en-US'));\nconst money = (v, cur) => (num(v) === null ? '–' : `${cur}${num(v).toFixed(2)}`);\nconst big = (v, cur = '') => { const n = num(v); if (n === null) return '–'; if (n >= 1e6) return `${cur}${(n / 1e6).toFixed(2)}M`; if (n >= 1e4) return `${cur}${Math.round(n / 1e3)}K`; return `${cur}${int(n)}`; };\nconst rating = v => (num(v) === null ? '–' : num(v).toFixed(1));\nconst spots = t => esc(String(t ?? '').split(' | ').join(' · '));\nconst split = t => String(t ?? '').split(' | ').map(s => s.trim()).filter(Boolean);\nconst LEVEL = { high: 'yes', medium: 'mid', low: 'no' };\nconst pill = (text, kind) => `<span class=\"pill ${kind || ''}\">${esc(text)}</span>`;\nconst levelPill = t => pill(t, LEVEL[String(t || '').toLowerCase()] || 'muted');\nconst tiles = list => `<div class=\"tiles\">${list.map(([v, l]) => `<div class=\"tile\"><div class=\"tv\">${v}</div><div class=\"tl\">${esc(l)}</div></div>`).join('')}</div>`;\nconst section = (title, body) => (body ? `<section><h2>${esc(title)}</h2>${body}</section>` : '');\nconst table = (head, rows, right = []) => `<div class=\"tw\"><table><thead><tr>${head.map((h, i) => `<th${right.includes(i) ? ' class=\"r\"' : ''}>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => `<td${right.includes(i) ? ' class=\"r\"' : ''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;\nconst notesList = list => (list.length ? `<ul class=\"notes\">${list.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : '');\nconst chips = list => (list.length ? `<div class=\"chips\">${list.map(c => `<span class=\"chip\">${esc(c)}</span>`).join('')}</div>` : '');\n\nfunction page({ code, tool, colour, tint, title, meta, verdict, body, saved, cannotTell }) {\n  return `<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>${esc(tool)} · ${esc(title)}</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n*{box-sizing:border-box}\nbody{margin:0;background:${tint};color:#1f2328;font:14px/1.55 Inter,'Segoe UI',Helvetica,Arial,sans-serif}\n.wrap{max-width:760px;margin:0 auto;padding:28px 16px 48px}\n.card{background:#fff;border:1px solid #e2ddd5;border-radius:6px;overflow:hidden;box-shadow:0 8px 28px rgba(13,27,42,.08)}\nheader{background:${colour};color:#fff;padding:26px 28px 22px;border-bottom:5px solid #9C7A3C}\n.label{font:12px/1 ui-monospace,Consolas,monospace;letter-spacing:3px;color:#D8CBB8;text-transform:uppercase}\nh1{font:600 30px/1.2 'Source Serif 4',Georgia,serif;margin:10px 0 6px}\n.meta{color:#D8CBB8;font-size:13px}\n.verdict{padding:22px 28px;border-bottom:1px solid #eee7dc;background:#fbfaf7}\n.verdict .big{font:600 22px/1.3 'Source Serif 4',Georgia,serif;color:${colour}}\n.verdict p{margin:6px 0 0;color:#3d434a}\n.content{padding:6px 28px 26px}\nsection{margin-top:22px}\nh2{font:600 12px/1 Inter,sans-serif;letter-spacing:2px;text-transform:uppercase;color:${colour};margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid #9C7A3C;display:inline-block}\n.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:4px}\n.tile{border:1px solid #e2ddd5;border-top:3px solid ${colour};border-radius:4px;padding:12px 14px;background:#fff}\n.tv{font:600 20px/1.2 'Source Serif 4',Georgia,serif;color:#1f2328}\n.tl{font-size:12px;color:#5f6670;margin-top:4px}\n.tw{overflow-x:auto;border:1px solid #e2ddd5;border-radius:4px}\ntable{border-collapse:collapse;width:100%;font-size:13px}\nth{background:#f7f5f2;color:#3d434a;font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid #e2ddd5;white-space:nowrap}\ntd{padding:8px 10px;border-bottom:1px solid #f0ece5;vertical-align:top}\ntbody tr:nth-child(even) td{background:#fcfbf9}\ntbody tr:last-child td{border-bottom:0}\n.r{text-align:right;white-space:nowrap}\n.sub{color:#5f6670;font-size:12px}\n.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:#eceae6;color:#3d434a}\n.pill.yes{background:#014D4E;color:#fff}.pill.mid{background:#301934;color:#fff}.pill.no{background:#DC143C;color:#fff}.pill.muted{background:#eceae6;color:#5f6670}\n.notes{margin:0;padding-left:18px;color:#3d434a}.notes li{margin:4px 0}\n.chips{display:flex;flex-wrap:wrap;gap:6px}\n.chip{border:1px solid #d6d0c6;border-radius:999px;padding:3px 10px;font-size:12px;color:#5f6670;background:#fff}\n.item{border-left:3px solid ${colour};padding:10px 14px;margin:10px 0;background:#fbfaf7;border-radius:0 4px 4px 0}\n.item b{color:#1f2328}\n.paste{width:100%;min-height:236px;font:13px/1.6 ui-monospace,Consolas,monospace;border:1px solid #d6d0c6;border-radius:4px;padding:10px;background:#fff;color:#1f2328;resize:vertical}\n.btn{margin-top:8px;background:${colour};color:#fff;border:0;border-radius:4px;padding:9px 16px;font:600 13px Inter,sans-serif;cursor:pointer}\nfooter{padding:14px 28px;border-top:1px solid #eee7dc;color:#5f6670;font-size:12px;background:#fbfaf7}\n@media (max-width:560px){header,.verdict,.content,footer{padding-left:18px;padding-right:18px}h1{font-size:24px}}\n</style></head><body><div class=\"wrap\"><div class=\"card\">\n<header><div class=\"label\">Amazon Toolkit · ${esc(code)} ${esc(tool)}</div><h1>${esc(title)}</h1><div class=\"meta\">${meta.map(esc).join(' &nbsp;·&nbsp; ')}</div></header>\n${verdict ? `<div class=\"verdict\">${verdict}</div>` : ''}\n<div class=\"content\">${body}\n${section('Cannot tell from this data', chips(cannotTell || []))}\n</div>\n<footer>Saved to the sheet: ${esc(saved)}. Every number recomputes from the Listings tab.</footer>\n</div></div></body></html>`;\n}\n// i1 Market Screener: result page\nconst core = $('Toolkit Core').first().json;\nconst markets = [...(core.markets || [])].sort((a, b) => a.rank - b.rank);\nconst kws = core.keywords || [];\nconst first = markets[0] || {};\nconst mk = first.marketplace || (kws.find(k => k.marketplace) || {}).marketplace || '';\nconst cur = CURS[mk] || '';\nconst batch = first.batch_id || (kws[0] || {}).batch_id || '';\nconst notDone = kws.filter(k => k.status && k.status !== 'ok');\nconst parts = v => (Array.isArray(v) ? v : split(v));\nconst verdict = first.market ? `<div class=\"big\">#1 ${esc(first.market)} · ${esc(first.opportunity_score)}/100</div>\n<p>${levelPill(first.confidence)} &nbsp;${esc(first.vs_next || 'Only one market screened.')}</p>` : '<div class=\"big\">No market could be scored</div>';\nconst rows = markets.map(m => [\n  `<b>${esc(m.rank)}</b>`,\n  `<b>${esc(m.market)}</b>${String(m.keywords || '').includes(',') ? `<div class=\"sub\">${esc(m.keywords)}</div>` : ''}${m.sub_segment_of ? `<div class=\"sub\">sub-segment of ${esc(m.sub_segment_of)}</div>` : ''}`,\n  `<b>${esc(m.opportunity_score)}</b>`, levelPill(m.confidence), money(m.price_median, cur), `${int(m.units_last_month_floor)}+`,\n  `${esc(m.top_brand || '–')}<div class=\"sub\">${esc(m.top_brand_sales_share_pct)}% share</div>`,\n]);\nconst why = parts(first.score_breakdown).map(s => {\n  const t = String(s).match(/^openness ([\\d.]+)\\/100 x demand ([\\d.]+): at least (\\d+) in sales last month on page 1 ?(.*)$/);\n  if (t) return ['<b>score</b>', `<b>${esc(t[1])} × ${esc(t[2])}</b>`, `openness × demand. At least ${big(t[3], cur)} in sales last month on page 1 ${esc(t[4])}`];\n  const m = String(s).match(/^(\\S+) ([\\d.]+\\/\\d+): (.*)$/);\n  return m ? [esc(({ low_review_sales: 'sales to newcomers' })[m[1]] || m[1].replace(/_/g, ' ')), `<b>${esc(m[2])}</b>`, esc(m[3])] : ['', '', esc(s)];\n});\nconst html = page({\n  code: 'i1', tool: 'Market Screener', colour: '#1B3A6B', tint: '#eef2f8',\n  title: `${markets.length} market${markets.length === 1 ? '' : 's'} ranked`,\n  meta: [mk, batch, `${kws.filter(k => k.status !== 'skipped').length} keywords searched`],\n  verdict,\n  body: [\n    section('Ranking', table(['#', 'Market', 'Score', 'Confidence', 'Median price', 'Bought last month', 'Top brand'], rows, [2, 4, 5])),\n    first.market ? section(`Why #1 scored ${first.opportunity_score}`, table(['Part', 'Points', 'Because'], why, [1])) : '',\n    first.confidence_notes ? section('What lowers confidence in #1', notesList(parts(first.confidence_notes))) : '',\n    section('Not analyzed', notesList(notDone.map(k => `${k.keyword}: ${k.note || k.status}`))),\n  ].join(''),\n  saved: 'Markets, Keywords, Listings',\n  cannotTell: parts(first.cannot_tell),\n});\nreturn [{ json: { html } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2816,
+        560
+      ],
+      "id": "a0d24283-3492-438e-9d71-1d0453b07e8e",
+      "name": "Result Page"
+    },
+    {
+      "parameters": {
+        "formTitle": "Market Screener",
+        "formDescription": "Paste up to 10 keywords, one per line. Keywords that are really the same market (e.g. \"resistance band\" and \"resistance bands\") are merged and the differences between them are shown. Results go to the Markets and Keywords tabs.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Keywords",
+              "fieldType": "textarea",
+              "placeholder": "e.g. yoga mat, pilates mat",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Marketplace",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "amazon.com"
+                  },
+                  {
+                    "option": "amazon.co.uk"
+                  },
+                  {
+                    "option": "amazon.ca"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "customCss": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n/* Amazon Toolkit · i1 Market Screener. Same family as the sheet: #1B3A6B header colour, brass accent, paper background. */\n:root {\n\t--font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\t--font-size-body: 13px;\n\t--font-size-label: 14px;\n\t--font-size-test-notice: 12px;\n\t--font-size-input: 14px;\n\t--font-size-header: 24px;\n\t--font-size-paragraph: 14px;\n\t--font-size-link: 12px;\n\t--font-size-error: 12px;\n\t--font-size-html-h1: 26px;\n\t--font-size-html-h2: 20px;\n\t--font-size-html-h3: 16px;\n\t--font-size-html-h4: 14px;\n\t--font-size-html-h5: 12px;\n\t--font-size-html-h6: 11px;\n\t--font-size-subheader: 14px;\n\n\t/* Colors */\n\t--color-background: #eef2f8;\n\t--color-test-notice-text: #8a5a00;\n\t--color-test-notice-bg: #faf5ea;\n\t--color-test-notice-border: #e3d3ad;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #e2ddd5;\n\t--color-card-shadow: rgba(27,58,107, 0.10);\n\t--color-link: #1B3A6B;\n\t--color-header: #1B3A6B;\n\t--color-label: #2c3539;\n\t--color-input-border: #d6d0c6;\n\t--color-input-text: #1f2328;\n\t--color-focus-border: #1B3A6B;\n\t--color-submit-btn-bg: #1B3A6B;\n\t--color-submit-btn-text: #ffffff;\n\t--color-error: #DC143C;\n\t--color-required: #9C7A3C;\n\t--color-clear-button-bg: #8a8f98;\n\t--color-html-text: #2c3539;\n\t--color-html-link: #1B3A6B;\n\t--color-header-subtext: #5f6670;\n\n\t/* Border Radii */\n\t--border-radius-card: 4px;\n\t--border-radius-input: 3px;\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 4px;\n\n\t/* Spacing */\n\t--padding-container-top: 32px;\n\t--padding-card: 28px;\n\t--padding-test-notice-vertical: 12px;\n\t--padding-test-notice-horizontal: 24px;\n\t--margin-bottom-card: 16px;\n\t--padding-form-input: 12px;\n\t--card-padding: 28px;\n\t--card-margin-bottom: 16px;\n\n\t/* Dimensions */\n\t--container-width: 448px;\n\t--submit-btn-height: 46px;\n\t--checkbox-size: 18px;\n\n\t/* Others */\n\t--box-shadow-card: 0px 6px 20px 0px var(--color-card-shadow);\n\t--opacity-placeholder: 0.45;\n}\n\n/* Accents: a i1 colour bar on top of the card, brass rule under the title, serif title.\n   If your n8n version names these parts differently, these lines are simply ignored. */\n.card { border-top: 4px solid #1B3A6B; }\nh1 { font-family: 'Source Serif 4', Georgia, serif; letter-spacing: 0.2px; }\nh1::after { content: ''; display: block; width: 56px; height: 3px; background: #9C7A3C; margin: 12px auto 0; }\nbutton[type='submit'], .submit-btn { letter-spacing: 0.4px; text-transform: none; }\n"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        128,
+        560
+      ],
+      "id": "232a8e97-af00-4ea4-b5a9-9577f635a730",
+      "name": "Screener form",
+      "webhookId": "9f354f1c-ccdb-46b4-89d4-3dd9ecc26df1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Split Keywords": {
+      "main": [
+        [
+          {
+            "node": "Search Amazon (SerpApi)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Amazon (SerpApi)": {
+      "main": [
+        [
+          {
+            "node": "Read History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read History": {
+      "main": [
+        [
+          {
+            "node": "Pack for Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pack for Core": {
+      "main": [
+        [
+          {
+            "node": "Toolkit Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Toolkit Core": {
+      "main": [
+        [
+          {
+            "node": "Listings Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Listings": {
+      "main": [
+        [
+          {
+            "node": "Keyword Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keyword Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Keywords": {
+      "main": [
+        [
+          {
+            "node": "Market Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Market Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Markets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Markets": {
+      "main": [
+        [
+          {
+            "node": "Result Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listings Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Listings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Result Page": {
+      "main": [
+        [
+          {
+            "node": "Done: Screened",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Screener form": {
+      "main": [
+        [
+          {
+            "node": "Split Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "fhaWu5HguuXYZi3j",
+    "timezone": "Asia/Karachi",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "433c8ffe-155d-4330-959f-4e856daa3fc4",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "Tb8sf4Etick7ef5m",
+  "tags": []
+}

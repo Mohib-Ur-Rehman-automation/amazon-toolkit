@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Amazon Toolkit: five n8n workflows that judge Amazon markets from real page-1 data">
+  <rect width="1200" height="300" fill="#0D1B2A"/>
+  <rect x="640" y="22" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="66" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="110" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="154" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="198" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="242" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="640" y="286" width="560" height="22" fill="#ffffff" opacity="0.035"/>
+  <rect x="0" y="292" width="1200" height="8" fill="#9C7A3C"/>
+  <text x="64" y="78" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="16" fill="#D8CBB8" letter-spacing="4">N8N · SERPAPI · GOOGLE SHEETS</text>
+  <text x="62" y="148" font-family="Georgia, 'Times New Roman', serif" font-size="62" fill="#ffffff">Amazon Toolkit</text>
+  <rect x="64" y="168" width="72" height="3" fill="#DCC285"/>
+  <text x="64" y="206" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="20" fill="#f7f5f2" opacity="0.92">Five workflows that judge Amazon markets from real page-1 data.</text>
+  <rect x="64" y="232" width="317" height="30" rx="15" fill="none" stroke="#D8CBB8" stroke-opacity="0.6" stroke-width="1.5"/><text x="222" y="252" text-anchor="middle" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="14" fill="#f7f5f2" letter-spacing="0.3">every number recomputes from the sheet</text>
+  <rect x="390.8" y="232" width="104" height="30" rx="15" fill="none" stroke="#D8CBB8" stroke-opacity="0.6" stroke-width="1.5"/><text x="443" y="252" text-anchor="middle" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="14" fill="#f7f5f2" letter-spacing="0.3">free stack</text>
+  <line x1="713" y1="96" x2="713" y2="206" stroke="#9C7A3C" stroke-width="1" opacity="0.6"/>
+    <rect x="700" y="70" width="26" height="26" rx="4" fill="#1B3A6B" stroke="#ffffff" stroke-opacity="0.35"/><text x="740" y="89" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#D8CBB8">i1</text><text x="776" y="89" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="17" fill="#f7f5f2">Market Screener</text>
+  <rect x="700" y="104" width="26" height="26" rx="4" fill="#0F3D3E" stroke="#ffffff" stroke-opacity="0.35"/><text x="740" y="123" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#D8CBB8">i2</text><text x="776" y="123" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="17" fill="#f7f5f2">Market Deep Dive</text>
+  <rect x="700" y="138" width="26" height="26" rx="4" fill="#8B4E34" stroke="#ffffff" stroke-opacity="0.35"/><text x="740" y="157" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#D8CBB8">i3</text><text x="776" y="157" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="17" fill="#f7f5f2">Competitor Targeting</text>
+  <rect x="700" y="172" width="26" height="26" rx="4" fill="#4A1F3D" stroke="#ffffff" stroke-opacity="0.35"/><text x="740" y="191" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#D8CBB8">i4</text><text x="776" y="191" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="17" fill="#f7f5f2">Market Autopilot</text>
+  <rect x="700" y="206" width="26" height="26" rx="4" fill="#214235" stroke="#ffffff" stroke-opacity="0.35"/><text x="740" y="225" font-family="ui-monospace, 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace" font-size="15" fill="#D8CBB8">i5</text><text x="776" y="225" font-family="'Segoe UI', -apple-system, Helvetica, Arial, sans-serif" font-size="17" fill="#f7f5f2">Next Keywords</text>
+</svg>

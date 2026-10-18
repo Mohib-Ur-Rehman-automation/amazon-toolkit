@@ -1,0 +1,2740 @@
+{
+  "name": "i3. competitor-targeting",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Competitor Targeting",
+        "formDescription": "Paste 2 to 5 related keywords, one per line. Every competitor that ranks on them is merged into one list, ranked by relevance, and judged as an ad target against your product (or the market, if you leave your product blank). Keywords run in the last 24 hours are reused at no search cost.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Keywords",
+              "fieldType": "textarea",
+              "placeholder": "resistance bands\nresistance bands with handles\nexercise bands",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Marketplace",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "amazon.com"
+                  },
+                  {
+                    "option": "amazon.co.uk"
+                  },
+                  {
+                    "option": "amazon.ca"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Your price",
+              "placeholder": "optional, e.g. 18.99"
+            },
+            {
+              "fieldLabel": "Your rating",
+              "placeholder": "optional, e.g. 4.4"
+            },
+            {
+              "fieldLabel": "Your review count",
+              "placeholder": "optional, e.g. 350"
+            },
+            {
+              "fieldLabel": "Your brand or ASINs",
+              "placeholder": "optional, left out of the list. e.g. MyBrand, B0XXXXXXXX"
+            }
+          ]
+        },
+        "options": {
+          "customCss": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n/* Amazon Toolkit · i3 Competitor Targeting. Same family as the sheet: #8B4E34 header colour, brass accent, paper background. */\n:root {\n\t--font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\t--font-size-body: 13px;\n\t--font-size-label: 14px;\n\t--font-size-test-notice: 12px;\n\t--font-size-input: 14px;\n\t--font-size-header: 24px;\n\t--font-size-paragraph: 14px;\n\t--font-size-link: 12px;\n\t--font-size-error: 12px;\n\t--font-size-html-h1: 26px;\n\t--font-size-html-h2: 20px;\n\t--font-size-html-h3: 16px;\n\t--font-size-html-h4: 14px;\n\t--font-size-html-h5: 12px;\n\t--font-size-html-h6: 11px;\n\t--font-size-subheader: 14px;\n\n\t/* Colors */\n\t--color-background: #f8f1ec;\n\t--color-test-notice-text: #8a5a00;\n\t--color-test-notice-bg: #faf5ea;\n\t--color-test-notice-border: #e3d3ad;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #e2ddd5;\n\t--color-card-shadow: rgba(139,78,52, 0.10);\n\t--color-link: #8B4E34;\n\t--color-header: #8B4E34;\n\t--color-label: #2c3539;\n\t--color-input-border: #d6d0c6;\n\t--color-input-text: #1f2328;\n\t--color-focus-border: #8B4E34;\n\t--color-submit-btn-bg: #8B4E34;\n\t--color-submit-btn-text: #ffffff;\n\t--color-error: #DC143C;\n\t--color-required: #9C7A3C;\n\t--color-clear-button-bg: #8a8f98;\n\t--color-html-text: #2c3539;\n\t--color-html-link: #8B4E34;\n\t--color-header-subtext: #5f6670;\n\n\t/* Border Radii */\n\t--border-radius-card: 4px;\n\t--border-radius-input: 3px;\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 4px;\n\n\t/* Spacing */\n\t--padding-container-top: 32px;\n\t--padding-card: 28px;\n\t--padding-test-notice-vertical: 12px;\n\t--padding-test-notice-horizontal: 24px;\n\t--margin-bottom-card: 16px;\n\t--padding-form-input: 12px;\n\t--card-padding: 28px;\n\t--card-margin-bottom: 16px;\n\n\t/* Dimensions */\n\t--container-width: 480px;\n\t--submit-btn-height: 46px;\n\t--checkbox-size: 18px;\n\n\t/* Others */\n\t--box-shadow-card: 0px 6px 20px 0px var(--color-card-shadow);\n\t--opacity-placeholder: 0.45;\n}\n\n/* Accents: a i3 colour bar on top of the card, brass rule under the title, serif title.\n   If your n8n version names these parts differently, these lines are simply ignored. */\n.card { border-top: 4px solid #8B4E34; }\nh1 { font-family: 'Source Serif 4', Georgia, serif; letter-spacing: 0.2px; }\nh1::after { content: ''; display: block; width: 56px; height: 3px; background: #9C7A3C; margin: 12px auto 0; }\nbutton[type='submit'], .submit-btn { letter-spacing: 0.4px; text-transform: none; }\n"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        80,
+        720
+      ],
+      "id": "991eeba4-bbe4-4b36-a60c-fda88c9a189d",
+      "name": "Targeting form",
+      "webhookId": "f47c0b5c-80d2-40c6-8baa-4b06cdfdb9c7"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        720
+      ],
+      "id": "64e445fb-c86f-42ed-9141-dd8beca6cacc",
+      "name": "Read History",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1828315465,
+          "mode": "list",
+          "cachedResultName": "Products",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1828315465"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        720
+      ],
+      "id": "b1bd70e6-baa6-4109-ac58-641f0d3fac2d",
+      "name": "Read Products",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 231309972,
+          "mode": "list",
+          "cachedResultName": "Keywords",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=231309972"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        752,
+        720
+      ],
+      "id": "bea0d605-a660-4b92-9476-2f7b3c02266d",
+      "name": "Read Keywords",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Plan the run: clean the keywords, read \"your product\", and decide which keyword pages need a new search.\n// A keyword saved in the last 24 hours (by i1, i2, i3 or i4) is reused: no search, same page the other tools scored.\nconst REUSE_HOURS = 24;\nconst MAX_KEYWORDS = 5;\nconst form = $('Targeting form').first().json;\nconst clean = s => String(s || '').toLowerCase()\n  .replace(/\\s+/g, ' ')\n  .trim()\n  .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '');\nconst marketplace = form.Marketplace || 'amazon.com';\n\n// Keywords: one per line (commas and semicolons also split), duplicates removed, first 5 kept\nconst all = String(form.Keywords || '').split(/[\\n,;]+/).map(clean).filter(Boolean);\nconst tooShort = [...new Set(all.filter(w => w.replace(/[^a-z]/g, '').length < 3))];\nconst unique = [...new Set(all)].filter(w => !tooShort.includes(w));\nif (!unique.length) throw new Error('No keywords entered. Type 2 to 5 related keywords, one per line.');\nconst keywords = unique.slice(0, MAX_KEYWORDS);\nconst notes = [];\nif (tooShort.length) notes.push(`Skipped (too short to be a product keyword): ${tooShort.join(', ')}`);\nif (unique.length > MAX_KEYWORDS) notes.push(`Only the first ${MAX_KEYWORDS} keywords were used; left out: ${unique.slice(MAX_KEYWORDS).join(', ')}`);\nif (keywords.length === 1) notes.push('Only 1 keyword: \"ranks on how many of your keywords\" cannot separate competitors. Use 2 to 5.');\n\n// Your product (all optional). Invalid numbers are ignored and said so, never guessed.\nconst num = (v, lo, hi, label) => {\n  const raw = String(v ?? '').trim();\n  if (raw === '') return null;\n  const s = raw.replace(/[^0-9.]/g, '');\n  if (s === '') { notes.push(`\"${label}\" ignored: \"${raw}\" is not a number`); return null; }\n  const n = Number(s);\n  if (!Number.isFinite(n) || n < lo || n > hi) { notes.push(`\"${label}\" ignored: ${v} is not between ${lo} and ${hi}`); return null; }\n  return n;\n};\nconst you = {\n  price: num(form['Your price'], 0.01, 100000, 'Your price'),\n  rating: num(form['Your rating'], 1, 5, 'Your rating'),\n  reviews: num(form['Your review count'], 0, 10000000, 'Your review count'),\n};\n// Your brand / ASINs: left out of the competitor list\nconst ownRaw = String(form['Your brand or ASINs'] || '').split(/[\\n,;]+/).map(s => s.trim()).filter(Boolean);\nconst isAsin = s => /^[A-Z0-9]{10}$/i.test(s) && /\\d/.test(s); // ASINs always mix letters and digits (B0…)\nconst own_asins = ownRaw.filter(isAsin).map(s => s.toUpperCase());\nconst own_brands = ownRaw.filter(s => !isAsin(s)).map(s => s.toLowerCase().replace(/[^a-z0-9]/g, '')).filter(Boolean);\n\n// \"2026-10-16 13:21:47 UTC\" -> milliseconds\nconst toMs = t => Date.parse(String(t).replace(' UTC', 'Z').replace(' ', 'T'));\nconst latest = {};\nfor (const r of $('Read History').all().map(i => i.json)) {\n  if (!r.run_id || r.marketplace !== marketplace || !keywords.includes(r.keyword)) continue;\n  const t = toMs(r.checked_at);\n  if (!latest[r.keyword] || t > latest[r.keyword].t) latest[r.keyword] = { run_id: r.run_id, checked_at: r.checked_at, t };\n}\nconst now = Date.now();\nconst pages = keywords.map((keyword, i) => {\n  const l = latest[keyword];\n  const age = l ? (now - l.t) / 3600000 : null;\n  const reuse = !!l && age >= 0 && age <= REUSE_HOURS;\n  return { order: i + 1, keyword, marketplace, reuse, reuse_run_id: reuse ? l.run_id : null, age_hours: age === null ? null : Math.round(age * 10) / 10 };\n});\nconst toSearch = pages.filter(p => !p.reuse);\n\nreturn [{\n  json: {\n    batch_id: $now.toFormat('yyyy-MM-dd HH:mm:ss') + ' PKT',\n    marketplace,\n    keywords,\n    pages,\n    to_search: toSearch.map(p => p.keyword),\n    any_search: toSearch.length > 0,\n    you,\n    own_asins,\n    own_brands,\n    notes,\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        720
+      ],
+      "id": "52fc7d4e-218e-45d1-aeaa-49565950557a",
+      "name": "Plan Run"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9c3f0000-0000-4000-8000-000000000008",
+              "leftValue": "={{ $json.any_search }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        720
+      ],
+      "id": "90cbb3b7-b0cb-4e05-aec2-408ea288cefd",
+      "name": "New searches needed?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item per keyword that needs a new Amazon search (1 SerpApi search each)\nconst plan = $('Plan Run').first().json;\nreturn plan.pages.filter(p => !p.reuse).map(p => ({ json: { keyword: p.keyword, marketplace: p.marketplace, order: p.order } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        528
+      ],
+      "id": "f227d7ba-9d69-4fa2-9629-0aacb91dc12e",
+      "name": "Split Searches"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "amazon"
+            },
+            {
+              "name": "k",
+              "value": "={{ $json.keyword }}"
+            },
+            {
+              "name": "amazon_domain",
+              "value": "={{ $json.marketplace }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1536,
+        528
+      ],
+      "id": "603fed95-fe7c-43ea-b93f-7a7235893db4",
+      "name": "Search Amazon (SerpApi)",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "wI6oUYGsiJc7B5NH",
+          "name": "SerpAPI"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Bundle what the core needs: fresh searches + saved runs, plus the history for the stability check.\n// Search results line up with Split Searches by position (failed searches included, the core reports them).\nconst plan = $('Plan Run').first().json;\nlet fresh = [];\ntry {\n  if ($('Search Amazon (SerpApi)').isExecuted) fresh = $('Search Amazon (SerpApi)').all().map(i => i.json);\n} catch (e) {\n  fresh = []; // every page was reused, the search node did not run\n}\nconst searched = plan.pages.filter(p => !p.reuse);\nconst history = $('Read History').all().map(i => i.json).filter(r => r.run_id);\nconst searches = plan.pages.map(p => {\n  const s = { order: p.order, keyword: p.keyword, marketplace: p.marketplace };\n  if (p.reuse) s.listings = history.filter(r => r.run_id === p.reuse_run_id);\n  else s.response = fresh[searched.indexOf(p)] ?? { error: 'no response' };\n  return s;\n});\nreturn [{ json: { tool: 'i3', batch_id: plan.batch_id, searches, history, dropped: [] } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        720
+      ],
+      "id": "596ca90b-66f7-437a-87ba-25a279a811a0",
+      "name": "Pack for Core"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "taddHmksX0OKD6TC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/taddHmksX0OKD6TC",
+          "cachedResultName": "c1. toolkit-core"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1648,
+        720
+      ],
+      "id": "3473f3a7-f194-489a-ae79-0d00b7e29043",
+      "name": "Toolkit Core"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Listing rows from new searches only (reused pages are already saved, so nothing is written twice)\nreturn $('Toolkit Core').first().json.listings.map(json => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        528
+      ],
+      "id": "41783497-fd37-4bd2-8050-9105ab03c4d4",
+      "name": "Listings Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "position",
+              "displayName": "position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "asin",
+              "displayName": "asin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "family_id",
+              "displayName": "family_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "brand_guess",
+              "displayName": "brand_guess",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "brand_source",
+              "displayName": "brand_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "in_stats",
+              "displayName": "in_stats",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "excluded_reason",
+              "displayName": "excluded_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "relevant",
+              "displayName": "relevant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "match_type",
+              "displayName": "match_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "old_price",
+              "displayName": "old_price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "discount_pct",
+              "displayName": "discount_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bought_last_month",
+              "displayName": "bought_last_month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "badges",
+              "displayName": "badges",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "small_business",
+              "displayName": "small_business",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2080,
+        304
+      ],
+      "id": "c864e714-952d-4023-a640-69eefad84ac9",
+      "name": "Save Listings",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge the keyword pages into ONE competitor list and rank it by relevance. No AI: every number comes from the pages.\n// A competitor = product families (variations grouped by the core) from different keywords that are the same product:\n//   they share an ASIN, or they have the same brand + same shared review count (50+) + same rating (the core's family rule).\nconst MAX_LISTED = 25;   // rows written to the Targets tab\nconst MAX_LOOKUPS = 8;   // product-page lookups (1 SerpApi search each)\nconst REUSE_HOURS = 24;  // a Products row this fresh is reused instead of a new lookup\nconst plan = $('Plan Run').first().json;\nconst core = $('Toolkit Core').first().json;\nconst details = core.details || [];\nif (!details.length) throw new Error('None of the keywords could be analyzed. See the Keywords notes in the core output.');\nconst r1 = x => Math.round(x * 10) / 10;\nconst clamp = x => Math.max(0, Math.min(1, x));\nconst bkey = b => String(b || '').toLowerCase().replace(/[^a-z0-9]/g, '');\nconst k = details.length;\nconst stem = w => w.replace(/(es|s)$/, '');\n// Title first-words that are colours or adjectives, not brands (seen live: \"Black\", \"Ultra\", \"Royal\")\nconst NOT_BRANDS = new Set(['black', 'white', 'grey', 'gray', 'blue', 'pink', 'red', 'green', 'purple', 'beige', 'navy', 'ultra', 'royal', 'luxury', 'soft', 'memory', 'comfort', 'best', 'travel', 'portable', 'adjustable', 'deluxe', 'classic', 'organic', 'natural']);\nconst kwWords = new Set(plan.keywords.flatMap(kw => kw.split(' ')).map(w => stem(bkey(w))));\n\n// ---- 1. Every family on every page, with its page's total sales ----\nconst nodes = [];\ndetails.forEach((d, ki) => {\n  const pageUnits = (d.families || []).reduce((s, f) => s + (f.units || 0), 0);\n  for (const f of d.families || []) nodes.push({ ki, keyword: d.keyword, run_id: d.run_id, pageUnits, f, bk: bkey(f.brand) });\n});\n\n// ---- 2. Union families that are the same product across pages ----\nconst parent = nodes.map((_, i) => i);\nconst find = i => (parent[i] === i ? i : (parent[i] = find(parent[i])));\nconst join = (a, b) => { parent[find(a)] = find(b); };\nconst byAsin = {};\nnodes.forEach((n, i) => { for (const a of n.f.asins) { if (byAsin[a] !== undefined) join(i, byAsin[a]); else byAsin[a] = i; } });\nconst sig = {};\nnodes.forEach((n, i) => {\n  if ((n.f.reviews || 0) < 50 || n.f.rating === null || !n.bk) return;\n  const s = `${n.bk}|${n.f.reviews}|${n.f.rating}`;\n  if (sig[s] !== undefined) join(i, sig[s]); else sig[s] = i;\n});\nconst groups = {};\nnodes.forEach((n, i) => (groups[find(i)] ??= []).push(n));\n\n// Brands with an established (1000+ review) product on any page: their low-review listings are not newcomers\nconst established = new Set(nodes.filter(n => n.f.reviews >= 1000 && n.bk).map(n => n.bk));\n\n// ---- 3. One record per competitor ----\nlet competitors = Object.values(groups).map(members => {\n  const byKw = {};\n  for (const m of members) { // a product can appear twice on one page only as two families; keep the bigger one\n    const cur = byKw[m.keyword];\n    if (!cur || m.f.units > cur.f.units || (m.f.units === cur.f.units && m.f.position < cur.f.position)) byKw[m.keyword] = m;\n  }\n  const per = Object.values(byKw);\n  const lead = [...per].sort((a, b) => (b.f.units - a.f.units) || (a.f.position - b.f.position))[0];\n  const mostReviews = [...per].sort((a, b) => b.f.reviews - a.f.reviews)[0];\n  const asins = [...new Set(members.flatMap(m => m.f.asins))];\n  const best_position = Math.min(...per.map(m => m.f.position));\n  // Sales: the HIGHEST badge floor across keywords, never the sum (the same buyers show up on every page)\n  const units = Math.max(...per.map(m => m.f.units || 0));\n  const shares = per.map(m => (m.pageUnits ? m.f.units / m.pageUnits : 0));\n  const share = Math.max(...shares);\n  // A \"brand\" that is just a word from your keywords (e.g. \"Resistance\") is a title guess gone wrong: treat as unknown\n  const guessed = (per.find(m => m.f.brand) || {}).f?.brand || null;\n  const brand = guessed && (kwWords.has(stem(bkey(guessed))) || NOT_BRANDS.has(bkey(guessed))) ? null : guessed;\n  const coverageN = per.length;\n  const pCov = 50 * coverageN / k;\n  const pPos = 30 * clamp(1 - (best_position - 1) / 50);\n  const pShare = 20 * clamp(share / 0.2);\n  const relevance = Math.round(pCov + pPos + pShare);\n  return {\n    competitor_asin: lead.f.best_asin,\n    asins,\n    family_id: lead.f.family_id,\n    brand,\n    brand_key: bkey(brand),\n    title: lead.f.title,\n    keywords_ranked_on: per.sort((a, b) => a.ki - b.ki).map(m => `${m.keyword} (#${m.f.position})`).join(' | '),\n    coverage: `${coverageN} of ${k}`,\n    coverage_n: coverageN,\n    best_position,\n    lead_keyword: lead.keyword,\n    lead_run_id: lead.run_id,\n    has_sales: per.some(m => m.f.has_sales),\n    units_floor: units,\n    page_sales_share_pct: r1(share * 100),\n    price: lead.f.price,\n    rating: mostReviews.f.rating,\n    reviews: mostReviews.f.reviews,\n    family_size: lead.f.asins.length,\n    newcomer: mostReviews.f.reviews < 1000 && !established.has(bkey(brand)),\n    relevance,\n    relevance_breakdown: `keywords ${coverageN}/${k} → ${r1(pCov)}/50 + best position #${best_position} → ${r1(pPos)}/30 + page sales share ${r1(share * 100)}% → ${r1(pShare)}/20 (full at 20%)`,\n  };\n});\n\n// ---- 4. Leave out your own products ----\n// Exact brand match only: \"Napfun Pro\" must not hide \"Napfun\"\nconst isOwn = c => c.asins.some(a => plan.own_asins.includes(a))\n  || (c.brand_key && plan.own_brands.includes(c.brand_key));\nconst ownCount = competitors.filter(isOwn).length;\ncompetitors = competitors.filter(c => !isOwn(c));\n\n// Fixed order: relevance, then sales, then reviews, then position (same data always gives the same list)\ncompetitors.sort((a, b) => (b.relevance - a.relevance) || (b.units_floor - a.units_floor) || (b.reviews - a.reviews) || (a.best_position - b.best_position));\n\n// ---- 5. Market medians: the comparison point when you did not enter your own product ----\nconst median = arr => {\n  const v = arr.filter(x => typeof x === 'number' && Number.isFinite(x)).sort((a, b) => a - b);\n  if (!v.length) return null;\n  const m = Math.floor(v.length / 2);\n  return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;\n};\nconst selling = competitors.filter(c => c.units_floor > 0);\nconst base = selling.length >= 5 ? selling : competitors;\nconst market = {\n  price: median(base.map(c => c.price)) === null ? null : Math.round(median(base.map(c => c.price)) * 100) / 100,\n  rating: median(base.map(c => c.rating)),\n  reviews: median(base.map(c => c.reviews)),\n  based_on: `${base.length} ${base === selling ? 'selling ' : ''}competitors`,\n};\n\n// ---- 6. Which products get a product-page lookup (BSR, seller, real brand, 1-2 star share) ----\nconst listed = competitors.slice(0, MAX_LISTED).map((c, i) => ({ ...c, rank: i + 1 }));\nconst toMs = t => Date.parse(String(t).replace(' UTC', 'Z').replace(' ', 'T'));\nconst runTime = runId => toMs(String(runId || '').split('|').pop());\nconst now = Date.now();\nconst saved = $('Read Products').all().map(i => i.json)\n  .filter(p => p.asin && p.lookup_status === 'ok' && p.marketplace === plan.marketplace)\n  .map(p => ({ ...p, age_hours: (now - runTime(p.run_id)) / 3600000 }))\n  .filter(p => Number.isFinite(p.age_hours) && p.age_hours >= 0 && p.age_hours <= REUSE_HOURS)\n  .sort((a, b) => a.age_hours - b.age_hours);\nconst reused = {};\nconst lookups = [];\nfor (const c of listed.slice(0, MAX_LOOKUPS)) {\n  const hit = saved.find(p => c.asins.includes(p.asin));\n  if (hit) { reused[c.competitor_asin] = hit; continue; }\n  lookups.push({\n    role: `i3 target #${c.rank}`, asin: c.competitor_asin, family_id: c.family_id, family_size: c.family_size,\n    brand_guess: c.brand ?? '', title: c.title, price: c.price, rating: c.rating, reviews: c.reviews,\n    units_family: c.units_floor, keyword: c.lead_keyword, marketplace: plan.marketplace, run_id: c.lead_run_id,\n  });\n}\n\n// ---- 7. Keyword ideas from Amazon's own suggestions (saved by every search, so 0 extra searches) ----\nconst latestKw = {};\nconst kwRows = [...$('Read Keywords').all().map(i => i.json), ...(core.keywords || [])]\n  .filter(r => r.status === 'ok' && r.marketplace === plan.marketplace && plan.keywords.includes(r.keyword));\nfor (const r of kwRows) if (!latestKw[r.keyword] || String(r.checked_at) > String(latestKw[r.keyword].checked_at)) latestKw[r.keyword] = r;\n// Head word = the product noun: last word before \"for/with/...\" (\"neck pillow for travel\" -> pillow, not travel)\nconst headOf = kw => kw.split(/ (?:for|with|without|in|on|to|of|and) /)[0].split(' ').pop();\nconst heads = new Set(plan.keywords.map(kw => stem(headOf(kw))));\nconst suggestions = new Set();\nfor (const r of Object.values(latestKw)) for (const s of String(r.related_searches || '').split(' | ')) {\n  const t = s.toLowerCase().trim();\n  if (t && !plan.keywords.includes(t)) suggestions.add(t);\n}\nconst related = [], complements = [];\nfor (const s of suggestions) (s.split(' ').some(w => heads.has(stem(w))) ? related : complements).push(s);\n\n// Keywords that could not be analyzed\nconst failed = (core.keywords || []).filter(r => r.status !== 'ok' && plan.keywords.includes(r.keyword)).map(r => `${r.keyword} (${r.status}: ${r.note || ''})`);\n\nreturn [{\n  json: {\n    listed,\n    competitors_found: competitors.length + ownCount,\n    own_excluded: ownCount,\n    market,\n    lookups,\n    any_lookup: lookups.length > 0,\n    reused,\n    pages: details.map(d => ({ keyword: d.keyword, run_id: d.run_id, reused: d.reused, families: (d.families || []).length })),\n    keywords_ok: k,\n    failed,\n    related_keywords: related.slice(0, 10),\n    complement_ideas: complements.slice(0, 10),\n  },\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        720
+      ],
+      "id": "f078d522-29eb-491b-819a-7a915e151bc0",
+      "name": "Rank Competitors"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9c3f0000-0000-4000-8000-000000000016",
+              "leftValue": "={{ $json.any_lookup }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2096,
+        720
+      ],
+      "id": "4a783c47-57b5-4345-9bb3-778929f21b72",
+      "name": "Lookups needed?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item per product page to look up (1 SerpApi search each). Products looked up in the last 24 h are reused instead.\nreturn $('Rank Competitors').first().json.lookups.map(json => ({ json }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2272,
+        544
+      ],
+      "id": "ed249d2f-11c9-4007-9797-10c3aa7ab648",
+      "name": "Split Lookups"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "amazon_product"
+            },
+            {
+              "name": "asin",
+              "value": "={{ $json.asin }}"
+            },
+            {
+              "name": "amazon_domain",
+              "value": "={{ $json.marketplace }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2432,
+        528
+      ],
+      "id": "8cf431b0-a736-4ad6-b826-840b0bec4ab2",
+      "name": "Look Up Product (SerpApi)",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "wI6oUYGsiJc7B5NH",
+          "name": "SerpAPI"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Turn each product-page lookup into one row of facts. Anything the page does not show is \"not found\", never 0.\n// Lookups line up with Split Lookups by position; a failed lookup keeps the pick and says why.\nconst picks = $('Split Lookups').all().map(i => i.json);\nconst pages = $('Look Up Product (SerpApi)').all().map(i => i.json);\nconst NF = 'not found';\n\n// Find the first value stored under `key` anywhere inside an object (offer layouts differ between products)\nfunction findKey(obj, key, depth = 0) {\n  if (!obj || typeof obj !== 'object' || depth > 6) return undefined;\n  if (key in obj) return obj[key];\n  for (const v of Object.values(obj)) {\n    const hit = findKey(v, key, depth + 1);\n    if (hit !== undefined) return hit;\n  }\n  return undefined;\n}\nconst text = v => (v === undefined || v === null || v === '' ? null : typeof v === 'object' ? (v.text ?? v.content ?? null) : String(v));\nfunction errorText(res) {\n  const e = res?.error;\n  if (!e) return null;\n  let msg = typeof e === 'string' ? e : (e.message || e.description || JSON.stringify(e));\n  const m = String(msg).match(/\\\\?\"error\\\\?\"\\s*:\\s*\\\\?\"(.+?)\\\\?\"/);\n  return String(m ? m[1] : msg).replace(/\\s+/g, ' ').trim().slice(0, 200);\n}\n\nreturn picks.map((p, idx) => {\n  const page = pages[idx] || {};\n  const base = {\n    row_id: `i3|${p.run_id}|${p.asin}`, run_id: p.run_id, keyword: p.keyword, marketplace: p.marketplace,\n    role: p.role, asin: p.asin, family_id: p.family_id, family_listings_on_page: p.family_size,\n    title: p.title, brand_guess: p.brand_guess, price: p.price, rating: p.rating, reviews: p.reviews,\n    units_family_on_page: p.units_family,\n  };\n  const err = errorText(page);\n  const pr = page.product_results;\n  if (err || !pr) {\n    return { json: { ...base, lookup_status: 'failed', lookup_note: err || 'no product data returned', real_brand: NF, brand_guess_correct: 'unknown', sold_by: NF, ships_from: NF, fulfilled_by_amazon: NF, bsr_category: NF, bsr_all: NF, variations: NF, bought_last_month_page: NF, review_summary: NF, one_two_star_pct: NF, themes: [] } };\n  }\n  const pd = page.product_details || {};\n  const spec = page.item_specifications || {};\n  const realBrand = text(pd.brand_name) || text(spec.brand)\n    || (pr.brand ? String(pr.brand).replace(/^Brand:\\s*/i, '').replace(/^Visit the (.+) Store$/i, '$1').trim() : null);\n  const soldBy = text(findKey(page.purchase_options, 'sold_by')) || text(findKey(page.product_results, 'sold_by'));\n  const shipsFrom = text(findKey(page.purchase_options, 'ships_from')) || text(findKey(page.product_results, 'ships_from'));\n  const bsr = (pd.best_sellers_rank || []).map(b => String(b.text || '').replace(/\\s*\\(See Top.*?\\)\\s*/i, '').trim()).filter(Boolean);\n  const variants = (pr.variants || []).map(g => `${g.title}: ${(g.items || []).length}`);\n  const insights = page.reviews_information?.summary?.insights || [];\n  const themes = insights.map(t => ({\n    theme: String(t.title || '').trim(),\n    sentiment: t.sentiment || '',\n    positive: t.mentions?.positive ?? null,\n    negative: t.mentions?.negative ?? null,\n    total: t.mentions?.total ?? null,\n    summary: String(t.summary || '').trim(), // Amazon's own one-line summary of what customers say about this theme\n  })).filter(t => t.theme && t.total !== null);\n  // Star breakdown (% of ratings per star), when the page shows it\n  const stars = page.reviews_information?.summary?.customer_reviews;\n  const lowStarPct = stars && typeof stars === 'object' && ('1 star' in stars || '2 star' in stars)\n    ? (Number(stars['1 star'] || 0) + Number(stars['2 star'] || 0)) : null;\n  const brandKey = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');\n  return {\n    json: {\n      ...base,\n      lookup_status: 'ok',\n      lookup_note: themes.length ? '' : 'no review summary on this product page',\n      real_brand: realBrand || NF,\n      brand_guess_correct: realBrand && p.brand_guess ? (brandKey(realBrand).startsWith(brandKey(p.brand_guess)) || brandKey(p.brand_guess).startsWith(brandKey(realBrand)) ? 'yes' : 'no') : 'unknown',\n      sold_by: soldBy || NF,\n      ships_from: shipsFrom || NF,\n      fulfilled_by_amazon: shipsFrom ? (/amazon/i.test(shipsFrom) ? 'yes' : 'no') : NF,\n      bsr_category: bsr.length ? bsr[bsr.length - 1] : NF,\n      bsr_all: bsr.length ? bsr.join(' | ') : NF,\n      variations: variants.length ? variants.join(', ') : 'none listed',\n      bought_last_month_page: pr.bought_last_month || NF,\n      review_summary: page.reviews_information?.summary?.text || NF,\n      one_two_star_pct: lowStarPct === null ? NF : lowStarPct,\n      themes,\n    },\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2656,
+        528
+      ],
+      "id": "8ac17d49-42e3-410f-8cd9-dda4f85ca117",
+      "name": "Extract Products"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Products-tab row per inspected product; review themes written out as text\nreturn $('Extract Products').all().map(i => {\n  const { themes, ...p } = i.json;\n  return {\n    json: {\n      ...p,\n      review_themes: (themes || []).map(t => `${t.theme}: ${t.positive} positive / ${t.negative} negative of ${t.total} mentions${t.summary ? ` (Amazon: \"${t.summary}\")` : ''}`).join(' | ') || 'none',\n    },\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        320
+      ],
+      "id": "99acd086-d4dc-4bf4-85ad-180ddfea2485",
+      "name": "Product Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1828315465,
+          "mode": "list",
+          "cachedResultName": "Products",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1828315465"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "role",
+              "displayName": "role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "asin",
+              "displayName": "asin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "family_id",
+              "displayName": "family_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "family_listings_on_page",
+              "displayName": "family_listings_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_guess",
+              "displayName": "brand_guess",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "real_brand",
+              "displayName": "real_brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_guess_correct",
+              "displayName": "brand_guess_correct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sold_by",
+              "displayName": "sold_by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ships_from",
+              "displayName": "ships_from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fulfilled_by_amazon",
+              "displayName": "fulfilled_by_amazon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bsr_category",
+              "displayName": "bsr_category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bsr_all",
+              "displayName": "bsr_all",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "variations",
+              "displayName": "variations",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "units_family_on_page",
+              "displayName": "units_family_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bought_last_month_page",
+              "displayName": "bought_last_month_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "review_themes",
+              "displayName": "review_themes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "review_summary",
+              "displayName": "review_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lookup_status",
+              "displayName": "lookup_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lookup_note",
+              "displayName": "lookup_note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "one_two_star_pct",
+              "displayName": "one_two_star_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3104,
+        320
+      ],
+      "id": "fae7cb7e-06ea-496a-a940-d0b2b64695ae",
+      "name": "Save Products",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Judge each competitor as an ad target. Rules (published practice, m19's ASIN-targeting guide):\n// target competitors priced ABOVE you, rated LOWER than you (or under 4.0 stars), with FEWER reviews than you,\n// plus a heavy 1-2 star share when the product page shows it. Code writes every word; no AI.\nconst plan = $('Plan Run').first().json;\nconst rank = $('Rank Competitors').first().json;\nconst NF = 'not found';\nconst CUR = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' }[plan.marketplace] || '';\nconst money = v => (typeof v === 'number' ? `${CUR}${v.toFixed(2)}` : 'n/a');\nconst int = v => (typeof v === 'number' ? Math.round(v).toLocaleString('en-US') : 'n/a');\nconst numOrNull = v => (v === '' || v === null || v === undefined || v === NF || !Number.isFinite(Number(v)) ? null : Number(v));\n\n// Fresh lookups from this run (if any ran)\nconst fresh = {};\ntry {\n  if ($('Extract Products').isExecuted) for (const i of $('Extract Products').all()) fresh[i.json.asin] = i.json;\n} catch (e) { /* no lookups were needed */ }\n\n// What we compare against: your product when entered, else the market median\nconst you = plan.you;\nconst m = rank.market;\nconst basis = {\n  price: you.price ?? m.price,\n  rating: you.rating,             // no \"market\" rating rule: under 4.0 stars is the fallback\n  reviews: you.reviews,\n  label: [you.price !== null ? 'your price' : `market median price (${m.based_on})`,\n    you.rating !== null ? 'your rating' : 'the 4.0-star line',\n    you.reviews !== null ? 'your review count' : 'the 1,000-review line'].join(', '),\n};\n\nconst rows = rank.listed.map(c => {\n  const f = fresh[c.competitor_asin];\n  const r = rank.reused[c.competitor_asin];\n  const facts = f || r || null;\n  const source = f ? (f.lookup_status === 'ok' ? 'product page (looked up now)' : `lookup failed: ${f.lookup_note}`)\n    : r ? `product page (reused, looked up within 24 h, ${r.asin})` : 'search page only';\n  const ok = facts && facts.lookup_status === 'ok';\n  const lowStar = ok ? numOrNull(facts.one_two_star_pct) : null;\n\n  const checks = [];\n  if (typeof c.price === 'number' && typeof basis.price === 'number' && c.price >= basis.price * 1.05)\n    checks.push(`priced above ${you.price !== null ? 'you' : 'the market median'} (${money(c.price)} vs ${money(basis.price)})`);\n  if (typeof c.rating === 'number') {\n    // 0.1 star is display rounding, not a real gap: at least 0.2 lower counts\n    if (you.rating !== null && c.rating <= you.rating - 0.2 + 1e-9) checks.push(`rated lower than you (${c.rating.toFixed(1)} vs ${you.rating.toFixed(1)} stars)`);\n    else if (you.rating === null && c.rating < 4.0) checks.push(`rated under 4.0 (${c.rating.toFixed(1)} stars)`);\n  }\n  if (you.reviews !== null && c.reviews < you.reviews) checks.push(`fewer reviews than you (${int(c.reviews)} vs ${int(you.reviews)})`);\n  else if (you.reviews === null && c.reviews < 1000) checks.push(`under 1,000 reviews (${int(c.reviews)})`);\n  if (lowStar !== null && lowStar >= 15) checks.push(`${lowStar}% of ratings are 1-2 stars`);\n\n  const n = checks.length;\n  const priority = (c.relevance >= 50 && n >= 2) ? 'High'\n    : ((c.relevance >= 50 && n === 1) || (c.relevance >= 30 && n >= 2)) ? 'Medium' : 'Low';\n  const sales = c.has_sales ? `${int(c.units_floor)}+ bought last month (badge floor)` : 'no sales badge';\n  const reason = `Ranks on ${c.coverage} keywords (best #${c.best_position}), ${sales}. `\n    + (n ? `Weak spots: ${checks.join('; ')}.` : 'No weak spot found against ' + (you.price !== null || you.rating !== null || you.reviews !== null ? 'your product' : 'the market') + ': an ad here competes with a stronger offer.');\n\n  return {\n    rank: c.rank,\n    ad_priority: priority,\n    relevance: c.relevance,\n    competitor_asin: c.competitor_asin,\n    other_asins: c.asins.filter(a => a !== c.competitor_asin).join(', '),\n    brand: ok && facts.real_brand && facts.real_brand !== NF ? facts.real_brand : (c.brand ?? 'unknown'),\n    brand_source: ok && facts.real_brand && facts.real_brand !== NF ? 'product page' : 'guessed from title',\n    title: c.title,\n    keywords_ranked_on: c.keywords_ranked_on,\n    coverage: c.coverage,\n    best_position: c.best_position,\n    units_floor: c.has_sales ? c.units_floor : NF,\n    page_sales_share_pct: c.page_sales_share_pct,\n    price: c.price,\n    rating: c.rating ?? NF,\n    reviews: c.reviews,\n    newcomer: c.newcomer ? 'yes' : 'no',\n    weak_spots: checks.join(' | ') || 'none',\n    weak_spot_count: n,\n    compared_with: basis.label,\n    reason,\n    relevance_breakdown: c.relevance_breakdown,\n    bsr: ok ? facts.bsr_category : NF,\n    sold_by: ok ? facts.sold_by : NF,\n    ships_from: ok ? facts.ships_from : NF,\n    one_two_star_pct: lowStar === null ? NF : lowStar,\n    facts_source: source,\n  };\n});\n\nreturn [{ json: { rows } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        720
+      ],
+      "id": "dad2e2c9-d912-43a5-ae1c-4fabe6cf466a",
+      "name": "Judge Targets"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Targets-tab row per competitor (top 25), keyed by run so re-runs never overwrite older lists\nconst plan = $('Plan Run').first().json;\nconst run_id = `i3|${plan.marketplace}|${plan.batch_id}`;\nreturn $('Judge Targets').first().json.rows.map(r => ({\n  json: { row_id: `${run_id}|${r.rank}`, run_id, checked_at: plan.batch_id, marketplace: plan.marketplace, keywords: plan.keywords.join(' | '), ...r },\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3104,
+        720
+      ],
+      "id": "bc5e59e4-0b86-4144-8ea1-a3f0ca2056bd",
+      "name": "Target Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 113094014,
+          "mode": "list",
+          "cachedResultName": "Targets",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=113094014"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keywords",
+              "displayName": "keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rank",
+              "displayName": "rank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ad_priority",
+              "displayName": "ad_priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "relevance",
+              "displayName": "relevance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "competitor_asin",
+              "displayName": "competitor_asin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "other_asins",
+              "displayName": "other_asins",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand",
+              "displayName": "brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_source",
+              "displayName": "brand_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keywords_ranked_on",
+              "displayName": "keywords_ranked_on",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "coverage",
+              "displayName": "coverage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "best_position",
+              "displayName": "best_position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "units_floor",
+              "displayName": "units_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "page_sales_share_pct",
+              "displayName": "page_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviews",
+              "displayName": "reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "newcomer",
+              "displayName": "newcomer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "weak_spots",
+              "displayName": "weak_spots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "weak_spot_count",
+              "displayName": "weak_spot_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "compared_with",
+              "displayName": "compared_with",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reason",
+              "displayName": "reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "relevance_breakdown",
+              "displayName": "relevance_breakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bsr",
+              "displayName": "bsr",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sold_by",
+              "displayName": "sold_by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ships_from",
+              "displayName": "ships_from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "one_two_star_pct",
+              "displayName": "one_two_star_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "facts_source",
+              "displayName": "facts_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3328,
+        720
+      ],
+      "id": "c185103f-cd87-41cf-8ba7-14da061062ba",
+      "name": "Save Targets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Target Runs row: what was compared, what it cost, and the keyword ideas. Also the text shown on the form.\nconst plan = $('Plan Run').first().json;\nconst rank = $('Rank Competitors').first().json;\nconst rows = $('Judge Targets').first().json.rows;\nconst run_id = `i3|${plan.marketplace}|${plan.batch_id}`;\nlet freshLookups = 0, failedLookups = 0;\ntry {\n  if ($('Extract Products').isExecuted) {\n    const ex = $('Extract Products').all().map(i => i.json);\n    freshLookups = ex.length;\n    failedLookups = ex.filter(e => e.lookup_status !== 'ok').length;\n  }\n} catch (e) { /* no lookups */ }\nconst searched = plan.pages.filter(p => !p.reuse).length;\nconst count = p => rows.filter(r => r.ad_priority === p).length;\nconst CUR = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' }[plan.marketplace] || '';\nconst notes = [...plan.notes];\nif (rank.failed.length) notes.push(`Not analyzed: ${rank.failed.join('; ')}`);\nif (failedLookups) notes.push(`${failedLookups} product lookup(s) failed; those rows use search-page facts only`);\nif (plan.you.price === null && plan.you.rating === null && plan.you.reviews === null) notes.push('No product entered: weak spots are measured against the market median price, the 4.0-star line and the 1,000-review line');\nconst row = {\n  row_id: run_id, run_id, checked_at: plan.batch_id, tool: 'i3', marketplace: plan.marketplace,\n  keywords: plan.keywords.join(' | '),\n  pages: plan.pages.map(p => `${p.keyword}: ${p.reuse ? `reused (${p.age_hours} h old)` : 'new search'}`).join(' | '),\n  searches_used: searched + freshLookups,\n  page_searches: searched, product_lookups: freshLookups, lookups_reused: Object.keys(rank.reused).length,\n  competitors_found: rank.competitors_found, own_excluded: rank.own_excluded, listed: rows.length,\n  high: count('High'), medium: count('Medium'), low: count('Low'),\n  your_price: plan.you.price ?? '', your_rating: plan.you.rating ?? '', your_reviews: plan.you.reviews ?? '',\n  market_price_median: rank.market.price ?? '', market_rating_median: rank.market.rating ?? '', market_reviews_median: rank.market.reviews ?? '',\n  related_keywords: rank.related_keywords.join(' | '), complement_ideas: rank.complement_ideas.join(' | '),\n  notes: notes.join(' | '),\n  cannot_tell: 'unit sales estimates (badge floors only) | ad costs or conversion | competitors outside page 1 | whether a competitor is out of stock',\n};\nconst order = { High: 0, Medium: 1 };\nconst top = rows.filter(r => r.ad_priority !== 'Low').sort((a, b) => (order[a.ad_priority] - order[b.ad_priority]) || (a.rank - b.rank)).slice(0, 5);\nconst summary_text = [\n  `${rows.length} competitors listed (${row.high} High, ${row.medium} Medium, ${row.low} Low) from ${plan.keywords.length} keywords on ${plan.marketplace}.`,\n  `Searches used: ${row.searches_used} (${searched} page, ${freshLookups} product lookups; ${row.lookups_reused} lookups reused).`,\n  ...(top.length ? ['Top targets:', ...top.map(r => `#${r.rank} ${r.ad_priority} · ${r.competitor_asin} · ${r.brand} · ${typeof r.price === 'number' ? CUR + r.price.toFixed(2) : 'n/a'} · ${r.coverage} keywords · ${r.weak_spots}`)] : ['No High or Medium targets: every listed competitor is at least as strong as the comparison point.']),\n  ...(rank.complement_ideas.length ? [`Complement ideas (not scored): ${rank.complement_ideas.slice(0, 5).join(', ')}`] : []),\n  ...(notes.length ? [`Notes: ${notes.join(' · ')}`] : []),\n].join('\\n');\nreturn [{ json: { ...row, summary_text } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3440,
+        928
+      ],
+      "id": "90b71712-12f8-4918-914b-c5b50d261bf2",
+      "name": "Run Summary"
+    },
+    {
+      "parameters": {
+        "jsCode": "// The Target Runs row without the form-only summary text\nconst { summary_text, ...row } = $('Run Summary').first().json;\nreturn [{ json: row }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3552,
+        720
+      ],
+      "id": "a3c89c1a-587b-429a-b7a2-f043e27468b8",
+      "name": "Run Row"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1051625464,
+          "mode": "list",
+          "cachedResultName": "Target Runs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1051625464"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keywords",
+              "displayName": "keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pages",
+              "displayName": "pages",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "searches_used",
+              "displayName": "searches_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "page_searches",
+              "displayName": "page_searches",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_lookups",
+              "displayName": "product_lookups",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lookups_reused",
+              "displayName": "lookups_reused",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "competitors_found",
+              "displayName": "competitors_found",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "own_excluded",
+              "displayName": "own_excluded",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "listed",
+              "displayName": "listed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "high",
+              "displayName": "high",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "medium",
+              "displayName": "medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low",
+              "displayName": "low",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "your_price",
+              "displayName": "your_price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "your_rating",
+              "displayName": "your_rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "your_reviews",
+              "displayName": "your_reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market_price_median",
+              "displayName": "market_price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market_rating_median",
+              "displayName": "market_rating_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market_reviews_median",
+              "displayName": "market_reviews_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "related_keywords",
+              "displayName": "related_keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "complement_ideas",
+              "displayName": "complement_ideas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cannot_tell",
+              "displayName": "cannot_tell",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3760,
+        720
+      ],
+      "id": "8f392c50-1a18-4fe9-92f0-88f4d9b53ae3",
+      "name": "Save Target Runs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "showText",
+        "responseText": "={{ $json.html }}"
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        4192,
+        720
+      ],
+      "id": "91e4bfa5-992f-4a1d-b965-0bf3837d5033",
+      "name": "Done: Targets",
+      "webhookId": "8a1c5e3d-2b4f-4c6a-9d8e-7f0b1a2c3d94"
+    },
+    {
+      "parameters": {
+        "content": "## i3 · Competitor Targeting\n2-5 related keywords → page 1 of each (reused if saved in the last 24 h) → shared Toolkit Core groups variations → competitors merged across keywords → ranked by relevance → top 8 looked up (BSR, seller, real brand) → each judged as an ad target against your product. No AI: every word of every reason comes from a number.",
+        "height": 170,
+        "width": 2400,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -112
+      ],
+      "id": "c2a20a22-b4fb-4624-b376-906d0128599d",
+      "name": "Note: title"
+    },
+    {
+      "parameters": {
+        "content": "## One competitor, one row\nSame ASIN on two pages, or same brand + same shared review count + same rating = one competitor. Its sales are the HIGHEST badge across pages, never the sum.\n\nRelevance = keywords it ranks on (50) + best position (30) + share of page sales (20).",
+        "height": 250,
+        "width": 460,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        928
+      ],
+      "id": "28cf300c-a24b-4b72-992e-cfec82e77c56",
+      "name": "Note: merge"
+    },
+    {
+      "parameters": {
+        "content": "## Weak spots (m19 ASIN-targeting practice)\nPriced 5%+ above you · rated lower than you (or under 4.0★) · fewer reviews than you (or under 1,000) · 15%+ of ratings 1-2★.\nHigh = relevance 50+ and 2+ weak spots. Medium = 50+ and 1, or 30+ and 2+. Else Low.",
+        "height": 230,
+        "width": 520,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2784,
+        928
+      ],
+      "id": "547b5030-6ecf-4ad9-b333-e60ec263ac7c",
+      "name": "Note: judge"
+    },
+    {
+      "parameters": {
+        "content": "## Search cost\nNew page: 1 search per keyword not saved in 24 h. Lookups: up to 8, minus any product looked up in the last 24 h (Products tab). Both IF nodes skip the SerpApi node entirely when nothing is needed.",
+        "height": 200,
+        "width": 440,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        272
+      ],
+      "id": "9cf38b88-5ed9-43a0-947c-cef900e9270a",
+      "name": "Note: cost"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Keyword rows for NEW searches only (score, stats, Amazon's related searches), so i5 and later reuse runs can read them.\n// Reused pages already have their Keywords row from the tool that searched them.\nconst plan = $('Plan Run').first().json;\nreturn $('Toolkit Core').first().json.keywords\n  .filter(k => plan.to_search.includes(k.keyword))\n  .map(json => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        304
+      ],
+      "id": "d35e6f87-13ce-48e4-a80a-1212f470767e",
+      "name": "Keyword Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 231309972,
+          "mode": "list",
+          "cachedResultName": "Keywords",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=231309972"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "order",
+              "displayName": "order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keyword",
+              "displayName": "keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market",
+              "displayName": "market",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "market_keywords",
+              "displayName": "market_keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "opportunity_score",
+              "displayName": "opportunity_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stability",
+              "displayName": "stability",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "score_change_vs_prev",
+              "displayName": "score_change_vs_prev",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sales_on_shared_with_prev_pct",
+              "displayName": "sales_on_shared_with_prev_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_p25",
+              "displayName": "price_p25",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_median",
+              "displayName": "price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price_p75",
+              "displayName": "price_p75",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "avg_rating",
+              "displayName": "avg_rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "median_reviews",
+              "displayName": "median_reviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "units_last_month_floor",
+              "displayName": "units_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "revenue_last_month_floor",
+              "displayName": "revenue_last_month_floor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top3_products_sales_share_pct",
+              "displayName": "top3_products_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top_brand",
+              "displayName": "top_brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top_brand_sales_share_pct",
+              "displayName": "top_brand_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unknown_brand_sales_share_pct",
+              "displayName": "unknown_brand_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amazon_own_brand_products",
+              "displayName": "amazon_own_brand_products",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_sellers_count",
+              "displayName": "low_review_sellers_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_sales_share_pct",
+              "displayName": "low_review_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_price_median",
+              "displayName": "low_review_price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "low_review_avg_rating",
+              "displayName": "low_review_avg_rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "top3_review_share_pct",
+              "displayName": "top3_review_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "listings_analyzed",
+              "displayName": "listings_analyzed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "products_analyzed",
+              "displayName": "products_analyzed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "variation_groups",
+              "displayName": "variation_groups",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "exact_match_pct",
+              "displayName": "exact_match_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "listings_missing_sales",
+              "displayName": "listings_missing_sales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bulk_listings",
+              "displayName": "bulk_listings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "outliers_removed",
+              "displayName": "outliers_removed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deal_event_share_pct",
+              "displayName": "deal_event_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "discounted_outside_event_pct",
+              "displayName": "discounted_outside_event_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sponsored_on_page",
+              "displayName": "sponsored_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "organic_on_page",
+              "displayName": "organic_on_page",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_results",
+              "displayName": "total_results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_products_vs_variants",
+              "displayName": "unique_products_vs_variants",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_sales_share_pct",
+              "displayName": "unique_sales_share_pct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_price_median",
+              "displayName": "unique_price_median",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "unique_top_titles",
+              "displayName": "unique_top_titles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "related_searches",
+              "displayName": "related_searches",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "shopping_ideas",
+              "displayName": "shopping_ideas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "score_breakdown",
+              "displayName": "score_breakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "confidence_notes",
+              "displayName": "confidence_notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stability_note",
+              "displayName": "stability_note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "core_version",
+              "displayName": "core_version",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2528,
+        304
+      ],
+      "id": "0c6b2a38-7f0d-4d73-8a5a-0b203a6dbb03",
+      "name": "Save Keywords",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ---- Result page: shared design (Amazon Toolkit). Presentation only: every value is copied from earlier nodes. ----\nconst esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nconst CURS = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' };\nconst num = v => (v === '' || v === null || v === undefined || Number.isNaN(Number(v)) ? null : Number(v));\nconst int = v => (num(v) === null ? '–' : Math.round(num(v)).toLocaleString('en-US'));\nconst money = (v, cur) => (num(v) === null ? '–' : `${cur}${num(v).toFixed(2)}`);\nconst big = (v, cur = '') => { const n = num(v); if (n === null) return '–'; if (n >= 1e6) return `${cur}${(n / 1e6).toFixed(2)}M`; if (n >= 1e4) return `${cur}${Math.round(n / 1e3)}K`; return `${cur}${int(n)}`; };\nconst rating = v => (num(v) === null ? '–' : num(v).toFixed(1));\nconst spots = t => esc(String(t ?? '').split(' | ').join(' · '));\nconst split = t => String(t ?? '').split(' | ').map(s => s.trim()).filter(Boolean);\nconst LEVEL = { high: 'yes', medium: 'mid', low: 'no' };\nconst pill = (text, kind) => `<span class=\"pill ${kind || ''}\">${esc(text)}</span>`;\nconst levelPill = t => pill(t, LEVEL[String(t || '').toLowerCase()] || 'muted');\nconst tiles = list => `<div class=\"tiles\">${list.map(([v, l]) => `<div class=\"tile\"><div class=\"tv\">${v}</div><div class=\"tl\">${esc(l)}</div></div>`).join('')}</div>`;\nconst section = (title, body) => (body ? `<section><h2>${esc(title)}</h2>${body}</section>` : '');\nconst table = (head, rows, right = []) => `<div class=\"tw\"><table><thead><tr>${head.map((h, i) => `<th${right.includes(i) ? ' class=\"r\"' : ''}>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => `<td${right.includes(i) ? ' class=\"r\"' : ''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;\nconst notesList = list => (list.length ? `<ul class=\"notes\">${list.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : '');\nconst chips = list => (list.length ? `<div class=\"chips\">${list.map(c => `<span class=\"chip\">${esc(c)}</span>`).join('')}</div>` : '');\n\nfunction page({ code, tool, colour, tint, title, meta, verdict, body, saved, cannotTell }) {\n  return `<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>${esc(tool)} · ${esc(title)}</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n*{box-sizing:border-box}\nbody{margin:0;background:${tint};color:#1f2328;font:14px/1.55 Inter,'Segoe UI',Helvetica,Arial,sans-serif}\n.wrap{max-width:760px;margin:0 auto;padding:28px 16px 48px}\n.card{background:#fff;border:1px solid #e2ddd5;border-radius:6px;overflow:hidden;box-shadow:0 8px 28px rgba(13,27,42,.08)}\nheader{background:${colour};color:#fff;padding:26px 28px 22px;border-bottom:5px solid #9C7A3C}\n.label{font:12px/1 ui-monospace,Consolas,monospace;letter-spacing:3px;color:#D8CBB8;text-transform:uppercase}\nh1{font:600 30px/1.2 'Source Serif 4',Georgia,serif;margin:10px 0 6px}\n.meta{color:#D8CBB8;font-size:13px}\n.verdict{padding:22px 28px;border-bottom:1px solid #eee7dc;background:#fbfaf7}\n.verdict .big{font:600 22px/1.3 'Source Serif 4',Georgia,serif;color:${colour}}\n.verdict p{margin:6px 0 0;color:#3d434a}\n.content{padding:6px 28px 26px}\nsection{margin-top:22px}\nh2{font:600 12px/1 Inter,sans-serif;letter-spacing:2px;text-transform:uppercase;color:${colour};margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid #9C7A3C;display:inline-block}\n.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:4px}\n.tile{border:1px solid #e2ddd5;border-top:3px solid ${colour};border-radius:4px;padding:12px 14px;background:#fff}\n.tv{font:600 20px/1.2 'Source Serif 4',Georgia,serif;color:#1f2328}\n.tl{font-size:12px;color:#5f6670;margin-top:4px}\n.tw{overflow-x:auto;border:1px solid #e2ddd5;border-radius:4px}\ntable{border-collapse:collapse;width:100%;font-size:13px}\nth{background:#f7f5f2;color:#3d434a;font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid #e2ddd5;white-space:nowrap}\ntd{padding:8px 10px;border-bottom:1px solid #f0ece5;vertical-align:top}\ntbody tr:nth-child(even) td{background:#fcfbf9}\ntbody tr:last-child td{border-bottom:0}\n.r{text-align:right;white-space:nowrap}\n.sub{color:#5f6670;font-size:12px}\n.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:#eceae6;color:#3d434a}\n.pill.yes{background:#014D4E;color:#fff}.pill.mid{background:#301934;color:#fff}.pill.no{background:#DC143C;color:#fff}.pill.muted{background:#eceae6;color:#5f6670}\n.notes{margin:0;padding-left:18px;color:#3d434a}.notes li{margin:4px 0}\n.chips{display:flex;flex-wrap:wrap;gap:6px}\n.chip{border:1px solid #d6d0c6;border-radius:999px;padding:3px 10px;font-size:12px;color:#5f6670;background:#fff}\n.item{border-left:3px solid ${colour};padding:10px 14px;margin:10px 0;background:#fbfaf7;border-radius:0 4px 4px 0}\n.item b{color:#1f2328}\n.paste{width:100%;min-height:236px;font:13px/1.6 ui-monospace,Consolas,monospace;border:1px solid #d6d0c6;border-radius:4px;padding:10px;background:#fff;color:#1f2328;resize:vertical}\n.btn{margin-top:8px;background:${colour};color:#fff;border:0;border-radius:4px;padding:9px 16px;font:600 13px Inter,sans-serif;cursor:pointer}\nfooter{padding:14px 28px;border-top:1px solid #eee7dc;color:#5f6670;font-size:12px;background:#fbfaf7}\n@media (max-width:560px){header,.verdict,.content,footer{padding-left:18px;padding-right:18px}h1{font-size:24px}}\n</style></head><body><div class=\"wrap\"><div class=\"card\">\n<header><div class=\"label\">Amazon Toolkit · ${esc(code)} ${esc(tool)}</div><h1>${esc(title)}</h1><div class=\"meta\">${meta.map(esc).join(' &nbsp;·&nbsp; ')}</div></header>\n${verdict ? `<div class=\"verdict\">${verdict}</div>` : ''}\n<div class=\"content\">${body}\n${section('Cannot tell from this data', chips(cannotTell || []))}\n</div>\n<footer>Saved to the sheet: ${esc(saved)}. Every number recomputes from the Listings tab.</footer>\n</div></div></body></html>`;\n}\n// i3 Competitor Targeting: result page\nconst r = $('Run Summary').first().json;\nconst rows = $('Judge Targets').first().json.rows || [];\nconst cur = CURS[r.marketplace] || '';\nconst you = num(r.your_price) !== null || num(r.your_rating) !== null || num(r.your_reviews) !== null;\nconst vsLine = you ? `Against your product: ${money(r.your_price, cur)} · ${esc(r.your_rating || '–')}★ · ${int(r.your_reviews)} reviews`\n  : `No product entered: measured against the market median ${money(r.market_price_median, cur)}, the 4.0★ line and the 1,000-review line`;\nconst ORDER = { High: 0, Medium: 1, Low: 2 };\nconst best = rows.filter(x => x.ad_priority !== 'Low').sort((a, b) => ORDER[a.ad_priority] - ORDER[b.ad_priority] || a.rank - b.rank).slice(0, 8);\nconst who = x => `<b>${esc(x.brand || 'unknown')}</b><div class=\"sub\">${esc(x.competitor_asin)} · ${esc(x.coverage)} keywords · best #${esc(x.best_position)}</div>`;\nconst pr = p => `<span class=\"pill ${p === 'High' ? 'yes' : p === 'Medium' ? 'mid' : 'muted'}\">${esc(p)}</span>`;\nconst tgt = x => [pr(x.ad_priority), who(x), `<b>${esc(x.relevance)}</b>`, money(x.price, cur), rating(x.rating), int(x.reviews), spots(x.weak_spots)];\nconst html = page({\n  code: 'i3', tool: 'Competitor Targeting', colour: '#8B4E34', tint: '#f8f1ec',\n  title: split(r.keywords).join(' · '), meta: [r.marketplace, r.checked_at, `${r.searches_used} search${r.searches_used == 1 ? '' : 'es'} (${r.page_searches} page${r.page_searches == 1 ? '' : 's'}, ${r.product_lookups} lookup${r.product_lookups == 1 ? '' : 's'}, ${r.lookups_reused} reused)`],\n  verdict: `<div class=\"big\">${esc(r.high)} High · ${esc(r.medium)} Medium · ${esc(r.low)} Low</div><p>${vsLine}</p>`,\n  body: [\n    tiles([[int(r.competitors_found), 'competitors on page 1'], [int(r.listed), 'ranked and judged'], [int(r.own_excluded), 'yours, left out'], [esc(r.searches_used), 'searches used']]),\n    section('Best targets', best.length ? table(['Priority', 'Competitor', 'Relevance', 'Price', 'Rating', 'Reviews', 'Weak spots'], best.map(tgt), [2, 3, 4, 5]) : '<p>No High or Medium targets: no competitor has a weak spot against you.</p>'),\n    section('Most relevant', table(['Priority', 'Competitor', 'Relevance', 'Price', 'Rating', 'Reviews', 'Weak spots'], [...rows].sort((a, b) => a.rank - b.rank).slice(0, 5).map(tgt), [2, 3, 4, 5])),\n    section('Pages', chips(split(r.pages))),\n    section('Related keywords', chips(split(r.related_keywords).slice(0, 10))),\n    section('Complement ideas (not scored)', chips(split(r.complement_ideas).slice(0, 6))),\n    section('Notes', notesList(split(r.notes))),\n  ].join(''),\n  saved: 'Targets, Target Runs, Products, Listings, Keywords',\n  cannotTell: split(r.cannot_tell),\n});\nreturn [{ json: { html } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3984,
+        720
+      ],
+      "id": "f11ecb55-8d13-4376-91f2-c617a4de0827",
+      "name": "Result Page"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Targeting form": {
+      "main": [
+        [
+          {
+            "node": "Read History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read History": {
+      "main": [
+        [
+          {
+            "node": "Read Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Products": {
+      "main": [
+        [
+          {
+            "node": "Read Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Keywords": {
+      "main": [
+        [
+          {
+            "node": "Plan Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan Run": {
+      "main": [
+        [
+          {
+            "node": "New searches needed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New searches needed?": {
+      "main": [
+        [
+          {
+            "node": "Split Searches",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pack for Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Searches": {
+      "main": [
+        [
+          {
+            "node": "Search Amazon (SerpApi)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Amazon (SerpApi)": {
+      "main": [
+        [
+          {
+            "node": "Pack for Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pack for Core": {
+      "main": [
+        [
+          {
+            "node": "Toolkit Core",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Toolkit Core": {
+      "main": [
+        [
+          {
+            "node": "Listings Rows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Rank Competitors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listings Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Listings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rank Competitors": {
+      "main": [
+        [
+          {
+            "node": "Lookups needed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookups needed?": {
+      "main": [
+        [
+          {
+            "node": "Split Lookups",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Judge Targets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Lookups": {
+      "main": [
+        [
+          {
+            "node": "Look Up Product (SerpApi)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Look Up Product (SerpApi)": {
+      "main": [
+        [
+          {
+            "node": "Extract Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Products": {
+      "main": [
+        [
+          {
+            "node": "Product Rows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Judge Targets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Judge Targets": {
+      "main": [
+        [
+          {
+            "node": "Target Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Targets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Targets": {
+      "main": [
+        [
+          {
+            "node": "Run Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Summary": {
+      "main": [
+        [
+          {
+            "node": "Run Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Row": {
+      "main": [
+        [
+          {
+            "node": "Save Target Runs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Target Runs": {
+      "main": [
+        [
+          {
+            "node": "Result Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Listings": {
+      "main": [
+        [
+          {
+            "node": "Keyword Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keyword Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Result Page": {
+      "main": [
+        [
+          {
+            "node": "Done: Targets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "fhaWu5HguuXYZi3j",
+    "timezone": "Asia/Karachi",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "52708704-b771-4241-a713-a7fc58832ba5",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "id": "WxrbuQSnbkFs1yXr",
+  "tags": []
+}

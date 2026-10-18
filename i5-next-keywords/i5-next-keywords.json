@@ -1,0 +1,991 @@
+{
+  "name": "i5. next-keywords",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Next Keywords",
+        "formDescription": "Up to 3 seed keywords (or none). Collects Amazon's own suggestions: autocomplete for each seed, plus the related searches and shopping filters saved by every earlier search. Marks what you already screened, sets brand names aside, and gives you a ready-to-paste list for the Market Screener. Leave seeds empty to use saved suggestions only (0 searches).",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Seed keywords",
+              "fieldType": "textarea",
+              "placeholder": "neck pillow\nairplane pillow"
+            },
+            {
+              "fieldLabel": "Marketplace",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "amazon.com"
+                  },
+                  {
+                    "option": "amazon.co.uk"
+                  },
+                  {
+                    "option": "amazon.ca"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "customCss": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n/* Amazon Toolkit · i5 Next Keywords. Same family as the sheet: #214235 header colour, brass accent, paper background. */\n:root {\n\t--font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\t--font-size-body: 13px;\n\t--font-size-label: 14px;\n\t--font-size-test-notice: 12px;\n\t--font-size-input: 14px;\n\t--font-size-header: 24px;\n\t--font-size-paragraph: 14px;\n\t--font-size-link: 12px;\n\t--font-size-error: 12px;\n\t--font-size-html-h1: 26px;\n\t--font-size-html-h2: 20px;\n\t--font-size-html-h3: 16px;\n\t--font-size-html-h4: 14px;\n\t--font-size-html-h5: 12px;\n\t--font-size-html-h6: 11px;\n\t--font-size-subheader: 14px;\n\n\t/* Colors */\n\t--color-background: #edf3ef;\n\t--color-test-notice-text: #8a5a00;\n\t--color-test-notice-bg: #faf5ea;\n\t--color-test-notice-border: #e3d3ad;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #e2ddd5;\n\t--color-card-shadow: rgba(33,66,53, 0.10);\n\t--color-link: #214235;\n\t--color-header: #214235;\n\t--color-label: #2c3539;\n\t--color-input-border: #d6d0c6;\n\t--color-input-text: #1f2328;\n\t--color-focus-border: #214235;\n\t--color-submit-btn-bg: #214235;\n\t--color-submit-btn-text: #ffffff;\n\t--color-error: #DC143C;\n\t--color-required: #9C7A3C;\n\t--color-clear-button-bg: #8a8f98;\n\t--color-html-text: #2c3539;\n\t--color-html-link: #214235;\n\t--color-header-subtext: #5f6670;\n\n\t/* Border Radii */\n\t--border-radius-card: 4px;\n\t--border-radius-input: 3px;\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 4px;\n\n\t/* Spacing */\n\t--padding-container-top: 32px;\n\t--padding-card: 28px;\n\t--padding-test-notice-vertical: 12px;\n\t--padding-test-notice-horizontal: 24px;\n\t--margin-bottom-card: 16px;\n\t--padding-form-input: 12px;\n\t--card-padding: 28px;\n\t--card-margin-bottom: 16px;\n\n\t/* Dimensions */\n\t--container-width: 448px;\n\t--submit-btn-height: 46px;\n\t--checkbox-size: 18px;\n\n\t/* Others */\n\t--box-shadow-card: 0px 6px 20px 0px var(--color-card-shadow);\n\t--opacity-placeholder: 0.45;\n}\n\n/* Accents: a i5 colour bar on top of the card, brass rule under the title, serif title.\n   If your n8n version names these parts differently, these lines are simply ignored. */\n.card { border-top: 4px solid #214235; }\nh1 { font-family: 'Source Serif 4', Georgia, serif; letter-spacing: 0.2px; }\nh1::after { content: ''; display: block; width: 56px; height: 3px; background: #9C7A3C; margin: 12px auto 0; }\nbutton[type='submit'], .submit-btn { letter-spacing: 0.4px; text-transform: none; }\n"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        80,
+        560
+      ],
+      "id": "272b3042-b114-41f5-af00-bb5b1e698f09",
+      "name": "Ideas form",
+      "webhookId": "12548e2d-e051-4366-9971-04f42d906935"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 231309972,
+          "mode": "list",
+          "cachedResultName": "Keywords",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=231309972"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        560
+      ],
+      "id": "91d92719-bce2-4b38-9c80-9ec6754f7279",
+      "name": "Read Keywords",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1428464713,
+          "mode": "list",
+          "cachedResultName": "Listings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1428464713"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        560
+      ],
+      "id": "61cb37f5-5d5c-4f7e-9664-dfe91ac7d05c",
+      "name": "Read Listings",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1828315465,
+          "mode": "list",
+          "cachedResultName": "Products",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1828315465"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        752,
+        560
+      ],
+      "id": "3601bad9-a8bc-42c5-af9c-4495d37d6f79",
+      "name": "Read Products",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Plan: clean up to 3 seed keywords. Each seed = 1 Amazon autocomplete search. No seeds = saved suggestions only (0 searches).\nconst MAX_SEEDS = 3;\nconst form = $('Ideas form').first().json;\nconst clean = s => String(s || '').toLowerCase().replace(/\\s+/g, ' ').trim().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '');\nconst all = String(form['Seed keywords'] || '').split(/[\\n,;]+/).map(clean).filter(Boolean);\nconst tooShort = [...new Set(all.filter(w => w.replace(/[^a-z]/g, '').length < 3))];\nconst unique = [...new Set(all)].filter(w => !tooShort.includes(w));\nconst seeds = unique.slice(0, MAX_SEEDS);\nconst notes = [];\nif (tooShort.length) notes.push(`Skipped (too short): ${tooShort.join(', ')}`);\nif (unique.length > MAX_SEEDS) notes.push(`Only the first ${MAX_SEEDS} seeds were searched; left out: ${unique.slice(MAX_SEEDS).join(', ')}`);\nif (!seeds.length) notes.push('No seeds: ideas come only from suggestions saved by earlier searches (0 searches)');\nreturn [{ json: { batch_id: $now.toFormat('yyyy-MM-dd HH:mm:ss') + ' PKT', marketplace: form.Marketplace || 'amazon.com', seeds, any_seed: seeds.length > 0, notes } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        560
+      ],
+      "id": "68842a80-70a8-4591-9e76-19e00b77fa1c",
+      "name": "Plan Ideas"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5e1d0000-0000-4000-8000-000000000007",
+              "leftValue": "={{ $json.any_seed }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        560
+      ],
+      "id": "a2b8932f-0fb6-4941-a31d-07f1ff525f1a",
+      "name": "Seeds entered?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One item per seed keyword (1 SerpApi autocomplete search each)\nconst plan = $('Plan Ideas').first().json;\nreturn plan.seeds.map(seed => ({ json: { seed, marketplace: plan.marketplace } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        368
+      ],
+      "id": "11254eb2-42a9-4116-8cfe-f94edb991cd2",
+      "name": "Split Seeds"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "amazon_autocomplete"
+            },
+            {
+              "name": "k",
+              "value": "={{ $json.seed }}"
+            },
+            {
+              "name": "amazon_domain",
+              "value": "={{ $json.marketplace }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1536,
+        368
+      ],
+      "id": "a5a41fb9-c18f-447c-b7e0-8f8488284a35",
+      "name": "Amazon Autocomplete (SerpApi)",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "wI6oUYGsiJc7B5NH",
+          "name": "SerpAPI"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect keyword ideas from 3 Amazon sources, clean them, and mark which ones were already screened.\n//   1. Amazon autocomplete for each seed (new searches)\n//   2. \"Related searches\" Amazon showed under keywords you already searched (saved in the Keywords tab, free)\n//   3. \"Shopping ideas\" filters Amazon showed (saved, free), joined to their keyword: \"with handles\" -> \"resistance bands with handles\"\n// No AI. Brand-name ideas are set aside using brands seen on your saved pages, not a guess.\nconst MAX_PASTE = 10;\nconst plan = $('Plan Ideas').first().json;\nconst mk = plan.marketplace;\nconst lc = s => String(s || '').toLowerCase().replace(/\\s+/g, ' ').trim();\nconst key = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');\nconst stem = w => w.replace(/(es|s)$/, '');\nconst LINK = new Set(['for', 'with', 'without', 'and', 'the', 'of', 'in', 'on', 'to', 'a']);\nconst words = s => lc(s).replace(/[^a-z0-9' ]/g, ' ').split(' ').filter(Boolean);\n// Same words in any order = same search (\"travel neck pillow\" = \"neck pillow travel\")\nconst sameKey = s => words(s).filter(w => !LINK.has(w)).map(stem).sort().join(' ');\nconst headOf = kw => stem(lc(kw).split(/ (?:for|with|without|in|on|to|of|and) /)[0].split(' ').pop() || '');\n\n// ---- Saved keyword rows (latest per keyword) ----\nconst kwRows = $('Read Keywords').all().map(i => i.json).filter(r => r.status === 'ok' && r.marketplace === mk && r.keyword);\nconst latest = {};\nfor (const r of kwRows) if (!latest[r.keyword] || String(r.checked_at) > String(latest[r.keyword].checked_at)) latest[r.keyword] = r;\nconst screened = {};\nfor (const r of Object.values(latest)) {\n  const k = sameKey(r.keyword);\n  if (!screened[k] || String(r.checked_at) > String(screened[k].checked_at)) screened[k] = r;\n}\n\n// Pages saved by any tool (i3 keeps a page without a Keywords row when it reused or before Oct 17): searched, but no score here\nconst pageSaved = {};\nfor (const l of $('Read Listings').all().map(i => i.json)) {\n  if (l.marketplace !== mk || !l.keyword) continue;\n  const k = sameKey(l.keyword);\n  if (!pageSaved[k] || String(l.checked_at) > pageSaved[k]) pageSaved[k] = String(l.checked_at);\n}\n\n// ---- Brands seen on your pages (established: 1000+ reviews), minus words that are product words ----\nconst productWords = new Set(Object.keys(latest).concat(plan.seeds).flatMap(words).map(w => stem(key(w))));\nconst NOT_BRANDS = new Set(['black', 'white', 'grey', 'gray', 'blue', 'pink', 'red', 'green', 'ultra', 'royal', 'luxury', 'soft', 'memory', 'comfort', 'best', 'travel', 'portable', 'adjustable', 'premium', 'kids', 'heavy', 'large', 'small', 'extra', 'super', 'new', 'original', 'professional']);\n// A real brand leads its titles (\"JOOLA Ben Johns…\"); a generic word (\"fabric\", \"hanging\", \"anti\") mostly sits mid-title.\n// So a title-guessed brand counts only if, across all saved titles containing it, it is the first word at least 60% of the time.\nconst listings = $('Read Listings').all().map(i => i.json).filter(l => l.marketplace === mk && l.title);\nconst firstWord = {}, anyWord = {};\nfor (const l of listings) {\n  const ws = words(l.title).map(key).filter(Boolean);\n  if (ws[0]) firstWord[ws[0]] = (firstWord[ws[0]] || 0) + 1;\n  for (const w of new Set(ws)) anyWord[w] = (anyWord[w] || 0) + 1;\n}\nconst brands = new Set();\nfor (const l of listings) {\n  if (Number(l.reviews || 0) < 1000) continue;\n  const b = key(l.brand_guess);\n  if (b.length < 3 || productWords.has(stem(b)) || NOT_BRANDS.has(b)) continue;\n  if ((firstWord[b] || 0) / (anyWord[b] || 1) >= 0.6) brands.add(b);\n}\nfor (const p of $('Read Products').all().map(i => i.json)) {\n  const b = key(p.real_brand);\n  if (p.marketplace === mk && b.length >= 3 && b !== 'notfound' && !productWords.has(stem(b))) brands.add(b);\n}\nconst brandIn = s => {\n  const ws = words(s).map(key);\n  const joined = ws.join('');\n  return [...brands].find(b => ws.includes(b) || (b.length >= 6 && joined.includes(b))) || null;\n};\n\n// ---- Which saved keywords feed this run ----\nconst seedHeads = new Set(plan.seeds.map(headOf));\nconst parents = Object.values(latest).filter(r => !plan.seeds.length || plan.seeds.includes(r.keyword) || seedHeads.has(headOf(r.keyword)));\n\n// ---- Gather ----\nconst ideas = {};\nconst add = (text, source, parent, order) => {\n  const t = lc(text);\n  if (!t || t.length < 3) return;\n  const k = sameKey(t);\n  if (!k) return;\n  const it = (ideas[k] ??= { idea: t, variants: new Set(), sources: new Set(), parents: new Set(), first_order: 999 });\n  if (t !== it.idea) it.variants.add(t);\n  it.sources.add(source);\n  it.parents.add(parent);\n  it.first_order = Math.min(it.first_order, order);\n};\nlet acFailed = [];\nlet acCount = 0;\ntry {\n  if ($('Amazon Autocomplete (SerpApi)').isExecuted) {\n    const res = $('Amazon Autocomplete (SerpApi)').all().map(i => i.json);\n    plan.seeds.forEach((seed, i) => {\n      const r = res[i] || {};\n      if (r.error || !Array.isArray(r.suggestions)) { acFailed.push(seed); return; }\n      r.suggestions.filter(s => !s.type || s.type === 'KEYWORD').forEach((s, j) => { acCount++; add(s.value, 'autocomplete', seed, j); });\n    });\n  }\n} catch (e) { /* no seeds, autocomplete did not run */ }\nfor (const r of parents) {\n  String(r.related_searches || '').split(' | ').forEach((s, j) => add(s, 'related searches', r.keyword, 20 + j));\n  String(r.shopping_ideas || '').split(' | ').filter(Boolean).forEach((m, j) => {\n    const mod = lc(m);\n    if (!mod) return;\n    const phrase = /^(with|for|without)\\b/.test(mod) ? `${r.keyword} ${mod}` : `${mod} ${r.keyword}`;\n    add(phrase, 'shopping filter', r.keyword, 40 + j);\n  });\n}\n\n// ---- Judge each idea ----\nconst inputKeys = new Set([...plan.seeds, ...parents.map(p => p.keyword)].map(sameKey));\nconst heads = new Set([...seedHeads, ...parents.map(p => headOf(p.keyword))]);\nconst SRC_ORDER = ['autocomplete', 'related searches', 'shopping filter'];\nlet rows = Object.entries(ideas).filter(([k]) => !inputKeys.has(k)).map(([k, it]) => {\n  const brand = brandIn(it.idea);\n  const related = words(it.idea).map(stem).some(w => heads.has(w));\n  const s = screened[k];\n  return {\n    idea: it.idea,\n    group: brand ? 'brand name' : related ? 'same product' : 'nearby market',\n    brand_found: brand || '',\n    sources: SRC_ORDER.filter(x => it.sources.has(x)).join(' + '),\n    source_count: it.sources.size,\n    suggested_under: [...it.parents].join(' | '),\n    mentions: it.parents.size,\n    status: s ? 'screened' : pageSaved[k] ? 'page saved, not scored' : 'new',\n    last_score: s ? s.opportunity_score : '',\n    last_confidence: s ? s.confidence : '',\n    last_checked: s ? s.checked_at : (pageSaved[k] || ''),\n    same_as: [...it.variants].join(' | '),\n    _order: it.first_order,\n  };\n});\n// Order: same product first, then nearby markets, brands last; within a group: more sources, more mentions, Amazon's own order\nconst G = { 'same product': 0, 'nearby market': 1, 'brand name': 2 };\nrows.sort((a, b) => (G[a.group] - G[b.group]) || (b.source_count - a.source_count) || (b.mentions - a.mentions) || (a._order - b._order) || a.idea.localeCompare(b.idea));\nconst total = rows.length;\nconst groups = { same_product: rows.filter(r => r.group === 'same product').length, nearby_market: rows.filter(r => r.group === 'nearby market').length, brand_name: rows.filter(r => r.group === 'brand name').length };\n// Listed: up to 60 same-product, 25 nearby-market and 15 brand-name ideas, so every group stays visible\nconst CAP = { 'same product': 60, 'nearby market': 25, 'brand name': 15 };\nconst seen = {};\nrows = rows.filter(r => (seen[r.group] = (seen[r.group] || 0) + 1) <= CAP[r.group]).map(({ _order, ...r }, i) => ({ rank: i + 1, ...r }));\n\nconst paste = rows.filter(r => r.group === 'same product' && r.status === 'new').slice(0, MAX_PASTE).map(r => r.idea);\nconst notes = [...plan.notes];\nif (acFailed.length) notes.push(`Autocomplete failed for: ${acFailed.join(', ')}`);\nif (plan.seeds.length && !parents.length) notes.push('None of your saved keywords match these seeds yet, so saved suggestions add nothing; run them through i1 to collect more');\nif (total > rows.length) notes.push(`${total} ideas found; the top ${rows.length} are listed (up to 60 same-product, 25 nearby-market, 15 brand-name)`);\nreturn [{\n  json: {\n    rows,\n    total,\n    groups,\n    paste,\n    parents_used: parents.map(p => p.keyword),\n    autocomplete_suggestions: acCount,\n    searches_used: plan.seeds.length,\n    notes,\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        560
+      ],
+      "id": "52c40673-fc9d-489a-9609-5348816cd7a0",
+      "name": "Collect Ideas"
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Keyword Ideas row per idea, keyed by run\nconst plan = $('Plan Ideas').first().json;\nconst run_id = `i5|${plan.marketplace}|${plan.batch_id}`;\nreturn $('Collect Ideas').first().json.rows.map(r => ({ json: { row_id: `${run_id}|${r.rank}`, run_id, checked_at: plan.batch_id, marketplace: plan.marketplace, seeds: plan.seeds.join(' | '), ...r } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        560
+      ],
+      "id": "4ed0547c-5d63-411c-96be-4e41b35cf65f",
+      "name": "Idea Rows"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1419646820,
+          "mode": "list",
+          "cachedResultName": "Keyword Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1419646820"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "seeds",
+              "displayName": "seeds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rank",
+              "displayName": "rank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "idea",
+              "displayName": "idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "group",
+              "displayName": "group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_found",
+              "displayName": "brand_found",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sources",
+              "displayName": "sources",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_count",
+              "displayName": "source_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "suggested_under",
+              "displayName": "suggested_under",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mentions",
+              "displayName": "mentions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "last_score",
+              "displayName": "last_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "last_confidence",
+              "displayName": "last_confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "last_checked",
+              "displayName": "last_checked",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "same_as",
+              "displayName": "same_as",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2096,
+        560
+      ],
+      "id": "649ee7ba-f390-45ec-8461-4a69271281fe",
+      "name": "Save Ideas",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// One Idea Runs row (cost, counts, the paste-ready list for i1) + the text shown on the form\nconst plan = $('Plan Ideas').first().json;\nconst c = $('Collect Ideas').first().json;\nconst run_id = `i5|${plan.marketplace}|${plan.batch_id}`;\nconst row = {\n  row_id: run_id, run_id, checked_at: plan.batch_id, tool: 'i5', marketplace: plan.marketplace,\n  seeds: plan.seeds.join(' | '), searches_used: c.searches_used, autocomplete_suggestions: c.autocomplete_suggestions,\n  saved_keywords_used: c.parents_used.join(' | '), ideas_found: c.total, listed: c.rows.length,\n  same_product: c.groups.same_product, nearby_market: c.groups.nearby_market, brand_name: c.groups.brand_name,\n  new_ideas: c.rows.filter(r => r.status === 'new').length, already_screened: c.rows.filter(r => r.status === 'screened').length,\n  paste_into_i1: c.paste.join('\\n'), notes: c.notes.join(' | '),\n  cannot_tell: 'search volume of any idea | whether an idea is a real market until i1 screens it',\n};\nconst screenedTop = c.rows.filter(r => r.status === 'screened').slice(0, 3).map(r => `${r.idea} (${r.last_score}/100)`);\nconst summary_text = [\n  `${c.total} ideas (${row.same_product} same product, ${row.nearby_market} nearby markets, ${row.brand_name} brand names) on ${plan.marketplace}. Searches used: ${c.searches_used}.`,\n  c.paste.length ? `New, ready to paste into i1 (${c.paste.length}):\\n${c.paste.join('\\n')}` : 'No new same-product ideas: everything found was already screened.',\n  ...(screenedTop.length ? [`Already screened: ${screenedTop.join(', ')}`] : []),\n  ...(c.rows.some(r => r.group === 'nearby market') ? [`Nearby markets: ${c.rows.filter(r => r.group === 'nearby market').slice(0, 5).map(r => r.idea).join(', ')}`] : []),\n  ...(c.notes.length ? [`Notes: ${c.notes.join(' · ')}`] : []),\n].join('\\n');\nreturn [{ json: { ...row, summary_text } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2208,
+        768
+      ],
+      "id": "e11643d3-d2cb-4c15-890e-5e680eb7569d",
+      "name": "Run Summary"
+    },
+    {
+      "parameters": {
+        "jsCode": "// The Idea Runs row without the form-only text\nconst { summary_text, ...row } = $('Run Summary').first().json;\nreturn [{ json: row }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        560
+      ],
+      "id": "e0df4db8-5aeb-40fd-9243-8c17e87f1067",
+      "name": "Run Row"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Amazon Toolkit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1209235451,
+          "mode": "list",
+          "cachedResultName": "Idea Runs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=1209235451"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_id"
+          ],
+          "schema": [
+            {
+              "id": "row_id",
+              "displayName": "row_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "checked_at",
+              "displayName": "checked_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tool",
+              "displayName": "tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "marketplace",
+              "displayName": "marketplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "seeds",
+              "displayName": "seeds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "searches_used",
+              "displayName": "searches_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "autocomplete_suggestions",
+              "displayName": "autocomplete_suggestions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "saved_keywords_used",
+              "displayName": "saved_keywords_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ideas_found",
+              "displayName": "ideas_found",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "listed",
+              "displayName": "listed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "same_product",
+              "displayName": "same_product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nearby_market",
+              "displayName": "nearby_market",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "brand_name",
+              "displayName": "brand_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "new_ideas",
+              "displayName": "new_ideas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "already_screened",
+              "displayName": "already_screened",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "paste_into_i1",
+              "displayName": "paste_into_i1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cannot_tell",
+              "displayName": "cannot_tell",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2544,
+        560
+      ],
+      "id": "973b766f-2744-4f23-923c-ba73ad9a3c76",
+      "name": "Save Idea Runs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "67YVhZWAnRYQWdSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "showText",
+        "responseText": "={{ $json.html }}"
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        3024,
+        560
+      ],
+      "id": "28c06c7f-7ffa-4093-848b-d54bd3e0431c",
+      "name": "Done: Ideas",
+      "webhookId": "7c4b2e9a-1f5d-4a8c-9e3b-0d6f8a2c5e17"
+    },
+    {
+      "parameters": {
+        "content": "## i5 · Next Keywords\nSeeds (optional) → Amazon autocomplete (1 search per seed) + related searches and shopping filters saved by every earlier search (free) → same-words ideas merged (\"neck pillow travel\" = \"neck pillow for travel\") → grouped: same product / nearby market / brand name → marked new or already screened → paste-ready list for i1. No AI.",
+        "height": 150,
+        "width": 1900,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        464,
+        96
+      ],
+      "id": "58e2aea8-1a3d-474e-adf1-12c663dca72c",
+      "name": "Note: title"
+    },
+    {
+      "parameters": {
+        "content": "## Brand names set aside\nA word counts as a brand only if it leads its titles on your saved pages at least 60% of the time (\"JOOLA…\", \"Lodge…\"), or the product page named it. Generic words (\"fabric\", \"hanging\") sit mid-title, so they stay ideas.",
+        "height": 200,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        768
+      ],
+      "id": "5d8905bd-75f0-4e2d-9f77-5c9dce5ad274",
+      "name": "Note: brands"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ---- Result page: shared design (Amazon Toolkit). Presentation only: every value is copied from earlier nodes. ----\nconst esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\nconst CURS = { 'amazon.com': '$', 'amazon.co.uk': '£', 'amazon.ca': 'C$' };\nconst num = v => (v === '' || v === null || v === undefined || Number.isNaN(Number(v)) ? null : Number(v));\nconst int = v => (num(v) === null ? '–' : Math.round(num(v)).toLocaleString('en-US'));\nconst money = (v, cur) => (num(v) === null ? '–' : `${cur}${num(v).toFixed(2)}`);\nconst big = (v, cur = '') => { const n = num(v); if (n === null) return '–'; if (n >= 1e6) return `${cur}${(n / 1e6).toFixed(2)}M`; if (n >= 1e4) return `${cur}${Math.round(n / 1e3)}K`; return `${cur}${int(n)}`; };\nconst rating = v => (num(v) === null ? '–' : num(v).toFixed(1));\nconst spots = t => esc(String(t ?? '').split(' | ').join(' · '));\nconst split = t => String(t ?? '').split(' | ').map(s => s.trim()).filter(Boolean);\nconst LEVEL = { high: 'yes', medium: 'mid', low: 'no' };\nconst pill = (text, kind) => `<span class=\"pill ${kind || ''}\">${esc(text)}</span>`;\nconst levelPill = t => pill(t, LEVEL[String(t || '').toLowerCase()] || 'muted');\nconst tiles = list => `<div class=\"tiles\">${list.map(([v, l]) => `<div class=\"tile\"><div class=\"tv\">${v}</div><div class=\"tl\">${esc(l)}</div></div>`).join('')}</div>`;\nconst section = (title, body) => (body ? `<section><h2>${esc(title)}</h2>${body}</section>` : '');\nconst table = (head, rows, right = []) => `<div class=\"tw\"><table><thead><tr>${head.map((h, i) => `<th${right.includes(i) ? ' class=\"r\"' : ''}>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => `<td${right.includes(i) ? ' class=\"r\"' : ''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;\nconst notesList = list => (list.length ? `<ul class=\"notes\">${list.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : '');\nconst chips = list => (list.length ? `<div class=\"chips\">${list.map(c => `<span class=\"chip\">${esc(c)}</span>`).join('')}</div>` : '');\n\nfunction page({ code, tool, colour, tint, title, meta, verdict, body, saved, cannotTell }) {\n  return `<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>${esc(tool)} · ${esc(title)}</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap');\n*{box-sizing:border-box}\nbody{margin:0;background:${tint};color:#1f2328;font:14px/1.55 Inter,'Segoe UI',Helvetica,Arial,sans-serif}\n.wrap{max-width:760px;margin:0 auto;padding:28px 16px 48px}\n.card{background:#fff;border:1px solid #e2ddd5;border-radius:6px;overflow:hidden;box-shadow:0 8px 28px rgba(13,27,42,.08)}\nheader{background:${colour};color:#fff;padding:26px 28px 22px;border-bottom:5px solid #9C7A3C}\n.label{font:12px/1 ui-monospace,Consolas,monospace;letter-spacing:3px;color:#D8CBB8;text-transform:uppercase}\nh1{font:600 30px/1.2 'Source Serif 4',Georgia,serif;margin:10px 0 6px}\n.meta{color:#D8CBB8;font-size:13px}\n.verdict{padding:22px 28px;border-bottom:1px solid #eee7dc;background:#fbfaf7}\n.verdict .big{font:600 22px/1.3 'Source Serif 4',Georgia,serif;color:${colour}}\n.verdict p{margin:6px 0 0;color:#3d434a}\n.content{padding:6px 28px 26px}\nsection{margin-top:22px}\nh2{font:600 12px/1 Inter,sans-serif;letter-spacing:2px;text-transform:uppercase;color:${colour};margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid #9C7A3C;display:inline-block}\n.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:4px}\n.tile{border:1px solid #e2ddd5;border-top:3px solid ${colour};border-radius:4px;padding:12px 14px;background:#fff}\n.tv{font:600 20px/1.2 'Source Serif 4',Georgia,serif;color:#1f2328}\n.tl{font-size:12px;color:#5f6670;margin-top:4px}\n.tw{overflow-x:auto;border:1px solid #e2ddd5;border-radius:4px}\ntable{border-collapse:collapse;width:100%;font-size:13px}\nth{background:#f7f5f2;color:#3d434a;font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid #e2ddd5;white-space:nowrap}\ntd{padding:8px 10px;border-bottom:1px solid #f0ece5;vertical-align:top}\ntbody tr:nth-child(even) td{background:#fcfbf9}\ntbody tr:last-child td{border-bottom:0}\n.r{text-align:right;white-space:nowrap}\n.sub{color:#5f6670;font-size:12px}\n.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:#eceae6;color:#3d434a}\n.pill.yes{background:#014D4E;color:#fff}.pill.mid{background:#301934;color:#fff}.pill.no{background:#DC143C;color:#fff}.pill.muted{background:#eceae6;color:#5f6670}\n.notes{margin:0;padding-left:18px;color:#3d434a}.notes li{margin:4px 0}\n.chips{display:flex;flex-wrap:wrap;gap:6px}\n.chip{border:1px solid #d6d0c6;border-radius:999px;padding:3px 10px;font-size:12px;color:#5f6670;background:#fff}\n.item{border-left:3px solid ${colour};padding:10px 14px;margin:10px 0;background:#fbfaf7;border-radius:0 4px 4px 0}\n.item b{color:#1f2328}\n.paste{width:100%;min-height:236px;font:13px/1.6 ui-monospace,Consolas,monospace;border:1px solid #d6d0c6;border-radius:4px;padding:10px;background:#fff;color:#1f2328;resize:vertical}\n.btn{margin-top:8px;background:${colour};color:#fff;border:0;border-radius:4px;padding:9px 16px;font:600 13px Inter,sans-serif;cursor:pointer}\nfooter{padding:14px 28px;border-top:1px solid #eee7dc;color:#5f6670;font-size:12px;background:#fbfaf7}\n@media (max-width:560px){header,.verdict,.content,footer{padding-left:18px;padding-right:18px}h1{font-size:24px}}\n</style></head><body><div class=\"wrap\"><div class=\"card\">\n<header><div class=\"label\">Amazon Toolkit · ${esc(code)} ${esc(tool)}</div><h1>${esc(title)}</h1><div class=\"meta\">${meta.map(esc).join(' &nbsp;·&nbsp; ')}</div></header>\n${verdict ? `<div class=\"verdict\">${verdict}</div>` : ''}\n<div class=\"content\">${body}\n${section('Cannot tell from this data', chips(cannotTell || []))}\n</div>\n<footer>Saved to the sheet: ${esc(saved)}. Every number recomputes from the Listings tab.</footer>\n</div></div></body></html>`;\n}\n// i5 Next Keywords: result page\nconst r = $('Run Summary').first().json;\nconst c = $('Collect Ideas').first().json;\nconst ideas = c.rows || [];\nconst same = ideas.filter(x => x.group === 'same product').slice(0, 15);\nconst st = s => `<span class=\"pill ${s === 'new' ? 'yes' : s === 'screened' ? 'muted' : 'mid'}\">${esc(s)}</span>`;\nconst paste = String(r.paste_into_i1 || '');\nconst html = page({\n  code: 'i5', tool: 'Next Keywords', colour: '#214235', tint: '#edf3ef',\n  title: r.seeds ? split(r.seeds).join(' · ') : 'Ideas from saved searches', meta: [r.marketplace, r.checked_at, `${r.searches_used} searches`],\n  verdict: `<div class=\"big\">${int(r.ideas_found)} ideas · ${int(r.new_ideas)} new</div><p>${esc(r.same_product)} same product · ${esc(r.nearby_market)} nearby markets · ${esc(r.brand_name)} brand names set aside</p>`,\n  body: [\n    section('Ready to paste into i1', paste ? `<textarea class=\"paste\" id=\"paste\" readonly>${esc(paste)}</textarea><button class=\"btn\" onclick=\"var t=document.getElementById('paste');t.select();(navigator.clipboard?navigator.clipboard.writeText(t.value):Promise.reject()).then(function(){event.target.textContent='Copied'}).catch(function(){document.execCommand('copy');event.target.textContent='Copied'})\">Copy list</button>` : '<p>No new same-product ideas: everything found was already screened.</p>'),\n    section('Same product', table(['Idea', 'Found in', 'Status'], same.map(x => [`<b>${esc(x.idea)}</b>${x.same_as ? `<div class=\"sub\">also: ${esc(String(x.same_as).split(' | ').join(', '))}</div>` : ''}`, `<span class=\"sub\">${esc(x.sources)}</span>`, st(x.status) + (x.last_score !== '' && x.last_score !== undefined && x.last_score !== null ? ` <span class=\"sub\">${esc(x.last_score)}/100</span>` : '')]))),\n    section('Nearby markets', chips(ideas.filter(x => x.group === 'nearby market').slice(0, 12).map(x => x.idea))),\n    section('Brand names set aside', chips(ideas.filter(x => x.group === 'brand name').slice(0, 12).map(x => x.idea))),\n    section('Notes', notesList(split(r.notes))),\n  ].join(''),\n  saved: 'Keyword Ideas, Idea Runs',\n  cannotTell: split(r.cannot_tell),\n});\nreturn [{ json: { html } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2800,
+        560
+      ],
+      "id": "203a0fb4-7cef-4a83-8686-728b1bd5be4c",
+      "name": "Result Page"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ideas form": {
+      "main": [
+        [
+          {
+            "node": "Read Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Keywords": {
+      "main": [
+        [
+          {
+            "node": "Read Listings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Listings": {
+      "main": [
+        [
+          {
+            "node": "Read Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Products": {
+      "main": [
+        [
+          {
+            "node": "Plan Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan Ideas": {
+      "main": [
+        [
+          {
+            "node": "Seeds entered?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seeds entered?": {
+      "main": [
+        [
+          {
+            "node": "Split Seeds",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Collect Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Seeds": {
+      "main": [
+        [
+          {
+            "node": "Amazon Autocomplete (SerpApi)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Amazon Autocomplete (SerpApi)": {
+      "main": [
+        [
+          {
+            "node": "Collect Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Ideas": {
+      "main": [
+        [
+          {
+            "node": "Idea Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Idea Rows": {
+      "main": [
+        [
+          {
+            "node": "Save Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Ideas": {
+      "main": [
+        [
+          {
+            "node": "Run Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Summary": {
+      "main": [
+        [
+          {
+            "node": "Run Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Row": {
+      "main": [
+        [
+          {
+            "node": "Save Idea Runs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Idea Runs": {
+      "main": [
+        [
+          {
+            "node": "Result Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Done: Ideas": {
+      "main": [
+        []
+      ]
+    },
+    "Result Page": {
+      "main": [
+        [
+          {
+            "node": "Done: Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "fhaWu5HguuXYZi3j",
+    "timezone": "Asia/Karachi",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "510c27f5-da3d-45a2-91f2-4d0bd85087d8",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "C7NPijnFB8cRPW2Q",
+  "tags": []
+}

@@ -1,0 +1,31 @@
+Amazon Toolkit: row 1 of each tab. Paste each line into cell A1 of its tab (tab-separated, it splits into columns).
+
+Listings (26 columns):
+row_id	run_id	tool	batch_id	keyword	marketplace	checked_at	position	asin	family_id	title	brand_guess	brand_source	in_stats	excluded_reason	relevant	match_type	price	old_price	discount_pct	rating	reviews	bought_last_month	badges	small_business	url
+
+Products (28 columns):
+row_id	run_id	keyword	marketplace	role	asin	family_id	family_listings_on_page	title	brand_guess	real_brand	brand_guess_correct	sold_by	ships_from	fulfilled_by_amazon	bsr_category	bsr_all	variations	price	rating	reviews	units_family_on_page	bought_last_month_page	review_themes	review_summary	lookup_status	lookup_note	one_two_star_pct
+
+Keywords (57 columns):
+row_id	batch_id	tool	order	keyword	marketplace	status	market	market_keywords	opportunity_score	confidence	stability	score_change_vs_prev	sales_on_shared_with_prev_pct	currency	price_p25	price_median	price_p75	avg_rating	median_reviews	units_last_month_floor	revenue_last_month_floor	top3_products_sales_share_pct	top_brand	top_brand_sales_share_pct	unknown_brand_sales_share_pct	amazon_own_brand_products	low_review_sellers_count	low_review_sales_share_pct	low_review_price_median	low_review_avg_rating	top3_review_share_pct	listings_analyzed	products_analyzed	variation_groups	exact_match_pct	listings_missing_sales	bulk_listings	outliers_removed	deal_event_share_pct	discounted_outside_event_pct	sponsored_on_page	organic_on_page	total_results	unique_products_vs_variants	unique_sales_share_pct	unique_price_median	unique_top_titles	related_searches	shopping_ideas	score_breakdown	confidence_notes	stability_note	note	checked_at	run_id	core_version
+
+Markets (33 columns):
+row_id	batch_id	tool	rank	market	marketplace	keywords	opportunity_score	vs_next	confidence	stability	price_p25	price_median	price_p75	median_reviews	units_last_month_floor	revenue_last_month_floor	top_brand	top_brand_sales_share_pct	unknown_brand_sales_share_pct	top3_products_sales_share_pct	low_review_sellers_count	low_review_sales_share_pct	low_review_price_median	amazon_own_brand_products	products_analyzed	variant_note	related_markets	sub_segment_of	score_breakdown	confidence_notes	cannot_tell	checked_at
+
+Deep Dive (28 columns):
+row_id	tool	checked_at	keyword	marketplace	data_source	opportunity_score	confidence	stability	price_p25	price_median	price_p75	median_reviews	units_last_month_floor	revenue_last_month_floor	top3_brands_sales_share_pct	low_review_sales_share_pct	products_inspected	angles	must_match	themes_table	ai_status	ai_warnings	score_breakdown	confidence_notes	cannot_tell	core_version	run_id
+
+Targets (32 columns):
+row_id	run_id	checked_at	marketplace	keywords	rank	ad_priority	relevance	competitor_asin	other_asins	brand	brand_source	title	keywords_ranked_on	coverage	best_position	units_floor	page_sales_share_pct	price	rating	reviews	newcomer	weak_spots	weak_spot_count	compared_with	reason	relevance_breakdown	bsr	sold_by	ships_from	one_two_star_pct	facts_source
+
+Target Runs (27 columns):
+row_id	run_id	checked_at	tool	marketplace	keywords	pages	searches_used	page_searches	product_lookups	lookups_reused	competitors_found	own_excluded	listed	high	medium	low	your_price	your_rating	your_reviews	market_price_median	market_rating_median	market_reviews_median	related_keywords	complement_ideas	notes	cannot_tell
+
+Autopilot Runs (31 columns):
+row_id	run_id	checked_at	tool	marketplace	seed	search_budget	searches_used	autocomplete_searches	page_searches	product_lookups	ideas_found	screened	pages	winner	winner_keywords	winner_score	winner_confidence	why_winner	price_range	units_last_month_floor	revenue_last_month_floor	top_brand	newcomer_sales_share_pct	targets_high	targets_medium	targets_low	top_targets	complement_ideas	notes	cannot_tell
+
+Keyword Ideas (18 columns):
+row_id	run_id	checked_at	marketplace	seeds	rank	idea	group	brand_found	sources	source_count	suggested_under	mentions	status	last_score	last_confidence	last_checked	same_as
+
+Idea Runs (19 columns):
+row_id	run_id	checked_at	tool	marketplace	seeds	searches_used	autocomplete_suggestions	saved_keywords_used	ideas_found	listed	same_product	nearby_market	brand_name	new_ideas	already_screened	paste_into_i1	notes	cannot_tell
