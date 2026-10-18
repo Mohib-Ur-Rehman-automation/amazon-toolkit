@@ -53,7 +53,7 @@ Two support workflows sit underneath:
 
 ## The sheet
 
-One Google Sheet holds everything. Each tool writes with *append or update* on `row_id`, so re-running never duplicates rows.
+One Google Sheet holds everything. Each tool writes with *append or update* on `row_id`, so a retried run updates its own rows instead of adding copies. A new run adds rows of its own, so history builds up.
 
 | Tab | Written by | One row is |
 |---|---|---|

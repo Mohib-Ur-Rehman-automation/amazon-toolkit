@@ -140,8 +140,11 @@ Run of 17 Oct 2026, 06:00 PKT. Seed `neck pillow`, amazon.com. Your product: $24
 The most relevant competitor can be a poor target: napfun ranks on all 3 keywords but has no weak spot against you. Relevance says *where it is*; priority says *whether to aim at it*.
 
 ![i4 emailed report](../assets/i4-email.png.png)
+
 *The emailed report from a re-run two hours later. It reused the earlier pages, so it used 1 search instead of 4; the markets and scores are the same.*
+
 ![i4 Autopilot Runs tab](../assets/i4-sheet.png.png)
+
 *The Autopilot Runs tab: one row per run.*
 
 ## Setup

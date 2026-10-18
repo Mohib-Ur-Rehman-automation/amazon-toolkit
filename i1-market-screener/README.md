@@ -123,6 +123,7 @@ Confidence is medium for one reason, also written in the row: "brand unknown for
 Same product, different market. On amazon.co.uk, newcomers take 39.3% of resistance band sales (full marks), but a median price of £8.50 (about $11) leaves little room, so `price_room` gets 2.7 of 10 and the score lands at 58.
 
 ![i1 Markets tab](../assets/i1-sheet.png.png)
+
 *The Markets tab, with rows from several runs. The amazon.ca and amazon.co.uk rows from 17 Oct were scored before core v2.6, when local prices were still read as dollars. The repeated amazon.ca pair is a re-run inside SerpApi's 1-hour cache, marked `cached copy`.*
 
 ## Setup

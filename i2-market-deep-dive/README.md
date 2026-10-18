@@ -110,6 +110,7 @@ A "must match" theme is removed if more than 25% of its mentions are negative. C
 The same page scored 32 in the Screener's earlier run and 25 here. Between the two runs, the core (v2.4 → v2.5) stopped counting Fiskars' own low-review listing as a newcomer. Both rows record their core version.
 
 ![i2 result page](../assets/i2-form-result.png.png)
+
 *Result page from a separate run: `resistance bands`, amazon.com, 18 Oct 2026.*
 
 ## Setup
