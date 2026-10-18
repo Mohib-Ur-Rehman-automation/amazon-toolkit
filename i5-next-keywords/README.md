@@ -117,7 +117,8 @@ airplane pillow blanket
 
 Several of these were then screened by [Autopilot](../i4-market-autopilot/README.md) on the same day.
 
-<!-- SCREENSHOT: assets/i5-form-result.png -->
+![i5 result page](../assets/i5-form-result.png.png)
+*Result page from a separate run: seed `neck pillow` only, 18 Oct 2026.*
 
 ## Setup
 

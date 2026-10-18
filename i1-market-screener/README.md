@@ -92,35 +92,38 @@ Price room and demand are judged in US dollars. amazon.co.uk and amazon.ca price
 
 ## Sample output
 
-Batch of 17 Oct 2026, amazon.com, 10 keywords (an 11th, `phone case`, was skipped as over the limit).
+Two runs, both in the screenshot below.
 
-| # | Market | Score | Confidence | Median price | Bought last month (floor) | Top brand | vs next |
-|---|---|---|---|---|---|---|---|
-| 1 | silicone ice cube tray | **64** | high | $9.99 | 147,600+ | DOQAUS 21% | ahead by 1, **treat as tied** |
-| 2 | kids' water bottle | 63 | high | $19.88 | 63,400+ | Owala 22.1% | ahead by 12 |
-| 3 | mouse pad | 51 | high | $9.85 | 149,000+ | MROCO 13.8% | ahead by 2, tied |
-| 4 | garlic press | 49 | high | $14.78 | 50,350+ | Zulay 21.3% | ahead by 4, tied |
-| 5 | shower caddy | 45 | high | $16.99 | 187,200+ | YASONIC 25.1% | ahead by 1, tied |
-| … | | | | | | | |
-| 8 | cast iron skillet | 40 | high | $29.90 | 46,800+ | Lodge 75.6% | ahead by 8, tied |
-| 9 | left handed bonsai scissors | 32 | **low** | $17.99 | 12,150+ | VIVOSUN 57.6% | ahead by 11, tied |
-| 10 | dog poop bags | 21 | high | $16.74 | 434,500+ | Earth 40.7% | |
+**amazon.com, 17 Oct 2026.** Both keywords had been checked before, so stability is measured.
 
-**Why #1 scored 64**, as written in the sheet:
+| # | Market | Score | Confidence | Stability | Median price | Bought last month (floor) | Top 3 brands hold | vs next |
+|---|---|---|---|---|---|---|---|---|
+| 1 | resistance bands | **73** | medium | stable | $19.98 | 214,000+ | 16.8% | ahead by 26 |
+| 2 | yoga mat | 47 | high | moderate | $24.81 | 58,000+ | 54.7% | |
+
+**Why #1 scored 73**, as written in the sheet:
 
 ```
-low_review_sales 33.7/35  19.2% of sales go to products under 1,000 reviews
-brand_openness   24.8/30  top 3 brands (DOQAUS, WIBIMEN, ChefAide) hold 38.6% of sales
-review_moat      20.4/25  median product has 1,900 reviews
-price_room        1.7/10  median price 9.99
-openness 80.5/100 x demand 0.79  (at least $1.62M in sales last month on page 1)
+low_review_sales 25.8/35  14.8% of sales go to newcomers
+brand_openness   30/30    top 3 brands (Fit, WHATAFIT, HPYGN) hold 16.8% of sales
+review_moat      18.1/25  median product has 2,600 reviews
+price_room       10/10    median price $19.98
+openness 83.9/100 x demand 0.87  (at least $3.34M in sales last month on page 1)
 ```
 
-This batch ran on core v2.4. Later that day, v2.5 stopped counting a big brand's new listings as newcomers (Lodge's own low-review skillets had been lifting `cast iron skillet`), which lowers markets like that one. When [i2](../i2-market-deep-dive/README.md) re-scored the same `left handed bonsai scissors` page with v2.5, it dropped from 32 to 25. Every row records the core version that scored it. Core v2.6 (18 Oct) only changes amazon.co.uk and amazon.ca scores; amazon.com scores like these stay the same.
+Confidence is medium for one reason, also written in the row: "brand unknown for 72% of sales (titles start with generic words), so brand_openness is unverified". `Fit` is a title guess for Fit Simplify (see the limitations below).
 
-`dog poop bags` sells the most units on this list, but it comes last: one brand ("Earth") takes 40.7% of sales, and newcomers get 1.1%.
+**amazon.co.uk, 18 Oct 2026, core v2.6.** Prices are in pounds and converted to dollars before scoring.
 
-![i1 Markets tab](../assets/i1-sheet.png)
+| # | Market | Score | Confidence | Stability | Median price | Bought last month (floor) | Top 3 brands hold | vs next |
+|---|---|---|---|---|---|---|---|---|
+| 1 | resistance bands | **58** | high | first run | £8.50 | 47,700+ | 39.2% | ahead by 20 |
+| 2 | yoga mat | 38 | high | stable | £14.44 | 12,500+ | 48% | |
+
+Same product, different market. On amazon.co.uk, newcomers take 39.3% of resistance band sales (full marks), but a median price of £8.50 (about $11) leaves little room, so `price_room` gets 2.7 of 10 and the score lands at 58.
+
+![i1 Markets tab](../assets/i1-sheet.png.png)
+*The Markets tab, with rows from several runs. The amazon.ca and amazon.co.uk rows from 17 Oct were scored before core v2.6, when local prices were still read as dollars. The repeated amazon.ca pair is a re-run inside SerpApi's 1-hour cache, marked `cached copy`.*
 
 ## Setup
 
@@ -134,7 +137,7 @@ This batch ran on core v2.4. Later that day, v2.5 stopped counting a big brand's
 
 - **Sales are floors** from Amazon's "bought in past month" badges, never estimates. Badges are rarer on amazon.ca, so its markets look smaller.
 - **No search volume, fees, profit, trend or product age.** Every Markets row lists these under `cannot_tell`.
-- **Brands are guessed from titles.** `top_brand` can be a generic first word (`Earth`, `Kitchen`, `Ultra`). i3 and i4 correct this for their targets; this tab does not.
+- **Brands are guessed from titles.** `top_brand` can be a generic first word (`Kitchen`, `Ultra`). i3 and i4 correct this for their targets; this tab does not.
 - **One snapshot.** A first run has no stability measure, so its noise band is the widest (12 points).
 - **Thin pages** (under 30 listings) lower confidence.
 - **Exchange rates are fixed,** so UK and Canadian scores drift slightly as real rates move. They are set at the top of the core and should be updated a few times a year.
