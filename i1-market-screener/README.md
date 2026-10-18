@@ -120,7 +120,7 @@ This batch ran on core v2.4. Later that day, v2.5 stopped counting a big brand's
 
 `dog poop bags` sells the most units on this list, but it comes last: one brand ("Earth") takes 40.7% of sales, and newcomers get 1.1%.
 
-<!-- SCREENSHOT: assets/i1-sheet.png (Markets tab) -->
+![i1 Markets tab](../assets/i1-sheet.png)
 
 ## Setup
 
