@@ -38,15 +38,15 @@ The manual version takes three tools and a spreadsheet:
 The stages match the sticky notes in the workflow.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#9C7A3C','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["Seed + your product<br/>(form)"] --> B["Ideas<br/>autocomplete + saved suggestions"]
   B --> C["Screen<br/>seed + top 5 ideas<br/>shared core c1"]
   C --> D["Winner<br/>= i1's #1"]
   D --> E["Targets<br/>competitors judged"]
   E --> F["Report<br/>email · form · sheet"]
-  classDef step fill:#4A1F3D,stroke:#9C7A3C,color:#ffffff;
-  classDef io fill:#0D1B2A,stroke:#9C7A3C,color:#ffffff;
+  classDef step fill:#930031,stroke:#DAAC53,stroke-width:2px,color:#ffffff;
+  classDef io fill:#161618,stroke:#DAAC53,color:#ffffff;
   class A,F io;
   class B,C,D,E step;
 ```

@@ -33,7 +33,7 @@ No AI is involved. Every word of every reason comes from a number.
 ## How it works
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#9C7A3C','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["2–5 keywords<br/>+ your product"] --> B["Pages<br/>new, or reused under 24 h"]
   B --> C["Core c1<br/>variations grouped"]
@@ -41,8 +41,8 @@ flowchart LR
   D --> E["Relevance<br/>50 + 30 + 20"]
   E --> F["Top 8 looked up<br/>BSR · seller · brand"]
   F --> G["Weak spots<br/>→ High · Medium · Low"]
-  classDef step fill:#8B4E34,stroke:#9C7A3C,color:#ffffff;
-  classDef io fill:#0D1B2A,stroke:#9C7A3C,color:#ffffff;
+  classDef step fill:#930031,stroke:#679DD4,stroke-width:2px,color:#ffffff;
+  classDef io fill:#161618,stroke:#DAAC53,color:#ffffff;
   class A,G io;
   class B,C,D,E,F step;
 ```

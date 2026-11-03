@@ -33,7 +33,7 @@ Leave the seeds empty and it works from saved suggestions only, for **0 searches
 ## How it works
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#9C7A3C','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["0–3 seeds<br/>(form)"] --> B["Autocomplete<br/>1 search per seed"]
   S[("Saved searches<br/>Keywords tab")] --> C
@@ -42,8 +42,8 @@ flowchart LR
   D --> E["Group<br/>same product · nearby · brand"]
   E --> F["Status<br/>new · screened · page saved"]
   F --> G["Paste list<br/>for i1"]
-  classDef step fill:#214235,stroke:#9C7A3C,color:#ffffff;
-  classDef io fill:#0D1B2A,stroke:#9C7A3C,color:#ffffff;
+  classDef step fill:#930031,stroke:#9485D0,stroke-width:2px,color:#ffffff;
+  classDef io fill:#161618,stroke:#DAAC53,color:#ffffff;
   class A,G,S io;
   class B,C,D,E,F step;
 ```

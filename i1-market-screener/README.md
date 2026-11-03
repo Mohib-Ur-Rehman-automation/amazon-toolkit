@@ -29,15 +29,15 @@ No AI is involved. The results go to the **Markets** and **Keywords** tabs, and 
 ## How it works
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#9C7A3C','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["Up to 10 keywords<br/>(form)"] --> B["Search<br/>page 1 of each"]
   B --> C["History<br/>previous runs from Listings"]
   C --> D["Core c1<br/>clean · group · score"]
   D --> E["Evidence first<br/>Listings saved"]
   E --> F["Keywords + Markets<br/>rows saved"]
-  classDef step fill:#1B3A6B,stroke:#9C7A3C,color:#ffffff;
-  classDef io fill:#0D1B2A,stroke:#9C7A3C,color:#ffffff;
+  classDef step fill:#930031,stroke:#D77343,stroke-width:2px,color:#ffffff;
+  classDef io fill:#161618,stroke:#DAAC53,color:#ffffff;
   class A,F io;
   class B,C,D,E step;
 ```

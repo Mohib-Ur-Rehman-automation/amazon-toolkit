@@ -17,7 +17,7 @@ A page or product looked up in the last 24 hours is reused by every tool for 0 s
 ## How they fit together
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#9C7A3C','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   I5["i5 · Next Keywords"] -- ideas --> I1["i1 · Market Screener"]
   I1 -- best market --> I2["i2 · Market Deep Dive"]
@@ -28,12 +28,12 @@ flowchart LR
   I2 -.-> C1
   I3 -.-> C1
   I4 -.-> C1
-  classDef i1 fill:#1B3A6B,stroke:#9C7A3C,color:#fff;
-  classDef i2 fill:#0F3D3E,stroke:#9C7A3C,color:#fff;
-  classDef i3 fill:#8B4E34,stroke:#9C7A3C,color:#fff;
-  classDef i4 fill:#4A1F3D,stroke:#9C7A3C,color:#fff;
-  classDef i5 fill:#214235,stroke:#9C7A3C,color:#fff;
-  classDef core fill:#0D1B2A,stroke:#9C7A3C,color:#fff;
+  classDef i1 fill:#930031,stroke:#D77343,stroke-width:3px,color:#fff;
+  classDef i2 fill:#930031,stroke:#ECE7DD,stroke-width:3px,color:#fff;
+  classDef i3 fill:#930031,stroke:#679DD4,stroke-width:3px,color:#fff;
+  classDef i4 fill:#930031,stroke:#DAAC53,stroke-width:3px,color:#fff;
+  classDef i5 fill:#930031,stroke:#9485D0,stroke-width:3px,color:#fff;
+  classDef core fill:#161618,stroke:#DAAC53,color:#fff;
   class I1 i1; class I2 i2; class I3 i3; class I4 i4; class I5 i5; class C1 core;
 ```
 
@@ -53,7 +53,7 @@ Two support workflows sit underneath:
 
 ## The sheet
 
-One Google Sheet holds everything. Each tool writes with *append or update* on `row_id`, so a retried run updates its own rows instead of adding copies. A new run adds rows of its own, so history builds up.
+One Google Sheet holds everything. Each tool writes with *append or update* on `row_id`, so re-running never duplicates rows.
 
 | Tab | Written by | One row is |
 |---|---|---|
@@ -100,7 +100,8 @@ Amazon's own badges measure Amazon demand better than Google does.
 3. Import **c1**.
 4. Import the tools you want. In each one, pick your credentials, point every Google Sheets node at your own sheet (the exports say `YOUR_SHEET_ID`), point its **Toolkit Core** node at c1, and set **Settings → Error workflow** to e0.
 5. Run n8n with `N8N_CONCURRENCY_PRODUCTION_LIMIT=1` so runs queue instead of colliding.
-6. **Save** and **Publish** each workflow. Forms run the published version.
+6. Keep every form behind a sign-in. The exports already set each form node's **Authentication** to n8n User Auth, so only people signed in to your n8n can open them. For someone without an n8n account, switch that form to Basic Auth instead. A public form URL lets anyone spend your SerpApi searches.
+7. **Save** and **Publish** each workflow. Forms run the published version.
 
 Each tool's README has its own steps.
 
@@ -131,5 +132,6 @@ Each tool's README has its own steps.
 - searches counted against searches made
 - the AI checks in i2
 - one regression check for each bug found in review
+- a break test: 8 targeted attacks and a fuzzer that throws hostile Amazon pages and form input at the tools ([what it found](tests/BREAK-TEST.md))
 
-`node tests/t4_regressions.js` exits with an error while any of those bugs is back.
+`node tests/t4_regressions.js` and `node tests/t5_attacks.js` exit with an error while any of those bugs is back.

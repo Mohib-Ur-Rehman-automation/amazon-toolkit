@@ -32,7 +32,7 @@ This is the only tool in the kit that uses AI, and the AI never writes a figure.
 ## How it works
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#9C7A3C','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["1 keyword<br/>(form)"] --> B{"Saved in<br/>last 24 h?"}
   B -- yes --> C["Reuse page<br/>0 searches"]
@@ -43,8 +43,8 @@ flowchart LR
   F --> G["Evidence table<br/>review themes T1, T2…"]
   G --> H["AI writes ideas<br/>IDs only, no digits"]
   H --> I["Validate & write<br/>code writes the numbers"]
-  classDef step fill:#0F3D3E,stroke:#9C7A3C,color:#ffffff;
-  classDef io fill:#0D1B2A,stroke:#9C7A3C,color:#ffffff;
+  classDef step fill:#930031,stroke:#ECE7DD,stroke-width:2px,color:#ffffff;
+  classDef io fill:#161618,stroke:#DAAC53,color:#ffffff;
   class A,I io;
   class B,C,D,E,F,G,H step;
 ```

@@ -7,21 +7,22 @@
  * become real numbers. Same value, so the tools read them the same way.
  */
 
-// Each tab: its own deep header colour (paired tabs share a hue family, one shade apart)
+// Claret Tag design: every header is claret (logs one shade darker); the tab chip carries the tool's colour
+// (shared tabs stay claret). Tool colours: i2 ivory, i3 steel, i4 brass, i5 violet.
 // and the column a reader looks at first, shown bold in that colour.
 const TABS = {
-  'Listings':       { colour: '#0D1B2A', key: ['keyword'] },                  // Midnight: the raw page
-  'Products':       { colour: '#4F5D75', key: ['asin', 'real_brand'] },       // Steel blue: one product up close
-  'Keywords':       { colour: '#1B3A6B', key: ['keyword'] },                  // Cobalt: i1, each search
-  'Markets':        { colour: '#142B50', key: ['market'] },                   // Deep cobalt: i1, searches joined into markets
-  'Deep Dive':      { colour: '#4E6B64', key: ['keyword'] },                  // Sage teal: i2 (lighter than i2's Deep Teal so it never looks like a "high" cell)
-  'Targets':        { colour: '#8B4E34', key: ['competitor_asin', 'brand'] }, // Rust: i3, who to aim at
-  'Target Runs':    { colour: '#6A3B27', key: ['keywords'] },                 // Deep rust: i3, the log
-  'Autopilot Runs': { colour: '#4A1F3D', key: ['winner'] },                   // Magenta (dark plum): i4, the pick it lands on
-  'Keyword Ideas':  { colour: '#214235', key: ['idea'] },                     // Deep green: i5, new ground
-  'Idea Runs':      { colour: '#182F26', key: ['seeds'] },                    // Darker green: i5, the log
+  'Listings':       { colour: '#4A1524', tab: '#5A1A2B', key: ['keyword'] },                  // Midnight: the raw page
+  'Products':       { colour: '#5A1A2B', tab: '#5A1A2B', key: ['asin', 'real_brand'] },       // Steel blue: one product up close
+  'Keywords':       { colour: '#5A1A2B', tab: '#5A1A2B', key: ['keyword'] },                  // Cobalt: i1, each search
+  'Markets':        { colour: '#4A1524', tab: '#5A1A2B', key: ['market'] },                   // Deep cobalt: i1, searches joined into markets
+  'Deep Dive':      { colour: '#5A1A2B', tab: '#ECE7DD', key: ['keyword'] },                  // Sage teal: i2 (lighter than i2's Deep Teal so it never looks like a "high" cell)
+  'Targets':        { colour: '#5A1A2B', tab: '#5A1A2B', key: ['competitor_asin', 'brand'] }, // Rust: i3, who to aim at
+  'Target Runs':    { colour: '#4A1524', tab: '#679DD4', key: ['keywords'] },                 // Deep rust: i3, the log
+  'Autopilot Runs': { colour: '#5A1A2B', tab: '#DAAC53', key: ['winner'] },                   // Magenta (dark plum): i4, the pick it lands on
+  'Keyword Ideas':  { colour: '#5A1A2B', tab: '#9485D0', key: ['idea'] },                     // Deep green: i5, new ground
+  'Idea Runs':      { colour: '#4A1524', tab: '#9485D0', key: ['seeds'] },                    // Darker green: i5, the log
 };
-const BRASS = '#9C7A3C'; // one shared accent: the line under every header
+const BRASS = '#DAAC53'; // one shared accent: the line under every header
 
 const PRICE = ['price', 'old_price', 'price_p25', 'price_median', 'price_p75', 'low_review_price_median',
   'unique_price_median', 'your_price', 'market_price_median'];
@@ -37,10 +38,10 @@ const LONG_TEXT = ['title', 'score_breakdown', 'confidence_notes', 'cannot_tell'
   'paste_into_i1', 'suggested_under', 'same_as', 'saved_keywords_used', 'related_keywords', 'keywords',
   'market_keywords', 'winner_keywords', 'keywords_ranked_on', 'url', 'row_id', 'run_id'];
 
-// Affirmative / medium-or-unconfirmed / denied: solid fill, white bold text (contrast 9.7 / 16.0 / 5.0)
-const GREEN = { bg: '#014D4E', fg: '#ffffff' }; // affirmative (deep teal)
-const AMBER = { bg: '#301934', fg: '#ffffff' }; // medium or unconfirmed (dark purple)
-const RED = { bg: '#DC143C', fg: '#ffffff' };   // denied (crimson)
+// Affirmative / medium-or-unconfirmed / denied: solid fill, bold text (contrast 13.0 / 7.1 / 10.6)
+const GREEN = { bg: '#5A1A2B', fg: '#ffffff' }; // affirmative (claret)
+const AMBER = { bg: '#DAAC53', fg: '#27272C' }; // medium or unconfirmed (brass)
+const RED = { bg: '#3E3E44', fg: '#ffffff' };   // denied (graphite)
 const GREY = { bg: null, fg: '#8a8f98' };       // neutral: cached copy, no previous run, screened
 
 // Text colours: column -> [[value, colour], ...]  (match ignores case)
@@ -104,16 +105,16 @@ function startHere_(ss) {
   ss.setActiveSheet(sh); ss.moveActiveSheet(1);
   sh.setTabColor(BRASS); sh.setHiddenGridlines(true);
   sh.setColumnWidth(1, 24); sh.setColumnWidth(2, 28); sh.setColumnWidth(3, 170); sh.setColumnWidth(4, 110); sh.setColumnWidth(5, 560);
-  const dark = '#0D1B2A';
+  const dark = '#27272C';
   sh.getRange('B2:E2').merge().setValue('Amazon Toolkit').setFontFamily('Georgia').setFontSize(24).setFontColor('#ffffff').setBackground(dark).setVerticalAlignment('middle');
   sh.getRange('B3:E3').merge().setValue('Five n8n workflows that judge Amazon markets from real page-1 data. Every number recomputes from the Listings tab.')
-    .setFontColor('#D8CBB8').setBackground(dark).setFontSize(11);
+    .setFontColor('#D6B4B9').setBackground(dark).setFontSize(11);
   sh.setRowHeight(2, 52); sh.setRowHeight(3, 28);
   sh.getRange('B4:E4').setBackground(BRASS); sh.setRowHeight(4, 4);
   sh.getRange('C6:E6').setValues([['Tab', 'Written by', 'One row is']]).setFontWeight('bold').setFontColor('#3d434a').setBackground('#f7f5f2');
   ABOUT.forEach(([tab, by, what], i) => {
     const r = 7 + i;
-    sh.getRange(r, 2).setBackground((TABS[tab] || {}).colour || '#cccccc');
+    sh.getRange(r, 2).setBackground((TABS[tab] || {}).tab || '#cccccc');
     sh.getRange(r, 3, 1, 3).setValues([[tab, by, what]]);
     sh.getRange(r, 3).setFontWeight('bold').setFontColor((TABS[tab] || {}).colour || '#1f2328');
   });
@@ -150,7 +151,7 @@ function formatTab_(sh, name, colour, keyCols) {
   const colBody = c => sh.getRange(2, c, maxRows - 1, 1);
 
   // 1. Tab colour, header, frozen header, clean grid
-  sh.setTabColor(colour);
+  sh.setTabColor((TABS[name] || {}).tab || colour);
   sh.setFrozenRows(1);
   sh.setHiddenGridlines(true);
   sh.getRange(1, 1, 1, width)
@@ -235,9 +236,9 @@ function formatTab_(sh, name, colour, keyCols) {
   for (const h of SCORES) {
     if (!col(h)) continue;
     rules.push(SpreadsheetApp.newConditionalFormatRule()
-      .setGradientMinpointWithValue('#e8d5bb', SpreadsheetApp.InterpolationType.NUMBER, '0')
+      .setGradientMinpointWithValue('#E4E4E8', SpreadsheetApp.InterpolationType.NUMBER, '0')
       .setGradientMidpointWithValue('#ffffff', SpreadsheetApp.InterpolationType.NUMBER, '50')
-      .setGradientMaxpointWithValue('#b3d2cf', SpreadsheetApp.InterpolationType.NUMBER, '100')
+      .setGradientMaxpointWithValue('#E7C3CC', SpreadsheetApp.InterpolationType.NUMBER, '100')
       .setRanges([colBody(col(h))]).build());
   }
   sh.setConditionalFormatRules(rules);
