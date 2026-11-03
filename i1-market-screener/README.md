@@ -9,6 +9,8 @@
 <a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
 </p>
 
+![i1 Market Screener form](../assets/form-i1.png)
+
 ## What it does
 
 You paste up to 10 keywords and pick a marketplace (amazon.com, .co.uk or .ca). For each keyword the Screener reads Amazon's page 1 and works out four things: who sells, how much, at what price, and against how many reviews. It then ranks the keywords as markets from 0 to 100 and writes out why each one scored what it did.
@@ -121,6 +123,8 @@ Confidence is medium for one reason, also written in the row: "brand unknown for
 | 2 | yoga mat | 38 | high | stable | £14.44 | 12,500+ | 48% | |
 
 Same product, different market. On amazon.co.uk, newcomers take 39.3% of resistance band sales (full marks), but a median price of £8.50 (about $11) leaves little room, so `price_room` gets 2.7 of 10 and the score lands at 58.
+
+![i1 result page](../assets/result-i1.png)
 
 ![i1 Markets tab](../assets/i1-sheet.png.png)
 

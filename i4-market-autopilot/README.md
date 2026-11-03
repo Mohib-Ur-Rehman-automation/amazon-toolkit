@@ -9,6 +9,8 @@
 <a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
 </p>
 
+![i4 Market Autopilot form](../assets/form-i4.png)
+
 ## What it does
 
 You type one seed keyword, like `neck pillow`. Autopilot:
@@ -138,6 +140,8 @@ Run of 17 Oct 2026, 06:00 PKT. Seed `neck pillow`, amazon.com. Your product: $24
 | 6 | Low | 79 | B01IEJHJWK | Dot&Dot | $19.99 | 4.2 | 15,700 | none |
 
 The most relevant competitor can be a poor target: napfun ranks on all 3 keywords but has no weak spot against you. Relevance says *where it is*; priority says *whether to aim at it*.
+
+![i4 result page](../assets/result-i4.png)
 
 ![i4 emailed report](../assets/i4-email.png.png)
 

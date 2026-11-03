@@ -9,6 +9,8 @@
 <a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
 </p>
 
+![i3 Competitor Targeting form](../assets/form-i3.png)
+
 ## What it does
 
 Amazon ads let you show your product on a competitor's listing (ASIN targeting). Which competitors are worth that money? This tool answers it from page 1. You give it 2–5 related keywords and, optionally, your product's price, rating and review count. It:
@@ -128,6 +130,8 @@ keywords 3/3 → 50/50 + best position #8 → 25.8/30 + page sales share 7.8% �
 ```
 
 The point of this split: the most relevant competitors (napfun, SAIREIDER) are cheaper and well rated, so ads on their listings would lose. The ones worth targeting sit a little lower, priced above you and rated below you.
+
+![i3 result page](../assets/result-i3.png)
 
 ![i3 Targets tab](../assets/i3-sheet.png.png)
 

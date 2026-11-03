@@ -14,6 +14,20 @@ Five n8n workflows that answer the questions a new Amazon seller asks before spe
 
 A page or product looked up in the last 24 hours is reused by every tool for 0 searches, so running i2 or i3 right after i4 is mostly free.
 
+## What it looks like
+
+Every tool opens with its own form: the same charcoal page and ivory card, a different colour and illustration per tool.
+
+<table>
+<tr><td><img src="assets/form-i1.png" alt="i1 Market Screener form" width="420"></td><td><img src="assets/form-i2.png" alt="i2 Market Deep Dive form" width="420"></td></tr>
+<tr><td><img src="assets/form-i3.png" alt="i3 Competitor Targeting form" width="420"></td><td><img src="assets/form-i4.png" alt="i4 Market Autopilot form" width="420"></td></tr>
+<tr><td><img src="assets/form-i5.png" alt="i5 Next Keywords form" width="420"></td><td><img src="assets/phones.png" alt="Forms on a phone: i1, i3 and i5" width="420"></td></tr>
+</table>
+
+What comes back: a result page for every run, rendered from the same rows that land in the sheet (real runs, 3 Nov 2026).
+
+<img src="assets/results.png" alt="Result pages: i1 Market Screener, i4 Market Autopilot, i5 Next Keywords" width="100%">
+
 ## How they fit together
 
 ```mermaid
