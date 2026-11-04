@@ -1,15 +1,15 @@
-# c1 · Toolkit Core
+# Toolkit Core
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<a href="../i1-market-screener/README.md">i1 Screener</a> ·
-<a href="../i2-market-deep-dive/README.md">i2 Deep Dive</a> ·
-<a href="../i3-competitor-targeting/README.md">i3 Targeting</a> ·
-<a href="../i4-market-autopilot/README.md">i4 Autopilot</a> ·
-<a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
+<a href="../i1-market-screener/README.md">Market Screener</a> ·
+<a href="../i2-market-deep-dive/README.md">Deep Dive</a> ·
+<a href="../i3-competitor-targeting/README.md">Competitor Targeting</a> ·
+<a href="../i4-market-autopilot/README.md">Autopilot</a> ·
+<a href="../i5-next-keywords/README.md">Next Keywords</a>
 </p>
 
-The shared analysis behind i1, i2, i3 and i4. It is a sub-workflow with one Code node, so a market scores the same whichever tool looks at it. No AI and no API calls: the same input always gives the same output.
+The shared analysis behind Market Screener, Deep Dive, Competitor Targeting and Autopilot. It is a sub-workflow with one Code node, so a market scores the same whichever tool looks at it. No AI and no API calls: the same input always gives the same output.
 
 ## What goes in and out
 
@@ -29,7 +29,7 @@ The shared analysis behind i1, i2, i3 and i4. It is a sub-workflow with one Code
 
 1. **Cleans** each page. Sponsored results are dropped. Listings without the product word, accessories, bulk packs and price outliers are set aside, each with its reason written to Listings.
 2. **Groups variations** that share a review count, rating and brand into one product family, so reviews are counted once.
-3. **Scores** each keyword 0–100: sales to newcomers (35), brand openness (30), review moat (25) and price room (10), multiplied by demand. The full table is in the [i1 README](../i1-market-screener/README.md#how-it-works).
+3. **Scores** each keyword 0–100: sales to newcomers (35), brand openness (30), review moat (25) and price room (10), multiplied by demand. The full table is in the [Market Screener README](../i1-market-screener/README.md#how-it-works).
 4. **Converts currency** before the price and demand checks: £1 = $1.32 and C$1 = $0.70 (fixed rates from 2 Oct 2026, set at the top of the code).
 5. **Sets confidence** (high, medium or low) and writes out each reason it was lowered.
 6. **Measures stability** against the previous run of the same keyword, and flags SerpApi's 1-hour cached copies.

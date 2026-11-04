@@ -1,15 +1,15 @@
-<img src="../assets/banner-i4.svg" alt="i4 · Market Autopilot: one seed in; ideas found, markets screened, a winner picked, ad targets built" width="100%">
+<img src="../assets/banner-i4.svg" alt="Autopilot: one seed in; ideas found, markets screened, a winner picked, ad targets built" width="100%">
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<a href="../i1-market-screener/README.md">i1 Screener</a> ·
-<a href="../i2-market-deep-dive/README.md">i2 Deep Dive</a> ·
-<a href="../i3-competitor-targeting/README.md">i3 Targeting</a> ·
-<b>i4 Autopilot</b> ·
-<a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
+<a href="../i1-market-screener/README.md">Market Screener</a> ·
+<a href="../i2-market-deep-dive/README.md">Deep Dive</a> ·
+<a href="../i3-competitor-targeting/README.md">Competitor Targeting</a> ·
+<b>Autopilot</b> ·
+<a href="../i5-next-keywords/README.md">Next Keywords</a>
 </p>
 
-![i4 Market Autopilot form](../assets/form-i4.png)
+![Autopilot form](../assets/form-i4.png)
 
 ## What it does
 
@@ -43,8 +43,8 @@ The stages match the sticky notes in the workflow.
 %%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["Seed + your product<br/>(form)"] --> B["Ideas<br/>autocomplete + saved suggestions"]
-  B --> C["Screen<br/>seed + top 5 ideas<br/>shared core c1"]
-  C --> D["Winner<br/>= i1's #1"]
+  B --> C["Screen<br/>seed + top 5 ideas<br/>shared Toolkit Core"]
+  C --> D["Winner<br/>= the Screener's #1"]
   D --> E["Targets<br/>competitors judged"]
   E --> F["Report<br/>email · form · sheet"]
   classDef step fill:#930031,stroke:#DAAC53,stroke-width:2px,color:#ffffff;
@@ -57,7 +57,7 @@ flowchart LR
 
 **2. Search budget (hard cap 20).** 1 search goes to autocomplete. Pages get what is left after keeping 4 for product lookups. Ideas that don't fit are skipped and named in the report. A page saved in the last 24 hours is reused for 0 searches. A keyword that failed in the last 24 hours is skipped, so you never pay for the same failure twice. You can set a lower budget on the form, down to 6 (1 autocomplete + 1 page + 4 lookups, the smallest run that still says something).
 
-**3. Screen.** Every page goes through the shared core (`c1 · toolkit-core`), the same code i1 and i2 use. Each market gets an opportunity score from 0 to 100 with its parts written out:
+**3. Screen.** Every page goes through the shared core (Toolkit Core), the same code the Screener and Deep Dive use. Each market gets an opportunity score from 0 to 100 with its parts written out:
 
 | Part | Weight | Full marks when |
 |---|---|---|
@@ -92,7 +92,7 @@ Any field you leave blank falls back on its own: price → the market median, ra
 | More ideas than the budget allows | Extra ideas skipped and named |
 | A keyword failed in the last 24 h | Skipped, named, not paid for again |
 | Autocomplete fails | The seed alone is still screened; the failure is named |
-| Every page fails | The run stops with a clear error and **e0** emails an alert |
+| Every page fails | The run stops with a clear error and **Error Alerts** emails an alert |
 | Empty seed | Stops with "No seed keyword" before any search |
 | Idea led by a brand seen on your saved pages (e.g. Cabeau) | Not screened: a brand isn't a market |
 | No product entered | Weak spots measured against the market median, said so in the notes |
@@ -105,7 +105,7 @@ Any field you leave blank falls back on its own: price → the market median, ra
 - **Repeat run:** the 4th run repeated the 3rd within 24 h. It used 1 search and produced identical targets (all 25 rows).
 - **Simulator:** every Code node was run on a real export of the sheet with SerpApi mocked. It covers budget caps, skipped ideas, autocomplete failure, all pages failing, empty seed, no product and the tie rule.
 
-- **Code review, 18 Oct 2026:** ties were chained, so #3 at 56 could join a tie with #1 at 70 (via #2 at 63) and win on higher confidence. Fixed so every tied market must be within noise of #1 itself, with a regression test in `tests/`. The exact own-brand fix from i3 applies here too.
+- **Code review, 18 Oct 2026:** ties were chained, so #3 at 56 could join a tie with #1 at 70 (via #2 at 63) and win on higher confidence. Fixed so every tied market must be within noise of #1 itself, with a regression test in `tests/`. The exact own-brand fix from Competitor Targeting applies here too.
 
 Running out of SerpApi searches mid-run has not been tested live.
 
@@ -141,13 +141,13 @@ Run of 17 Oct 2026, 06:00 PKT. Seed `neck pillow`, amazon.com. Your product: $24
 
 The most relevant competitor can be a poor target: napfun ranks on all 3 keywords but has no weak spot against you. Relevance says *where it is*; priority says *whether to aim at it*.
 
-![i4 result page](../assets/result-i4.png)
+![Autopilot result page](../assets/result-i4.png)
 
-![i4 emailed report](../assets/i4-email.png.png)
+![Autopilot emailed report](../assets/i4-email.png.png)
 
 *The emailed report from a re-run two hours later. It reused the earlier pages, so it used 1 search instead of 4; the markets and scores are the same.*
 
-![i4 Autopilot Runs tab](../assets/i4-sheet.png.png)
+![Autopilot Runs tab](../assets/i4-sheet.png.png)
 
 *The Autopilot Runs tab: one row per run.*
 
@@ -158,13 +158,13 @@ The most relevant competitor can be a poor target: napfun ranks on all 3 keyword
 - A [SerpApi](https://serpapi.com) key (the free tier is 250 searches/month)
 - A Google Sheet with the toolkit's tabs and headers (see [the toolkit README](../README.md#the-sheet))
 - An SMTP login for the email (a Gmail app password works)
-- `c1 · toolkit-core` and `e0 · error-alerts` imported first
+- `c1. toolkit-core` and `e0. error-alerts` imported first
 
 **Steps**
 1. n8n → **Workflows → ⋯ → Import from File** → `i4-market-autopilot.json`
 2. Open each **SerpApi** node and pick your SerpApi credential; each **Google Sheets** node → your Google credential and the toolkit sheet; **Email Report** → your SMTP credential, plus the From and To addresses
-3. **Toolkit Core** node → choose `c1 · toolkit-core` from the list
-4. **⋯ → Settings → Error workflow** → `e0 · error-alerts`
+3. **Toolkit Core** node → choose `c1. toolkit-core` from the list
+4. **⋯ → Settings → Error workflow** → `e0. error-alerts`
 5. **Save**, then **Publish**. The form runs the published version, so every later edit needs both.
 6. Open the **Autopilot form** node → copy the Production URL → that's your form.
 
@@ -177,6 +177,6 @@ The most relevant competitor can be a poor target: napfun ranks on all 3 keyword
 - **The idea pool grows** as more searches are saved, so a repeat run *after* 24 h can screen a different 5 ideas. Within 24 h it reuses the exact list.
 - **Autocomplete can suggest a different product with the same words** ("airplane pillow case").
 - **Thin pages are less reliable.** Under 30 listings lowers confidence, and amazon.ca shows fewer sales badges.
-- **AI review angles are left out on purpose.** Run [i2 Deep Dive](../i2-market-deep-dive/README.md) on the winner for those.
+- **AI review angles are left out on purpose.** Run [Deep Dive](../i2-market-deep-dive/README.md) on the winner for those.
 - **Google OAuth in Testing mode expires weekly.** Reconnect the Sheets credential when runs start failing on the first read.
 - Production use would need a paid SerpApi plan: one full run can use 20 of the free tier's 250 monthly searches.

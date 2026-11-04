@@ -1,15 +1,15 @@
-<img src="../assets/banner-i3.svg" alt="i3 · Competitor Targeting: 2 to 5 keywords in; every page-1 competitor ranked and judged as an ad target" width="100%">
+<img src="../assets/banner-i3.svg" alt="Competitor Targeting: 2 to 5 keywords in; every page-1 competitor ranked and judged as an ad target" width="100%">
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<a href="../i1-market-screener/README.md">i1 Screener</a> ·
-<a href="../i2-market-deep-dive/README.md">i2 Deep Dive</a> ·
-<b>i3 Targeting</b> ·
-<a href="../i4-market-autopilot/README.md">i4 Autopilot</a> ·
-<a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
+<a href="../i1-market-screener/README.md">Market Screener</a> ·
+<a href="../i2-market-deep-dive/README.md">Deep Dive</a> ·
+<b>Competitor Targeting</b> ·
+<a href="../i4-market-autopilot/README.md">Autopilot</a> ·
+<a href="../i5-next-keywords/README.md">Next Keywords</a>
 </p>
 
-![i3 Competitor Targeting form](../assets/form-i3.png)
+![Competitor Targeting form](../assets/form-i3.png)
 
 ## What it does
 
@@ -38,7 +38,7 @@ No AI is involved. Every word of every reason comes from a number.
 %%{init: {'theme':'base','themeVariables':{'fontFamily':'Georgia, serif','lineColor':'#B08A3E','textColor':'#1f2328','edgeLabelBackground':'#f7f5f2'}}}%%
 flowchart LR
   A["2–5 keywords<br/>+ your product"] --> B["Pages<br/>new, or reused under 24 h"]
-  B --> C["Core c1<br/>variations grouped"]
+  B --> C["Toolkit Core<br/>variations grouped"]
   C --> D["One competitor,<br/>one row"]
   D --> E["Relevance<br/>50 + 30 + 20"]
   E --> F["Top 8 looked up<br/>BSR · seller · brand"]
@@ -85,7 +85,7 @@ Any field you leave blank falls back on its own: price → the market median, ra
 | More than 5 keywords | The first 5 are used; the rest are named in the notes |
 | Junk in the price, rating or review fields ("abc", a 7-star rating) | That field is ignored and named in the notes; the rest of the run goes ahead |
 | Brand guessed as a generic word ("Ultra") | Corrected from the product page when it was looked up |
-| Any unexpected failure | **e0** emails an alert (tested live) |
+| Any unexpected failure | **Error Alerts** emails an alert (tested live) |
 
 ## How it was tested
 
@@ -95,7 +95,7 @@ Any field you leave blank falls back on its own: price → the market median, ra
   - a mixed run (2 searches)
   - an own-brand run
   - a market-median run
-  - a forced failure to check the e0 alert
+  - a forced failure to check the Error Alerts email
 - **Every cell recomputed:** 700 of 700 cells in the Targets rows were recomputed from the Listings and Products tabs and matched.
 - **Code review, 18 Oct 2026:** own-brand matching used "starts with" both ways, so a brand like "Napfun Pro" hid every "Napfun" product. Fixed to an exact match, with a regression test in `tests/`.
 - **Tested offline only** (simulator on a real sheet export): a failed lookup, a failed keyword, more than 5 keywords, junk numbers, and amazon.co.uk.
@@ -131,18 +131,18 @@ keywords 3/3 → 50/50 + best position #8 → 25.8/30 + page sales share 7.8% �
 
 The point of this split: the most relevant competitors (napfun, SAIREIDER) are cheaper and well rated, so ads on their listings would lose. The ones worth targeting sit a little lower, priced above you and rated below you.
 
-![i3 result page](../assets/result-i3.png)
+![Competitor Targeting result page](../assets/result-i3.png)
 
-![i3 Targets tab](../assets/i3-sheet.png.png)
+![Targets tab](../assets/i3-sheet.png.png)
 
 *The Targets tab from a separate run: `resistance bands` and `exercise bands`, amazon.com.*
 
 ## Setup
 
-1. Have the toolkit sheet, `c1 · toolkit-core` and `e0 · error-alerts` ready.
+1. Have the toolkit sheet, `c1. toolkit-core` and `e0. error-alerts` ready.
 2. **Import from File** → `i3-competitor-targeting.json`.
 3. Set your SerpApi credential on **Search Amazon (SerpApi)** and **Look Up Product (SerpApi)**, and your Google credential and sheet on every Sheets node.
-4. **Toolkit Core** → `c1 · toolkit-core`. **Settings → Error workflow** → `e0`.
+4. **Toolkit Core** → `c1. toolkit-core`. **Settings → Error workflow** → `e0`.
 5. **Save**, then **Publish**.
 
 ## Known limitations

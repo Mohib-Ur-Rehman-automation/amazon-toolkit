@@ -1,8 +1,8 @@
-# e0 · Error Alerts
+# Error Alerts
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<a href="../c1-toolkit-core/README.md">c1 Core</a>
+<a href="../c1-toolkit-core/README.md">Toolkit Core</a>
 </p>
 
 The error workflow every tool points to. When a production run fails, it emails:
@@ -34,4 +34,4 @@ Runs started from the editor don't trigger error workflows. Only production runs
 
 1. **Import from File** → `e0-error-alerts.json`.
 2. **Send an Email** → your SMTP credential. Replace `you@example.com` in From and To.
-3. **Save**, then **Publish**. In every other workflow: **⋯ → Settings → Error workflow** → `e0 · error-alerts`.
+3. **Save**, then **Publish**. In every other workflow: **⋯ → Settings → Error workflow** → `e0. error-alerts`.

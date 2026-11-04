@@ -1,15 +1,15 @@
-<img src="../assets/banner-i1.svg" alt="i1 · Market Screener: up to 10 keywords in; markets ranked by opportunity score, variants merged" width="100%">
+<img src="../assets/banner-i1.svg" alt="Market Screener: up to 10 keywords in; markets ranked by opportunity score, variants merged" width="100%">
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<b>i1 Screener</b> ·
-<a href="../i2-market-deep-dive/README.md">i2 Deep Dive</a> ·
-<a href="../i3-competitor-targeting/README.md">i3 Targeting</a> ·
-<a href="../i4-market-autopilot/README.md">i4 Autopilot</a> ·
-<a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
+<b>Market Screener</b> ·
+<a href="../i2-market-deep-dive/README.md">Deep Dive</a> ·
+<a href="../i3-competitor-targeting/README.md">Competitor Targeting</a> ·
+<a href="../i4-market-autopilot/README.md">Autopilot</a> ·
+<a href="../i5-next-keywords/README.md">Next Keywords</a>
 </p>
 
-![i1 Market Screener form](../assets/form-i1.png)
+![Market Screener form](../assets/form-i1.png)
 
 ## What it does
 
@@ -35,7 +35,7 @@ No AI is involved. The results go to the **Markets** and **Keywords** tabs, and 
 flowchart LR
   A["Up to 10 keywords<br/>(form)"] --> B["Search<br/>page 1 of each"]
   B --> C["History<br/>previous runs from Listings"]
-  C --> D["Core c1<br/>clean · group · score"]
+  C --> D["Toolkit Core<br/>clean · group · score"]
   D --> E["Evidence first<br/>Listings saved"]
   E --> F["Keywords + Markets<br/>rows saved"]
   classDef step fill:#930031,stroke:#D77343,stroke-width:2px,color:#ffffff;
@@ -48,7 +48,7 @@ flowchart LR
 
 **2. History.** The Listings tab is read once, so each keyword can be compared with its previous run (stability).
 
-**3. Core (`c1 · toolkit-core`).** This is the shared analysis every tool uses.
+**3. Toolkit Core.** This is the shared analysis every tool uses.
 - **Clean.** Listings without the product word in the title, accessories, bulk packs and price outliers are set aside, each with its reason written in Listings.
 - **Group.** Variations of one product share a review count, so they are grouped and counted once.
 - **Score** from 0 to 100:
@@ -124,25 +124,25 @@ Confidence is medium for one reason, also written in the row: "brand unknown for
 
 Same product, different market. On amazon.co.uk, newcomers take 39.3% of resistance band sales (full marks), but a median price of £8.50 (about $11) leaves little room, so `price_room` gets 2.7 of 10 and the score lands at 58.
 
-![i1 result page](../assets/result-i1.png)
+![Market Screener result page](../assets/result-i1.png)
 
-![i1 Markets tab](../assets/i1-sheet.png.png)
+![Markets tab](../assets/i1-sheet.png.png)
 
 *The Markets tab, with rows from several runs. The amazon.ca and amazon.co.uk rows from 17 Oct were scored before core v2.6, when local prices were still read as dollars. The repeated amazon.ca pair is a re-run inside SerpApi's 1-hour cache, marked `cached copy`.*
 
 ## Setup
 
-1. Have the toolkit sheet, `c1 · toolkit-core` and `e0 · error-alerts` ready (see the [toolkit README](../README.md#setup-order)).
+1. Have the toolkit sheet, `c1. toolkit-core` and `e0. error-alerts` ready (see the [toolkit README](../README.md#setup-order)).
 2. **Workflows → ⋯ → Import from File** → `i1-market-screener.json`.
 3. **Search Amazon (SerpApi)** → your SerpApi credential. **Read History**, **Save Listings**, **Save Keywords** and **Save Markets** → your Google credential and the toolkit sheet.
-4. **Toolkit Core** → `c1 · toolkit-core`. **⋯ → Settings → Error workflow** → `e0 · error-alerts`.
+4. **Toolkit Core** → `c1. toolkit-core`. **⋯ → Settings → Error workflow** → `e0. error-alerts`.
 5. **Save**, then **Publish**. Open the form node and copy its Production URL.
 
 ## Known limitations
 
 - **Sales are floors** from Amazon's "bought in past month" badges, never estimates. Badges are rarer on amazon.ca, so its markets look smaller.
 - **No search volume, fees, profit, trend or product age.** Every Markets row lists these under `cannot_tell`.
-- **Brands are guessed from titles.** `top_brand` can be a generic first word (`Kitchen`, `Ultra`). i3 and i4 correct this for their targets; this tab does not.
+- **Brands are guessed from titles.** `top_brand` can be a generic first word (`Kitchen`, `Ultra`). Competitor Targeting and Autopilot correct this for their targets; this tab does not.
 - **One snapshot.** A first run has no stability measure, so its noise band is the widest (12 points).
 - **Thin pages** (under 30 listings) lower confidence.
 - **Exchange rates are fixed,** so UK and Canadian scores drift slightly as real rates move. They are set at the top of the core and should be updated a few times a year.

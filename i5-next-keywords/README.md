@@ -1,15 +1,15 @@
-<img src="../assets/banner-i5.svg" alt="i5 · Next Keywords: seeds in, or none; keyword ideas merged, grouped and ready for the screener" width="100%">
+<img src="../assets/banner-i5.svg" alt="Next Keywords: seeds in, or none; keyword ideas merged, grouped and ready for the screener" width="100%">
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<a href="../i1-market-screener/README.md">i1 Screener</a> ·
-<a href="../i2-market-deep-dive/README.md">i2 Deep Dive</a> ·
-<a href="../i3-competitor-targeting/README.md">i3 Targeting</a> ·
-<a href="../i4-market-autopilot/README.md">i4 Autopilot</a> ·
-<b>i5 Next Keywords</b>
+<a href="../i1-market-screener/README.md">Market Screener</a> ·
+<a href="../i2-market-deep-dive/README.md">Deep Dive</a> ·
+<a href="../i3-competitor-targeting/README.md">Competitor Targeting</a> ·
+<a href="../i4-market-autopilot/README.md">Autopilot</a> ·
+<b>Next Keywords</b>
 </p>
 
-![i5 Next Keywords form](../assets/form-i5.png)
+![Next Keywords form](../assets/form-i5.png)
 
 ## What it does
 
@@ -43,7 +43,7 @@ flowchart LR
   C --> D["Merge<br/>same words, any order"]
   D --> E["Group<br/>same product · nearby · brand"]
   E --> F["Status<br/>new · screened · page saved"]
-  F --> G["Paste list<br/>for i1"]
+  F --> G["Paste list<br/>for the Screener"]
   classDef step fill:#930031,stroke:#9485D0,stroke-width:2px,color:#ffffff;
   classDef io fill:#161618,stroke:#DAAC53,color:#ffffff;
   class A,G,S io;
@@ -102,7 +102,7 @@ flowchart LR
 | 21 | airplane travel essentials | nearby market | related searches | new | |
 | 23 | airplane blanket | nearby market | related searches | new | |
 
-**Ready to paste into i1:**
+**Ready to paste into the Screener:**
 
 ```
 airplane pillow for kids
@@ -119,13 +119,13 @@ airplane pillow blanket
 
 Several of these were then screened by [Autopilot](../i4-market-autopilot/README.md) on the same day.
 
-![i5 result page](../assets/i5-form-result.png.png)
+![Next Keywords result page](../assets/i5-form-result.png.png)
 
 *Result page from a separate run: seed `neck pillow` only, 18 Oct 2026.*
 
 ## Setup
 
-1. Have the toolkit sheet and `e0 · error-alerts` ready. i5 doesn't call the core.
+1. Have the toolkit sheet and `e0. error-alerts` ready. Next Keywords doesn't call the core.
 2. **Import from File** → `i5-next-keywords.json`.
 3. Set your SerpApi credential on **Amazon Autocomplete (SerpApi)**, and your Google credential and sheet on the 3 Read nodes and 2 Save nodes.
 4. **Settings → Error workflow** → `e0`.
@@ -133,7 +133,7 @@ Several of these were then screened by [Autopilot](../i4-market-autopilot/README
 
 ## Known limitations
 
-- **No search volume.** An idea being suggested doesn't mean many people search it. i1 is where it gets judged.
+- **No search volume.** An idea being suggested doesn't mean many people search it. The Screener is where it gets judged.
 - **Autocomplete can suggest a different product with the same words** ("airplane pillow case" is a pillowcase, not a pillow).
 - **Brand detection is a title-position rule.** Rare false positives exist ("rgb" once looked like a brand).
 - **The free idea pool grows with your history.** No-seed runs are only as good as what you've already searched.

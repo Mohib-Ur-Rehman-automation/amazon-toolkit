@@ -1,15 +1,15 @@
-<img src="../assets/banner-i2.svg" alt="i2 · Market Deep Dive: one keyword in; top sellers looked up, review complaints turned into angles" width="100%">
+<img src="../assets/banner-i2.svg" alt="Deep Dive: one keyword in; top sellers looked up, review complaints turned into angles" width="100%">
 
 <p align="center">
 <a href="../README.md">Toolkit</a> ·
-<a href="../i1-market-screener/README.md">i1 Screener</a> ·
-<b>i2 Deep Dive</b> ·
-<a href="../i3-competitor-targeting/README.md">i3 Targeting</a> ·
-<a href="../i4-market-autopilot/README.md">i4 Autopilot</a> ·
-<a href="../i5-next-keywords/README.md">i5 Next Keywords</a>
+<a href="../i1-market-screener/README.md">Market Screener</a> ·
+<b>Deep Dive</b> ·
+<a href="../i3-competitor-targeting/README.md">Competitor Targeting</a> ·
+<a href="../i4-market-autopilot/README.md">Autopilot</a> ·
+<a href="../i5-next-keywords/README.md">Next Keywords</a>
 </p>
 
-![i2 Market Deep Dive form](../assets/form-i2.png)
+![Deep Dive form](../assets/form-i2.png)
 
 ## What it does
 
@@ -39,7 +39,7 @@ flowchart LR
   A["1 keyword<br/>(form)"] --> B{"Saved in<br/>last 24 h?"}
   B -- yes --> C["Reuse page<br/>0 searches"]
   B -- no --> D["Search page 1"]
-  C --> E["Core c1"]
+  C --> E["Toolkit Core"]
   D --> E
   E --> F["Who gets inspected<br/>top 3 + best newcomer"]
   F --> G["Evidence table<br/>review themes T1, T2…"]
@@ -111,17 +111,17 @@ A "must match" theme is removed if more than 25% of its mentions are negative. C
 
 The same page scored 32 in the Screener's earlier run and 25 here. Between the two runs, the core (v2.4 → v2.5) stopped counting Fiskars' own low-review listing as a newcomer. Both rows record their core version.
 
-![i2 result page](../assets/i2-form-result.png.png)
+![Deep Dive result page](../assets/i2-form-result.png.png)
 
 *Result page from a separate run: `resistance bands`, amazon.com, 18 Oct 2026.*
 
 ## Setup
 
-1. Have the toolkit sheet, `c1 · toolkit-core` and `e0 · error-alerts` ready.
+1. Have the toolkit sheet, `c1. toolkit-core` and `e0. error-alerts` ready.
 2. Get a free [OpenRouter](https://openrouter.ai) API key.
 3. **Import from File** → `i2-market-deep-dive.json`.
 4. Set your SerpApi credential on both SerpApi nodes, your Google credential and sheet on every Sheets node, and your OpenRouter credential on both model nodes.
-5. **Toolkit Core** → `c1 · toolkit-core`. **Settings → Error workflow** → `e0`.
+5. **Toolkit Core** → `c1. toolkit-core`. **Settings → Error workflow** → `e0`.
 6. **Save**, then **Publish**.
 
 ## Known limitations
