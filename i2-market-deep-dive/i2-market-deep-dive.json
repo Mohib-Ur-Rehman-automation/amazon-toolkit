@@ -1389,7 +1389,7 @@
     },
     {
       "parameters": {
-        "content": "## i2 · Market Deep Dive\nOne keyword → the same core as the screener (i1) → the 3 biggest sellers + the best low-review seller are looked up one by one → Amazon's review themes become an evidence table → AI picks which complaints to build on, code writes every number. Reuses the screener's run if it is under 24 hours old.",
+        "content": "## i2 · Deep Dive\nOne keyword → the same core as the screener (i1) → the 3 biggest sellers + the best low-review seller are looked up one by one → Amazon's review themes become an evidence table → AI picks which complaints to build on, code writes every number. Reuses the screener's run if it is under 24 hours old.",
         "height": 150,
         "width": 2200,
         "color": 2

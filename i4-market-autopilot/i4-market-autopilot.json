@@ -2822,7 +2822,7 @@
     },
     {
       "parameters": {
-        "content": "## i4 · Market Autopilot\nSeed → Amazon autocomplete + saved suggestions (i5 code) → seed + top 5 ideas screened by the shared core (i1 logic, pages reused if < 24 h) → winner picked by the screener's ranking and tie rule → ad targets for the winner (i3 code) → one report: email, form, Autopilot Runs tab. No AI. Hard cap 20 searches.",
+        "content": "## i4 · Autopilot\nSeed → Amazon autocomplete + saved suggestions (i5 code) → seed + top 5 ideas screened by the shared core (i1 logic, pages reused if < 24 h) → winner picked by the screener's ranking and tie rule → ad targets for the winner (i3 code) → one report: email, form, Autopilot Runs tab. No AI. Hard cap 20 searches.",
         "height": 150,
         "width": 2312,
         "color": 2

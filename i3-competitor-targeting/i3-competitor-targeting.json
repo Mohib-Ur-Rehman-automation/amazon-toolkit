@@ -1801,7 +1801,7 @@
     },
     {
       "parameters": {
-        "content": "## Weak spots (m19 ASIN-targeting practice)\nPriced 5%+ above you · rated lower than you (or under 4.0★) · fewer reviews than you (or under 1,000) · 15%+ of ratings 1-2★.\nHigh = relevance 50+ and 2+ weak spots. Medium = 50+ and 1, or 30+ and 2+. Else Low.",
+        "content": "## Weak spots (common ASIN-targeting practice)\nPriced 5%+ above you · rated lower than you (or under 4.0★) · fewer reviews than you (or under 1,000) · 15%+ of ratings 1-2★.\nHigh = relevance 50+ and 2+ weak spots. Medium = 50+ and 1, or 30+ and 2+. Else Low.",
         "height": 230,
         "width": 520,
         "color": 7
